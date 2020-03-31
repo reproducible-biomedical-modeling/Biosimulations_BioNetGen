@@ -35,9 +35,7 @@ class BNGRunner:
         print(output_path, self.model_name)
         data.to_csv(self.model_name +".csv")
 
-
-    def adjust_bngl(self, bngl_file, sedml_file):
-        # first read the BNGL file, only the model
+    def get_bngl_lines(self, bngl_file):
         with open(bngl_file, "r") as f:
             line = f.readline()
             bngl_lines = []
@@ -47,17 +45,15 @@ class BNGRunner:
                 bngl_lines.append(line)
                 line = f.readline()
             bngl_lines.append(line)
-        # now read SED-ML
-        sedml = libsedml.readSedMLFromFile(sedml_file)
-        # Of course this currently assumes a single time series
-        # TODO: As the standard changes this block of code needs to be 
-        # adapted. Functionalize this block for future development
-        sim_xml = sedml.getSimulation(0)
-        # get initial time, end time and number of points
+        return bngl_lines
+
+    def get_time_values(self, sim_xml):
         init = sim_xml.getOutputStartTime()
         end  = sim_xml.getOutputEndTime() 
         pts  = sim_xml.getNumberOfPoints()
-        # let's check the algorithm name we want to use
+        return (init, end, pts)
+
+    def get_method_name(self, sim_xml):
         # TODO: get it from KISAO ID
         # 19 - CVODE/ODE
         # 29 - SSA/Gillespie
@@ -77,14 +73,9 @@ class BNGRunner:
             method_name = "nfsim"
         else:
             print("this algorithm with KISAO ID {} is not supported".format(kisao_ID))
-        # TODO: Get algorithm parameters and use them properly
-        # num_params = alg.getNumAlgorithmParameters()
-        # for np in range(num_params):
-        #     param = alg.getNumAlgorithmParameter(np)
+        return method_name
 
-        # TODO: Get simulation parameter changes and apply them 
-        # properly
-        model_xml = sedml.getModel(0)
+    def get_parameter_changes(self, model_xml):
         list_of_changes = model_xml.getListOfChanges()
         bngl_parameter_changes = []
         for num_change in range(list_of_changes.getNumChanges()):
@@ -98,6 +89,31 @@ class BNGRunner:
             value = float(change_xml.getNewValue())
             # append to the list of changes
             bngl_parameter_changes.append( (target, value) )
+        return bngl_parameter_changes
+
+    def adjust_bngl(self, bngl_file, sedml_file):
+        # first read the BNGL file, only the model
+        bngl_lines = self.get_bngl_lines(bngl_file)
+        # now read SED-ML
+        sedml = libsedml.readSedMLFromFile(sedml_file)
+        # Of course this currently assumes a single time series
+        # TODO: As the standard changes this block of code needs to be 
+        # adapted. Functionalize this block for future development
+        sim_xml = sedml.getSimulation(0)
+        # get initial time, end time and number of points
+        init, end, pts = self.get_time_values(sim_xml)
+        # let's check the algorithm name we want to use
+        method_name = self.get_method_name(sim_xml)
+
+        # TODO: Get algorithm parameters and use them properly
+        # num_params = alg.getNumAlgorithmParameters()
+        # for np in range(num_params):
+        #     param = alg.getNumAlgorithmParameter(np)
+
+        # TODO: Get simulation parameter changes and apply them 
+        # properly
+        model_xml = sedml.getModel(0)
+        bngl_parameter_changes = self.get_parameter_changes(model_xml)
 
         # add setParameter command to the bngl
         for change in bngl_parameter_changes:
