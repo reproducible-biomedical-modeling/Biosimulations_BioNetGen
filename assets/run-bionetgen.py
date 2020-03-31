@@ -27,12 +27,13 @@ class BNGRunner:
             gdat = gdat.set_index("time")
         return gdat
 
-    def pass_results(self, model_name, output_path):
+    def pass_results(self, input_name, output_path):
         # load gdat
-        data = self.read_gdat(model_name + ".gdat")
+        data = self.read_gdat(input_name + ".gdat")
         print(data)
         # save to csv
-        data.to_csv(os.path.join(output_path, model_name+".csv"))
+        print(output_path, self.model_name)
+        data.to_csv(self.model_name +".csv")
 
 
     def adjust_bngl(self, bngl_file, sedml_file):
@@ -41,38 +42,60 @@ class BNGRunner:
         with open(bngl_file, "r") as f:
             line = f.readline()
             bngl_lines = []
+            # TODO: end model is not necessary, find other
+            # ways to check for the action block
             while line.strip() != "end model":
                 bngl_lines.append(line)
                 line = f.readline()
             bngl_lines.append(line)
         # now read SED-ML
         sedml = libsedml.readSedMLFromFile(sedml_file)
+        # Of course this currently assumes a single time series
+        # TODO: As the standard changes this block of code needs to be 
+        # adapted. Functionalize this block for future development
         sim_xml = sedml.getSimulation(0)
         # get initial time, end time and number of points
         init = sim_xml.getOutputStartTime()
         end  = sim_xml.getOutputEndTime() 
         pts  = sim_xml.getNumberOfPoints()
         # let's check the algorithm name we want to use
+        # TODO: get it from KISAO ID
+        # 19 - CVODE/ODE
+        # 29 - SSA/Gillespie
+        # 263 - NFSim
         alg = sim_xml.getAlgorithm()
-        ann = alg.getAnnotation()
-        name_rdf = ann.getChild(0).getChild(0).getChild(0)
-        # make sure we got the name attr
-        assert name_rdf.getAttrValue(0) == "name", "Can't find name annotation" 
-        alg_name = name_rdf.getChild(0).toXMLString()
-        # import IPython
-        # IPython.embed()
-        if alg_name == "CVODE":
+        kisao_ID = alg.getKisaoID()
+        kisao_num = int(kisao_ID.split(":")[1])
+        # check algorithm type
+        if kisao_num == 19:
+            # CVODE/ODE
             method_name = "ode"
+        elif kisao_num == 29:
+            # SSA/Gillespie
+            method_name = "ssa"
+        elif kisao_num == 263:
+            # NFSim
+            method_name = "nfsim"
         else:
-            print("this algorithm is not supported: {}".format(alg_name))
-        # now let's add the appropriate lines to the bngl
-        if method_name == "ode":
-            bngl_lines += "generate_network({overwrite=>1})\n"
-            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+            print("this algorithm with KISAO ID {} is not supported".format(kisao_ID))
         # TODO: Get algorithm parameters and use them properly
         # num_params = alg.getNumAlgorithmParameters()
         # for np in range(num_params):
         #     param = alg.getNumAlgorithmParameter(np)
+
+        # TODO: Get simulation parameter changes and apply them 
+        # properly
+
+        # now let's add the appropriate lines to the bngl
+        if method_name == "ode":
+            bngl_lines += "generate_network({overwrite=>1})\n"
+            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+        elif method_name == "ssa":
+            bngl_lines += "generate_network({overwrite=>1})\n"
+            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+        elif method_name == "nfsim":
+            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+        # write adjusted bngl file
         with open(self.adjusted_file, "w") as f:
             f.writelines(bngl_lines)
         return self.adjusted_file
@@ -84,6 +107,7 @@ class BNGRunner:
         # TODO: Add checks to make sure this exists and a bngl file
         model_file_name = os.path.basename(self.args.model_file)
         model_name = model_file_name.replace(".bngl","")
+        self.model_name = model_name 
         sim_file_name = os.path.basename(self.args.simulation_file)
         sim_name = sim_file_name.replace(".xml","")
         # moving files 
