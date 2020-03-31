@@ -53,13 +53,12 @@ class BNGRunner:
         pts  = sim_xml.getNumberOfPoints()
         return (init, end, pts)
 
-    def get_method_name(self, sim_xml):
+    def get_method_name(self, alg_xml):
         # TODO: get it from KISAO ID
         # 19 - CVODE/ODE
         # 29 - SSA/Gillespie
         # 263 - NFSim
-        alg = sim_xml.getAlgorithm()
-        kisao_ID = alg.getKisaoID()
+        kisao_ID = alg_xml.getKisaoID()
         kisao_num = int(kisao_ID.split(":")[1])
         # check algorithm type
         if kisao_num == 19:
@@ -91,24 +90,40 @@ class BNGRunner:
             bngl_parameter_changes.append( (target, value) )
         return bngl_parameter_changes
 
+    def get_method_parameters(self, alg_xml):
+        method_parameters = []
+        # Loop over all given parameters
+        num_params = alg_xml.getNumAlgorithmParameters()
+        for nparam in range(num_params):
+            param_xml = alg_xml.getAlgorithmParameter(nparam)
+            # get kisao ID
+            kisao_int = param_xml.getKisaoIDasInt()
+            param_val = param_xml.getValue()
+            if kisao_int == 211:
+                # Relative tolerance
+                method_parameters.append( ("rtol", param_val) )
+            elif kisao_int == 209:
+                # Absolute tolerance
+                method_parameters.append( ("atol", param_val) )
+            else:
+                print("Parameter of KISAO ID {} is not supported".format(param_xml.getKisaoID()))
+        return method_parameters
+
     def adjust_bngl(self, bngl_file, sedml_file):
         # first read the BNGL file, only the model
         bngl_lines = self.get_bngl_lines(bngl_file)
         # now read SED-ML
         sedml = libsedml.readSedMLFromFile(sedml_file)
-        # Of course this currently assumes a single time series
         # TODO: As the standard changes this block of code needs to be 
-        # adapted. Functionalize this block for future development
+        # adapted. Currently assumes a single time series
         sim_xml = sedml.getSimulation(0)
         # get initial time, end time and number of points
         init, end, pts = self.get_time_values(sim_xml)
         # let's check the algorithm name we want to use
-        method_name = self.get_method_name(sim_xml)
-
-        # TODO: Get algorithm parameters and use them properly
-        # num_params = alg.getNumAlgorithmParameters()
-        # for np in range(num_params):
-        #     param = alg.getNumAlgorithmParameter(np)
+        alg_xml = sim_xml.getAlgorithm()
+        method_name = self.get_method_name(alg_xml)
+        # Get algorithm parameters and use them properly
+        method_parameters = self.get_method_parameters(alg_xml)
 
         # TODO: Get simulation parameter changes and apply them 
         # properly
@@ -123,12 +138,23 @@ class BNGRunner:
         # now let's add the appropriate lines to the bngl
         if method_name == "ode":
             bngl_lines += "generate_network({overwrite=>1})\n"
-            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+            simulate_line = 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) 
+            for mp in method_parameters:
+                param, val = mp
+                simulate_line += ",{}=>{}".format(param,val)
+            simulate_line += '})\n'
+            bngl_lines += simulate_line
         elif method_name == "ssa":
             bngl_lines += "generate_network({overwrite=>1})\n"
-            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+            simulate_line = 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) 
+            # Add method parameters here if we support it in the future
+            simulate_line += '})\n'
+            bngl_lines += simulate_line
         elif method_name == "nfsim":
-            bngl_lines += 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) + '})\n'
+            simulate_line = 'simulate({' + 'method=>"{}",t_start=>{},t_end=>{},n_steps=>{}'.format(method_name, init, end, pts) 
+            # Add method parameters here if we support it in the future
+            simulate_line += '})\n'
+            bngl_lines += simulate_line
         # write adjusted bngl file
         with open(self.adjusted_file, "w") as f:
             f.writelines(bngl_lines)
