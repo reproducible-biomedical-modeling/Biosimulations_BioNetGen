@@ -5,6 +5,8 @@ import pandas as pd
 class BNGRunner:
     def __init__(self):
         self._parse_args()
+        self.adjusted_name = "adjusted"
+        self.adjusted_file = self.adjusted_name + ".bngl"
 
     def _parse_args(self):
         self.parser = argparse.ArgumentParser()
@@ -34,7 +36,6 @@ class BNGRunner:
 
 
     def adjust_bngl(self, bngl_file, sedml_file):
-        adjusted_file = "adjusted.bngl"
         # TODO: edit BNGL according to SED-ML
         # first read the BNGL file, only the model
         with open(bngl_file, "r") as f:
@@ -72,9 +73,9 @@ class BNGRunner:
         # num_params = alg.getNumAlgorithmParameters()
         # for np in range(num_params):
         #     param = alg.getNumAlgorithmParameter(np)
-        with open(adjusted_file, "w") as f:
+        with open(self.adjusted_file, "w") as f:
             f.writelines(bngl_lines)
-        return adjusted_file
+        return self.adjusted_file
 
     def run(self):
         # for now testing purposes, we'll just write stuff out
@@ -84,7 +85,7 @@ class BNGRunner:
         model_file_name = os.path.basename(self.args.model_file)
         model_name = model_file_name.replace(".bngl","")
         sim_file_name = os.path.basename(self.args.simulation_file)
-        sim_name = sim_file_name.replace(".bngl","")
+        sim_name = sim_file_name.replace(".xml","")
         # moving files 
         # TODO: determine a logical way to deal with these
         shutil.copy(self.args.model_file, self.args.output_path)
@@ -97,7 +98,7 @@ class BNGRunner:
         subprocess.call([self.args.bng_path, adjusted_file])
         print(os.listdir())
         # put files into output path
-        self.pass_results(model_name, os.getcwd())
+        self.pass_results(self.adjusted_name, self.args.output_path)
         # check if saved
         print(os.listdir())
 

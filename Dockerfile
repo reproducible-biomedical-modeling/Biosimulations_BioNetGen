@@ -20,7 +20,7 @@ RUN git submodule init
 RUN git submodule update 
 WORKDIR /home/BNGDocker/bionetgen/bng2/
 RUN make
-WORKDIR /home/BNGDocker
+WORKDIR /home/BNGDocker/simulation
 
 # Copy over run script
 COPY assets/run-bionetgen.py /usr/local/bin/run-bionetgen
