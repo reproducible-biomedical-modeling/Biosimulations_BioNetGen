@@ -3,9 +3,9 @@ import argparse, libsedml, subprocess, os, shutil, re
 import pandas as pd
 
 class BNGRunner:
-    def __init__(self):
+    def __init__(self, adjusted_name="sedml_adjusted"):
         self._parse_args()
-        self.adjusted_name = "adjusted"
+        self.adjusted_name = adjusted_name
         self.adjusted_file = self.adjusted_name + ".bngl"
 
     def _parse_args(self):
@@ -37,7 +37,6 @@ class BNGRunner:
 
 
     def adjust_bngl(self, bngl_file, sedml_file):
-        # TODO: edit BNGL according to SED-ML
         # first read the BNGL file, only the model
         with open(bngl_file, "r") as f:
             line = f.readline()
@@ -85,6 +84,25 @@ class BNGRunner:
 
         # TODO: Get simulation parameter changes and apply them 
         # properly
+        model_xml = sedml.getModel(0)
+        list_of_changes = model_xml.getListOfChanges()
+        bngl_parameter_changes = []
+        for num_change in range(list_of_changes.getNumChanges()):
+            # getting the change xml
+            change_xml = list_of_changes.get(num_change)
+            # name of the parameter
+            target = change_xml.getTarget()
+            # TODO: Fix this hacky mess
+            target = target.split("id=")[1].split("]")[0].replace("'","")
+            # value we are setting it to
+            value = float(change_xml.getNewValue())
+            # append to the list of changes
+            bngl_parameter_changes.append( (target, value) )
+
+        # add setParameter command to the bngl
+        for change in bngl_parameter_changes:
+            t,v = change
+            bngl_lines += 'setParameter("{}",{})\n'.format(t,v)
 
         # now let's add the appropriate lines to the bngl
         if method_name == "ode":
