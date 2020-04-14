@@ -1,36 +1,57 @@
-# Author: Ali Sinan Saglam
-# Date: 3/30/2020
-# Made for: BioNetGen docker image for BioSim
+# BioSimulations-compliant Docker image for BioNetGen <https://bionetgen.org>
+#
+# Build image:
+#   docker build \
+#     --tag crbm/biosimulations_bionetgen:2.5.0 \
+#     --tag crbm/biosimulations_bionetgen:latest \
+#     .
+#
+# Run image:
+#   docker run \
+#     --tty \
+#     --rm \
+#     --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
+#     --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
+#     crbm/biosimulations_bionetgen:latest \
+#       -i /root/in/test.omex \
+#       -o /root/out
+#
+# Author: Ali Sinan Saglam <als251@pitt.edu>
+# Author: Jonathan Karr <karr@mssm.edu>
+# Date: 2020-04-13
 
-# FROM ubuntu:18.04
 FROM continuumio/anaconda3
 
-# update 
-RUN apt-get update
-# stuff we want
-RUN apt-get install -y g++ vim perl cmake wget
-# Get necessary libraries, SED-ML lib in particular
-RUN pip install python-libsedml
+# install requirements and BioNetGet
+RUN apt-get update -y \
+    && apt-get install --no-install-recommends -y \
+        cmake \
+        g++ \
+        git \
+        make \
+        perl \
+        vim \
+    \
+    && git clone https://github.com/RuleWorld/bionetgen /root/bionetgen \
+    && cd /root/bionetgen \
+    && git submodule init \
+    && git submodule update \
+    && cd /root/bionetgen/bng2 \
+    && make \
+    \
+    && apt-get remove -y \
+        cmake \
+        g++ \
+        git \
+        make \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+ENV PATH=${PATH}:/root/bionetgen/bng2
 
-# install bionetgen
-WORKDIR /home/BNGDocker/
-RUN git clone https://github.com/RuleWorld/bionetgen
-WORKDIR /home/BNGDocker/bionetgen/
-RUN git submodule init
-RUN git submodule update 
-WORKDIR /home/BNGDocker/bionetgen/bng2/
-RUN make
-WORKDIR /home/BNGDocker/simulation
+# install BioSimulations-compliant command-line interface to BioNetGen
+COPY . /root/Biosimulations_BioNetGen
+RUN pip3 install /root/Biosimulations_BioNetGen
 
-# Copy over run script
-COPY assets/run-bionetgen.py /usr/local/bin/run-bionetgen
-RUN chmod ugo+x /usr/local/bin/run-bionetgen
-
-# Temporary files for testing
-COPY assets/test.bngl /home/BNGDocker/test.bngl
-COPY assets/test.xml /home/BNGDocker/test.xml
-
-# Entry point setup
-ENTRYPOINT ["run-bionetgen"]
-# if we need to setup some defaults 
-# CMD []
+# setup entry point
+ENTRYPOINT ["bionetgen"]
+CMD []

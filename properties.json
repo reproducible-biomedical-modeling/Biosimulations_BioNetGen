@@ -1,0 +1,203 @@
+{
+  "id": "bionetgen",
+  "name": "BioNetGen",
+  "version": "2.5.0",
+  "description": "BioNetGen is an open-source software package for rule-based modeling of complex biochemical systems.",
+  "url": "https://bionetgen.org/",
+  "dockerHubImageId": "crbm/Biosimulations_bionetgen:2.5.0",
+  "format": {
+    "name": "Docker Image",
+    "version": "1.2",
+    "url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"
+  },
+  "authors": [
+    {
+      "firstName": "Ali",
+      "middleName": "Sinan",
+      "lastName": "Saglam"
+    },
+    {
+      "firstName": "Leonard",
+      "middleName": "A",
+      "lastName": "Harris"
+    },
+    {
+      "firstName": "Justin",
+      "middleName": "S",
+      "lastName": "Hogg"
+    },
+    {
+      "firstName": "José-Juan",
+      "lastName": "Tapi"
+    },
+    {
+      "firstName": "John",
+      "middleName": "A P",
+      "lastName": "Sekar"
+    },
+    {
+      "firstName": "Sanjana",
+      "lastName": "Gupta"
+    },
+    {
+      "firstName": "Ilya",
+      "lastName": "Korsunsky"
+    },
+    {
+      "firstName": "Arshi",
+      "lastName": "Arora"
+    },
+    {
+      "firstName": "Dipak",
+      "lastName": "Barua"
+    },
+    {
+      "firstName": "Robert",
+      "middleName": "P",
+      "lastName": "Sheehan"
+    },
+    {
+      "firstName": "James",
+      "middleName": "R",
+      "lastName": "Faeder"
+    },
+    {
+      "firstName": "Byron",
+      "lastName": "Goldstein"
+    },
+    {
+      "firstName": "William",
+      "middleName": "S",
+      "lastName": "Hlavacek"
+    }
+  ],
+  "references": [
+    {
+      "title": "BioNetGen 2.2: advances in rule-based modeling",
+      "authors": "Leonard A. Harris, Justin S. Hogg, José-Juan Tapia, John A. P. Sekar, Sanjana Gupta, Ilya Korsunsky, Arshi Arora, Dipak Barua, Robert P. Sheehan & James R. Faeder",
+      "journal": "Bioinformatics",
+      "volume": 32,
+      "issue": 21,
+      "pages": "3366-3368",
+      "year": 2016,
+      "doi": "10.1093/bioinformatics/btw469"
+    },
+    {
+      "title": "Rule-based modeling of biochemical systems with BioNetGen",
+      "authors": "James R. Faeder, Michael L. Blinov & William S. Hlavacek",
+      "journal": "Methods in Molecular Biology",
+      "volume": 500,
+      "pages": "113-167",
+      "year": 2009,
+      "doi": "10.1007/978-1-59745-525-1_5"
+    },
+    {
+      "title": "BioNetGen: software for rule-based modeling of signal transduction based on the interactions of molecular domains",
+      "authors": "Michael L. Blinov, James R. Faeder, Byron Goldstein & William S. Hlavacek",
+      "journal": "Bioinformatics",
+      "volume": 20,
+      "issue": 17,
+      "pages": "3289-3291",
+      "year": 2004,
+      "doi": "10.1093/bioinformatics/bth378"
+    }
+  ],
+  "license": "MIT",
+  "algorithms": [
+    {
+      "id": "cvode",
+      "name": "CVODE",
+      "kisaoTerm": {
+        "ontology": "KISAO",
+        "id": "0000019",
+        "name": "CVODE",
+        "description": "The CVODE is a package written in C that solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton method and the backward differentiation formula.",
+        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000019"
+      },
+      "ontologyTerms": [
+        {
+          "ontology": "KISAO",
+          "id": "0000433",
+          "name": "CVODE-like method",
+          "description": "Solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton method and the backward differentiation formula.",
+          "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000433"
+        }
+      ],
+      "modelingFrameworks": [
+        {
+          "ontology": "SBO",
+          "id": "0000293",
+          "name": "non-spatial continuous framework",
+          "description": "Modelling approach where the quantities of participants are considered continuous, and represented by real values. The associated simulation methods make use of differential equations. The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
+          "iri": "http://biomodels.net/SBO/SBO_0000293"
+        }
+      ],
+      "modelFormats": [
+        {
+          "id": "SBML",
+          "name": "Systems Biology Markup Language",
+          "version": "L3V2",
+          "edamId": "format_2585",
+          "url": "http://sbml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sbml",
+          "mimeType": "application/sbml+xml",
+          "extension": "xml",
+          "sedUrn": "urn:sedml:language:sbml"
+        },
+        {
+          "id": "BNGL",
+          "name": "BioNetGen Language",
+          "version": null,
+          "edamId": null,
+          "url": "https://bionetgen.org/",
+          "specUrl": "https://bionetgen.org/",
+          "mimeType": "text/plain",
+          "extension": "bngl",
+          "sedUrn": null
+        }
+      ],
+      "simulationFormats": [
+        {
+          "id": "SED-ML",
+          "name": "Simulation Experiment Description Markup Language",
+          "version": "L1V3",
+          "edamId": "format_3685",
+          "url": "https://sed-ml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
+          "mimeType": "application/xml",
+          "extension": "sedml"
+        }
+      ],
+      "archiveFormats": [
+        {
+          "id": "COMBINE",
+          "name": "COMBINE",
+          "version": "V1",
+          "edamId": "format_3686",
+          "url": "https://combinearchive.org/",
+          "specUrl": "http://identifiers.org/combine.specifications/omex",
+          "mimeType": "application/zip",
+          "extension": "omex"
+        }
+      ],
+      "references": [],
+      "parameters": [
+        {
+          "id": "rel_tol",
+          "name": "Relative tolerance",
+          "type": "float",
+          "default": 0.000001,
+          "kisaoTerm": {
+            "ontology": "KISAO",
+            "id": "0000209",
+            "name": "relative tolerance",
+            "description": "This parameter is a numeric value specifying the desired relative tolerance the user wants to achieve. A smaller value means that the trajectory is calculated more accurately.",
+            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000209"
+          }
+        }
+      ]
+    }
+  ],
+  "created": "2020-04-13T12:00:00Z",
+  "updated": "2020-04-13T12:00:00Z"
+}

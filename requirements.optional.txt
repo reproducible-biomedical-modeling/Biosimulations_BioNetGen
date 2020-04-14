@@ -1,0 +1,3 @@
+[test-docker]
+Biosimulations_utils[docker]
+docker
