@@ -1,5 +1,5 @@
 # Biosimulations_BioNetGen
-Biosimulations-compliant command-line interface to the [BioNetGen](https://bionetgen.org/) simulation program.
+BioSimulations-compliant command-line interface to the [BioNetGen](https://bionetgen.org/) simulation program.
 
 ## Contents
 * [Installation](#installation)
