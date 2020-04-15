@@ -110,8 +110,8 @@ class CliTestCase(unittest.TestCase):
             command=['-i', '/root/in/test.omex', '-o', '/root/out'],
             tty=True,
             detach=True)
-        exit_code = container.wait()
-        if exit_code != 0:
+        status = container.wait()
+        if status['StatusCode'] != 0:
             raise RuntimeError(container.logs().decode().replace('\\r\\n', '\n').strip())
         container.stop()
         container.remove()
