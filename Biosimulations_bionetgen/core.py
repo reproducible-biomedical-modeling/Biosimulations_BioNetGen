@@ -222,7 +222,6 @@ class BioNetGenSimulationRunner(object):
         Returns:
             :obj:`list` of :obj:`str`: lines of the modified model
         """
-        # TODO: replace observables block with observables indictated by `simulation.model.variables`
         i_observables_start = None
         i_observables_end = None
         for i_line, line in enumerate(model_lines):
