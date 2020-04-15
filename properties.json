@@ -105,8 +105,9 @@
   "license": "MIT",
   "algorithms": [
     {
-      "id": "cvode",
+      "id": "ode",
       "name": "CVODE",
+      "description": "Simulates reaction networks using SUNDIALS CVODE ordinary differential equation integrator.",
       "kisaoTerm": {
         "ontology": "KISAO",
         "id": "0000019",
@@ -161,7 +162,18 @@
           "extension": "omex"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "title": "CVODE, a stiff/nonstiff ODE solver in C",
+          "authors": "Scott D Cohen, Alan C Hindmarsh & and Paul F Dubois",
+          "journal": "Computers in Physics",
+          "volume": 10,
+          "issue": 2,
+          "pages": "138-143",
+          "year": 1996,
+          "doi": "10.1063/1.4822377"
+        }
+      ],
       "parameters": [
         {
           "id": "rtol",
@@ -194,6 +206,7 @@
     {
       "id": "ssa",
       "name": "Stochastic simulation algorithm",
+      "description": "Simulates reaction networks using Gillespie's stochastic simulation algorithm (direct method with propensity sorting).",
       "kisaoTerm": {
         "ontology": "KISAO",
         "id": "0000029",
@@ -248,7 +261,18 @@
           "extension": "omex"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "title": "Exact stochastic simulation of coupled chemical reactions",
+          "authors": "Daniel T Gillespie",
+          "journal": "Journal of Physical Chemistry",
+          "volume": 81,
+          "issue": 25,
+          "pages": "2340-2361",
+          "year": 1997,
+          "doi": "10.1021/j100540a008"
+        }
+      ],
       "parameters": [
         {
           "id": "seed",
@@ -266,8 +290,9 @@
       ]
     },
     {
-      "id": "nfsim",
+      "id": "nf",
       "name": "Network-free simulation",
+      "description": "Simulates rule-based models using network-free stochastic simulator NFsim.",
       "kisaoTerm": {
         "ontology": "KISAO",
         "id": "0000263",
@@ -322,7 +347,18 @@
           "extension": "omex"
         }
       ],
-      "references": [],
+      "references": [
+        {
+          "title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
+          "authors": "Michael W Sneddon, James R Faeder & Thierry Emonet",
+          "journal": "Nature Methods",
+          "volume": 8,
+          "issue": 2,
+          "pages": "177",
+          "year": 2011,
+          "doi": "10.1038/nmeth.1546"
+        }
+      ],
       "parameters": [
         {
           "id": "seed",

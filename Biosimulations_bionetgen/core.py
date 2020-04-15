@@ -142,7 +142,7 @@ class BioNetGenSimulationRunner(object):
         elif simulation.algorithm.kisao_term.id == '0000029':
             simulate_args['method'] = '"ssa"'
         elif simulation.algorithm.kisao_term.id == '0000263':
-            simulate_args['method'] = '"nfsim"'
+            simulate_args['method'] = '"nf"'
             if simulation.output_start_time:
                 simulate_args['equil'] = simulation.output_start_time
         else:
@@ -183,7 +183,7 @@ class BioNetGenSimulationRunner(object):
         # - ode
         #   - sparse
         #   - steady_state
-        # - nfsim
+        # - nf
         #   - complex: true
         #   - nocslf: false
         #   - notf: false
@@ -233,7 +233,9 @@ class BioNetGenSimulationRunner(object):
         observables_lines = []
         for var in variables:
             # TODO: review
-            observables_lines.append('Molecules {} {}\n'.format(var.id, var.target))
+            molecule_type, _, molecule_id = var.target.partition('.')
+            assert molecule_type == 'molecules', "Variable target must be a molecule"
+            observables_lines.append('Molecules {} {}\n'.format(var.id, molecule_id))
 
         modified_model_lines = \
             model_lines[0:i_observables_start + 1] \
