@@ -6,10 +6,18 @@
 :License: MIT
 """
 
+
 from Biosimulations_bionetgen import __main__
+try:
+    from Biosimulations_utils.simulator.testing import SimulatorValidator
+except ModuleNotFoundError:
+    pass
 import Biosimulations_bionetgen
 import capturer
-import docker
+try:
+    import docker
+except ModuleNotFoundError:
+    pass
 import numpy
 import os
 import pandas
@@ -139,3 +147,10 @@ class CliTestCase(unittest.TestCase):
             'GB10tot',
         ])
         self.assertEqual(set(results.columns.to_list()), var_ids | set(['time']))
+
+    @unittest.skipIf(os.getenv('CI', '0') in ['1', 'true'], 'Docker not setup in CI')
+    def test_validator(self):
+        validator = SimulatorValidator()
+        valid_cases, case_exceptions = validator.run('crbm/biosimulations_bionetgen', 'properties.json')
+        self.assertGreater(len(valid_cases), 0)
+        self.assertEqual(case_exceptions, [])
