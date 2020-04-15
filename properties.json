@@ -114,15 +114,7 @@
         "description": "The CVODE is a package written in C that solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton method and the backward differentiation formula.",
         "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000019"
       },
-      "ontologyTerms": [
-        {
-          "ontology": "KISAO",
-          "id": "0000433",
-          "name": "CVODE-like method",
-          "description": "Solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton method and the backward differentiation formula.",
-          "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000433"
-        }
-      ],
+      "ontologyTerms": [],
       "modelingFrameworks": [
         {
           "ontology": "SBO",
@@ -134,17 +126,6 @@
       ],
       "modelFormats": [
         {
-          "id": "SBML",
-          "name": "Systems Biology Markup Language",
-          "version": "L3V2",
-          "edamId": "format_2585",
-          "url": "http://sbml.org",
-          "specUrl": "http://identifiers.org/combine.specifications/sbml",
-          "mimeType": "application/sbml+xml",
-          "extension": "xml",
-          "sedUrn": "urn:sedml:language:sbml"
-        },
-        {
           "id": "BNGL",
           "name": "BioNetGen Language",
           "version": null,
@@ -153,7 +134,7 @@
           "specUrl": "https://bionetgen.org/",
           "mimeType": "text/plain",
           "extension": "bngl",
-          "sedUrn": null
+          "sedUrn": "urn:sed:language:bngl"
         }
       ],
       "simulationFormats": [
@@ -183,16 +164,177 @@
       "references": [],
       "parameters": [
         {
-          "id": "rel_tol",
+          "id": "rtol",
           "name": "Relative tolerance",
           "type": "float",
-          "default": 0.000001,
+          "default": 1e-8,
           "kisaoTerm": {
             "ontology": "KISAO",
             "id": "0000209",
             "name": "relative tolerance",
             "description": "This parameter is a numeric value specifying the desired relative tolerance the user wants to achieve. A smaller value means that the trajectory is calculated more accurately.",
             "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000209"
+          }
+        },
+        {
+          "id": "atol",
+          "name": "Absolute tolerance",
+          "type": "float",
+          "default": 1e-8,
+          "kisaoTerm": {
+            "ontology": "KISAO",
+            "id": "0000211",
+            "name": "absolute tolerance",
+            "description": "This parameter is a positive numeric value specifying the desired absolute tolerance the user wants to achieve.",
+            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000211"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ssa",
+      "name": "Stochastic simulation algorithm",
+      "kisaoTerm": {
+        "ontology": "KISAO",
+        "id": "0000029",
+        "name": "Gillespie direct algorithm",
+        "description": "Stochastic simulation algorithm using the reaction probability density function (next-reaction density function), giving the probability that the next reaction will happen in a given time interval. To choose the next reaction to fire, the algorithm directly and separately calculates the identity of the reaction and the time it will fire.",
+        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000029"
+      },
+      "ontologyTerms": [],
+      "modelingFrameworks": [
+        {
+          "ontology": "SBO",
+          "id": "0000295",
+          "name": "non-spatial discrete framework",
+          "description": "Modelling approach where the quantities of participants are considered discrete, and represented by integer values. The associated simulation methods can be deterministic or stochastic.The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
+          "iri": "http://biomodels.net/SBO/SBO_0000295"
+        }
+      ],
+      "modelFormats": [
+        {
+          "id": "BNGL",
+          "name": "BioNetGen Language",
+          "version": null,
+          "edamId": null,
+          "url": "https://bionetgen.org/",
+          "specUrl": "https://bionetgen.org/",
+          "mimeType": "text/plain",
+          "extension": "bngl",
+          "sedUrn": "urn:sed:language:bngl"
+        }
+      ],
+      "simulationFormats": [
+        {
+          "id": "SED-ML",
+          "name": "Simulation Experiment Description Markup Language",
+          "version": "L1V3",
+          "edamId": "format_3685",
+          "url": "https://sed-ml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
+          "mimeType": "application/xml",
+          "extension": "sedml"
+        }
+      ],
+      "archiveFormats": [
+        {
+          "id": "COMBINE",
+          "name": "COMBINE",
+          "version": "V1",
+          "edamId": "format_3686",
+          "url": "https://combinearchive.org/",
+          "specUrl": "http://identifiers.org/combine.specifications/omex",
+          "mimeType": "application/zip",
+          "extension": "omex"
+        }
+      ],
+      "references": [],
+      "parameters": [
+        {
+          "id": "seed",
+          "name": "Random seed",
+          "type": "integer",
+          "default": 0,
+          "kisaoTerm": {
+            "ontology": "KISAO",
+            "id": "0000488",
+            "name": "seed",
+            "description": "Random seed of a stochastic algorithm. Setting it allows one to reproduce their results while running the same algorithm on the same computer.",
+            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000488"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nfsim",
+      "name": "Network-free simulation",
+      "kisaoTerm": {
+        "ontology": "KISAO",
+        "id": "0000263",
+        "name": "NFSim agent-based simulation method",
+        "description": "A generalization a rule-based version of 'Gillespie's direct method' (SSA) [http://identifiers.org/biomodels.kisao/KISAO_0000029]. The method is guaranteed to produce the same results as the exact SSA [http://identifiers.org/biomodels.kisao/KISAO_0000029] by cycling over three primary steps. First, NFsim calculates the probability or propensity for each rule to take effect given the current molecular states. Second, it samples the time to the next reaction event and selects the corresponding reaction rule. Finally, NFsim executes the selected reaction by applying the rule and updating the molecular agents accordingly.",
+        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000263"
+      },
+      "ontologyTerms": [],
+      "modelingFrameworks": [
+        {
+          "ontology": "SBO",
+          "id": "0000295",
+          "name": "non-spatial discrete framework",
+          "description": "Modelling approach where the quantities of participants are considered discrete, and represented by integer values. The associated simulation methods can be deterministic or stochastic.The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
+          "iri": "http://biomodels.net/SBO/SBO_0000295"
+        }
+      ],
+      "modelFormats": [
+        {
+          "id": "BNGL",
+          "name": "BioNetGen Language",
+          "version": null,
+          "edamId": null,
+          "url": "https://bionetgen.org/",
+          "specUrl": "https://bionetgen.org/",
+          "mimeType": "text/plain",
+          "extension": "bngl",
+          "sedUrn": "urn:sed:language:bngl"
+        }
+      ],
+      "simulationFormats": [
+        {
+          "id": "SED-ML",
+          "name": "Simulation Experiment Description Markup Language",
+          "version": "L1V3",
+          "edamId": "format_3685",
+          "url": "https://sed-ml.org",
+          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
+          "mimeType": "application/xml",
+          "extension": "sedml"
+        }
+      ],
+      "archiveFormats": [
+        {
+          "id": "COMBINE",
+          "name": "COMBINE",
+          "version": "V1",
+          "edamId": "format_3686",
+          "url": "https://combinearchive.org/",
+          "specUrl": "http://identifiers.org/combine.specifications/omex",
+          "mimeType": "application/zip",
+          "extension": "omex"
+        }
+      ],
+      "references": [],
+      "parameters": [
+        {
+          "id": "seed",
+          "name": "Random seed",
+          "type": "integer",
+          "default": 0,
+          "kisaoTerm": {
+            "ontology": "KISAO",
+            "id": "0000488",
+            "name": "seed",
+            "description": "Random seed of a stochastic algorithm. Setting it allows one to reproduce their results while running the same algorithm on the same computer.",
+            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000488"
           }
         }
       ]

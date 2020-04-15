@@ -115,12 +115,22 @@ class CliTestCase(unittest.TestCase):
 
     def assert_outputs_created(self, dirname):
         self.assertEqual(set(os.listdir(dirname)), set(['test']))
-        self.assertEqual(set(os.listdir(os.path.join(dirname, 'test'))), set(['report.csv']))
+        self.assertEqual(set(os.listdir(os.path.join(dirname, 'test'))), set(['simulation_1.csv']))
 
-        results = pandas.read_csv(os.path.join(dirname, 'test', 'report.csv'))
+        results = pandas.read_csv(os.path.join(dirname, 'test', 'simulation_1.csv'))
 
         # test that the results have the correct time points
         numpy.testing.assert_array_almost_equal(results['time'], numpy.linspace(0., 10., 101))
 
-        # TODO: test that the results have the correct row labels (observable ids)
-        # assert set(results.columns.to_list()) == set([var.id for var in model.variables] + ['time'])
+        # test that the results have the correct row labels (observable ids)
+        var_ids = set([
+            'Atot',
+            'Btot',
+            'GA00tot',
+            'GA01tot',
+            'GA10tot',
+            'GB00tot',
+            'GB01tot',
+            'GB10tot',
+        ])
+        self.assertEqual(set(results.columns.to_list()), var_ids | set(['time']))

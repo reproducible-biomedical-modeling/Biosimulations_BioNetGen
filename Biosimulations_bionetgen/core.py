@@ -7,11 +7,13 @@
 :License: MIT
 """
 
+from Biosimulations_utils.biomodel.data_model import BiomodelVariable  # noqa: F401
 from Biosimulations_utils.simulation.data_model import Simulation  # noqa: F401
 from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 import pandas
 import re
+import shutil
 import subprocess
 import tempfile
 
@@ -48,20 +50,24 @@ class BioNetGenSimulationRunner(object):
         modified_model_lines = self.modify_model(model_lines, simulation)
 
         # write the modified model lines to a BNGL file
-        modified_model_filename = tempfile.mkstemp(suffix='.bngl')
-        with open(modified_model_filename, "w") as file:
+        fid, modified_model_filename = tempfile.mkstemp(suffix='.bngl')
+        os.close(fid)
+        with open(modified_model_filename, 'w') as file:
             file.writelines(modified_model_lines)
 
+        # create directory to store results
+        out_dir = tempfile.mkdtemp()
+
         # simulate the modified model
-        subprocess.call(['BNG2.pl', modified_model_filename])
+        subprocess.call(['BNG2.pl', modified_model_filename, '--outdir', out_dir])
 
         # put files into output path
-        gdat_results_filename = modified_model_filename.replace('.bngl', '.gdat')
+        gdat_results_filename = os.path.join(out_dir, os.path.splitext(os.path.basename(modified_model_filename))[0] + '.gdat')
         self.convert_simulation_results(gdat_results_filename, out_filename, out_format)
 
         # cleanup temporary files
         os.remove(modified_model_filename)
-        os.remove(gdat_results_filename)
+        shutil.rmtree(out_dir)
 
     def read_model(self, model_filename, model_sed_urn):
         """ Read a model from a file
@@ -98,7 +104,7 @@ class BioNetGenSimulationRunner(object):
         * Set simulation algorithm and algorithm parameters
 
         Args:
-            model_lines (:obj:`list` of :obj:`str`): model
+            model_lines (:obj:`list` of :obj:`str`): lines of the model
             simulation (:obj:`Simulation`): simulation
 
         Returns:
@@ -110,50 +116,54 @@ class BioNetGenSimulationRunner(object):
 
         # use `setParameter` to add parameter changes to the model
         for change in simulation.model_parameter_changes:
-            # TODO: properly apply parameter changes
-            model_lines += 'setParameter("{}", {})\n'.format(change.parameter.id, change.value)
+            # TODO: review the address scheme and BNGL methods
+            param_type, _, param_id = change.parameter.target.partition('.')
+            if param_type == 'parameters':
+                model_lines.append('setParameter("{}", {})\n'.format(param_id, change.value))
+            elif param_type == 'species':
+                model_lines.append('setConcentration("{}", {})\n'.format(param_id, change.value))
 
         # get the initial time, end time, and the number of time points to record
-        t_start = simulation.start_time
-        t_end = simulation.end_time
-        n_steps = simulation.num_time_points
+        simulate_args = {
+            't_start': simulation.start_time,
+            't_end': simulation.end_time,
+            'n_steps': simulation.num_time_points,
+        }
 
-        # Get algorithm parameters and use them properly
-        alg_params = self.get_algorithm_parameters(simulation.parameters)
-
-        # add the simulation to the model lines
+        # validate the simulation algorithm
         assert simulation.algorithm, "Simulation must define an algorithm"
         assert simulation.algorithm.kisao_term, "Simulation algorithm must include a KiSAO term"
         assert simulation.algorithm.kisao_term.ontology == 'KISAO', "Simulation algorithm must include a KiSAO term"
 
+        # get the name of the desired simulation algorithm
+        # TODO: support PLA
         if simulation.algorithm.kisao_term.id == '0000019':
-            model_lines += "generate_network({overwrite=>1})\n"
-            simulate_line = 'simulate({' + 'method => "{}", t_start => {}, t_end => {}, n_steps => {}'.format(
-                "ode", t_start, t_end, n_steps)
-            for param, val in alg_params.items():
-                simulate_line += ", {}=>{}".format(param, val)
-            simulate_line += '})\n'
-            model_lines += simulate_line
-
+            simulate_args['method'] = '"ode"'
         elif simulation.algorithm.kisao_term.id == '0000029':
-            model_lines += "generate_network({overwrite=>1})\n"
-            simulate_line = 'simulate({' + 'method => "{}", t_start => {}, t_end => {}, n_steps => {}'.format(
-                "ssa", t_start, t_end, n_steps)
-            # TODO: support algorothm parameters
-            simulate_line += '})\n'
-            model_lines += simulate_line
-
+            simulate_args['method'] = '"ssa"'
         elif simulation.algorithm.kisao_term.id == '0000263':
-            simulate_line = 'simulate({' + 'method => "{}", t_start => {}, t_end => {}, n_steps => {}'.format(
-                "nfsim", t_start, t_end, n_steps)
-            # TODO: support algorothm parameters
-            simulate_line += '})\n'
-            model_lines += simulate_line
-
+            simulate_args['method'] = '"nfsim"'
+            if simulation.output_start_time:
+                simulate_args['equil'] = simulation.output_start_time
         else:
             raise NotImplementedError("Algorithm with KiSAO id {} is not supported".format(simulation.algorithm.kisao_term.id))
 
-        # return the modified model
+        # if necessary add network generation to the model file
+        if simulate_args['method'] in ['"ode"', '"ssa"']:
+            model_lines.append("generate_network({overwrite => 1})\n")
+
+        # Get the chosen parameters of the chosen simulation algorithm
+        alg_params = self.get_algorithm_parameters(simulation.algorithm_parameter_changes)
+        for key, val in alg_params.items():
+            simulate_args[key] = val
+
+        # add the simulation and the chosen algorithm parameters to the model file
+        model_lines.append('simulate({{{}}})\n'.format(', '.join('{} => {}'.format(key, val) for key, val in simulate_args.items())))
+
+        # set desired observables
+        model_lines = self.set_observables(model_lines, simulation.model.variables)
+
+        # return the lines for the modified model
         return model_lines
 
     def get_algorithm_parameters(self, parameter_changes):
@@ -168,24 +178,70 @@ class BioNetGenSimulationRunner(object):
         Raises:
             :obj:`NotImplementedError`: if desired algorithm parameter is not supported
         """
+        # TODO: support additional parameters:
+        # - stop_if
+        # - ode
+        #   - sparse
+        #   - steady_state
+        # - nfsim
+        #   - complex: true
+        #   - nocslf: false
+        #   - notf: false
+        #   - gml: 100000
+        #   - additional params?
         bng_parameters = {}
         for change in parameter_changes:
-            if change.parameter.kisao_term \
-                    and change.parameter.kisao_term.ontology == 'KISAO' \
-                    and change.parameter.kisao_term.id == '0000211':
-                # Relative tolerance
-                bng_parameters["rtol"] = change.value
+            if change.parameter.kisao_term and change.parameter.kisao_term.ontology == 'KISAO':
+                if change.parameter.kisao_term.id == '0000211':
+                    # absolute tolerance
+                    bng_parameters["atol"] = change.value
 
-            elif change.parameter.kisao_term \
-                    and change.parameter.kisao_term.ontology == 'KISAO' \
-                    and change.parameter.kisao_term.id == '0000209':
-                # Absolute tolerance
-                bng_parameters["atol"] = change.value
+                elif change.parameter.kisao_term.id == '0000209':
+                    # relative tolerance
+                    bng_parameters["rtol"] = change.value
+
+                elif change.parameter.kisao_term.id == '0000488':
+                    # relative tolerance
+                    bng_parameters["seed"] = change.value
+
+                else:
+                    raise NotImplementedError("Parameter {} is not supported".format(change.parameter.id))
 
             else:
                 raise NotImplementedError("Parameter {} is not supported".format(change.parameter.id))
 
         return bng_parameters
+
+    def set_observables(self, model_lines, variables):
+        """ Set the desired observables of the simulation
+
+        Args:
+            model_lines (:obj:`list` of :obj:`str`): lines of the model
+            variables (:obj:`list` of :obj:`BiomodelVariable`): observables to record
+
+        Returns:
+            :obj:`list` of :obj:`str`: lines of the modified model
+        """
+        # TODO: replace observables block with observables indictated by `simulation.model.variables`
+        i_observables_start = None
+        i_observables_end = None
+        for i_line, line in enumerate(model_lines):
+            if re.match(r'^begin +observables *(#|$)', line):
+                i_observables_start = i_line
+            elif re.match(r'^end +observables *(#|$)', line):
+                i_observables_end = i_line
+
+        observables_lines = []
+        for var in variables:
+            # TODO: review
+            observables_lines.append('Molecules {} {}\n'.format(var.id, var.target))
+
+        modified_model_lines = \
+            model_lines[0:i_observables_start + 1] \
+            + observables_lines \
+            + model_lines[i_observables_end:]
+
+        return modified_model_lines
 
     def convert_simulation_results(self, gdat_filename, out_filename, out_format):
         """ Convert simulation results from gdat to the desired output format
