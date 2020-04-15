@@ -8,7 +8,7 @@
 """
 
 from Biosimulations_utils.simulation.data_model import Simulation  # noqa: F401
-import Biosimulations_utils.simulator.utils.exec_simulations_in_archive
+from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 import pandas
 import re
@@ -25,7 +25,7 @@ def exec_combine_archive(archive_file, out_dir):
         archive_file (:obj:`str`): path to COMBINE archive
         out_dir (:obj:`str`): directory to store the outputs of the tasks
     """
-    Biosimulations_utils.simulator.utils.exec_simulations_in_archive(archive_file, BioNetGenSimulationRunner().run, out_dir)
+    exec_simulations_in_archive(archive_file, BioNetGenSimulationRunner().run, out_dir)
 
 
 class BioNetGenSimulationRunner(object):
