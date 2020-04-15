@@ -50,7 +50,17 @@ ENV PATH=${PATH}:/root/bionetgen/bng2
 
 # install BioSimulations-compliant command-line interface to BioNetGen
 COPY . /root/Biosimulations_BioNetGen
-RUN pip3 install /root/Biosimulations_BioNetGen
+RUN apt-get update -y \
+    && apt-get install --no-install-recommends -y \
+        git \
+    && pip install git+https://github.com/reproducible-biomedical-modeling/Biosimulations_utils.git#egg=Biosimulations_utils \
+    \
+    && pip install /root/Biosimulations_BioNetGen \
+    \
+    && apt-get remove -y \
+        git \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # setup entry point
 ENTRYPOINT ["bionetgen"]

@@ -1,3 +1,3 @@
-Biosimulations_format_utils
+Biosimulations_utils
 cement
 pandas
