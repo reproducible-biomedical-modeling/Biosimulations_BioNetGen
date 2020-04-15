@@ -95,7 +95,7 @@ class CliTestCase(unittest.TestCase):
         shutil.copyfile('tests/fixtures/test.omex', os.path.join(in_dir, 'test.omex'))
 
         # run image
-        docker_client.containers.run(
+        container = docker_client.containers.run(
             image_repo + ':' + image_tag,
             volumes={
                 in_dir: {
@@ -109,7 +109,12 @@ class CliTestCase(unittest.TestCase):
             },
             command=['-i', '/root/in/test.omex', '-o', '/root/out'],
             tty=True,
-            remove=True)
+            detach=True)
+        exit_code = container.wait()
+        if exit_code != 0:
+            raise RuntimeError(container.logs().decode().replace('\\r\\n', '\n').strip())
+        container.stop()
+        container.remove()
 
         self.assert_outputs_created(out_dir)
 
