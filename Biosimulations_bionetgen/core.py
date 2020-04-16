@@ -99,7 +99,13 @@ class BioNetGenSimulationRunner(object):
     def modify_model(self, model_lines, simulation):
         """ Modify a model according to a specified simulation experiment
 
-        * Modify model parameters
+        * Modify parameters
+
+            * Compartment sizes: targets should follow the pattern `compartments.<compartment_id>.size`
+            * Function expressions: targets should follow the pattern `functions.<function_id>.expression`
+            * Initial species counts: targets should follow the pattern `species.<species_id>.count`
+            * Parameter values: targets should follow the pattern `parameters.<parameter_id>.value`
+
         * Set simulation time course
         * Set simulation algorithm and algorithm parameters
 
@@ -111,17 +117,32 @@ class BioNetGenSimulationRunner(object):
             :obj:`list` of :obj:`str`: modified model
 
         Raises:
-            :obj:`NotImplementedError`: if the desired simulation algorithm is not supported
+            :obj:`ValueError`: if a target of a parameter change or the desired simulation algorithm is not valid
         """
 
         # use `setParameter` to add parameter changes to the model
         for change in simulation.model_parameter_changes:
-            # TODO: review the address scheme and BNGL methods
-            param_type, _, param_id = change.parameter.target.partition('.')
-            if param_type == 'parameters':
+            target = change.parameter.target.split('.')
+            if len(target) != 3:
+                raise ValueError("Target must be a tuple of "
+                                 "an object type ('compartments', 'functions', 'parameters', or 'species'), "
+                                 "object id (e.g., 'A'), and "
+                                 "object attribute ('count', 'expression', 'size', or 'value')")
+
+            param_type, param_id, param_attr = target
+            if param_type == 'compartments' and param_attr == 'size':
+                # TODO: implement
+                pass
+            elif param_type == 'parameters' and param_attr == 'value':
                 model_lines.append('setParameter("{}", {})\n'.format(param_id, change.value))
-            elif param_type == 'species':
+            elif param_type == 'species' and param_attr == 'count':
+                # TODO: is the correct function to use?
                 model_lines.append('setConcentration("{}", {})\n'.format(param_id, change.value))
+            elif param_type == 'functions' and param_attr == 'expression':
+                # TODO: implement
+                pass
+            else:
+                raise ValueError('{} of {} cannot be changed'.format(param_attr, param_type))
 
         # get the initial time, end time, and the number of time points to record
         simulate_args = {
@@ -131,22 +152,27 @@ class BioNetGenSimulationRunner(object):
         }
 
         # validate the simulation algorithm
-        assert simulation.algorithm, "Simulation must define an algorithm"
-        assert simulation.algorithm.kisao_term, "Simulation algorithm must include a KiSAO term"
-        assert simulation.algorithm.kisao_term.ontology == 'KISAO', "Simulation algorithm must include a KiSAO term"
+        if not simulation.algorithm:
+            raise ValueError("Simulation must define an algorithm")
+        if not simulation.algorithm.kisao_term:
+            raise ValueError("Simulation algorithm must include a KiSAO term")
+        if simulation.algorithm.kisao_term.ontology != 'KISAO':
+            raise ValueError("Simulation algorithm must include a KiSAO term")
 
         # get the name of the desired simulation algorithm
-        # TODO: support PLA
         if simulation.algorithm.kisao_term.id == '0000019':
             simulate_args['method'] = '"ode"'
         elif simulation.algorithm.kisao_term.id == '0000029':
             simulate_args['method'] = '"ssa"'
+        # elif simulation.algorithm.kisao_term.id == 'XXXXXXX':
+            # TODO: support PLA once a KISAO term is available
+            # simulate_args['method'] = '"pla"'
         elif simulation.algorithm.kisao_term.id == '0000263':
             simulate_args['method'] = '"nf"'
             if simulation.output_start_time:
                 simulate_args['equil'] = simulation.output_start_time
         else:
-            raise NotImplementedError("Algorithm with KiSAO id {} is not supported".format(simulation.algorithm.kisao_term.id))
+            raise ValueError("Algorithm with KiSAO id {} is not supported".format(simulation.algorithm.kisao_term.id))
 
         # if necessary add network generation to the model file
         if simulate_args['method'] in ['"ode"', '"ssa"']:
@@ -178,17 +204,6 @@ class BioNetGenSimulationRunner(object):
         Raises:
             :obj:`NotImplementedError`: if desired algorithm parameter is not supported
         """
-        # TODO: support additional parameters:
-        # - stop_if
-        # - ode
-        #   - sparse
-        #   - steady_state
-        # - nf
-        #   - complex: true
-        #   - nocslf: false
-        #   - notf: false
-        #   - gml: 100000
-        #   - additional params?
         bng_parameters = {}
         for change in parameter_changes:
             if change.parameter.kisao_term and change.parameter.kisao_term.ontology == 'KISAO':
@@ -204,6 +219,11 @@ class BioNetGenSimulationRunner(object):
                     # relative tolerance
                     bng_parameters["seed"] = change.value
 
+                # if change.parameter.kisao_term.id == 'XXXXXXX':
+                    # TODO: support stop_if when KISAO term is available
+                    # # stop condition
+                    # bng_parameters["stop_if"] = change.value
+
                 else:
                     raise NotImplementedError("Parameter {} is not supported".format(change.parameter.id))
 
@@ -215,12 +235,20 @@ class BioNetGenSimulationRunner(object):
     def set_observables(self, model_lines, variables):
         """ Set the desired observables of the simulation
 
+        Supports observables of species and molecules
+
+        * Species: variable target should follow the pattern `species.<species_id>.count`
+        * Molecules: variable target should follow the pattern `molecules.<molecule_pattern>.count`
+
         Args:
             model_lines (:obj:`list` of :obj:`str`): lines of the model
             variables (:obj:`list` of :obj:`BiomodelVariable`): observables to record
 
         Returns:
             :obj:`list` of :obj:`str`: lines of the modified model
+
+        Raises:
+            :obj:`ValueError`: if a target of an observable is not valid
         """
         i_observables_start = None
         i_observables_end = None
@@ -232,10 +260,20 @@ class BioNetGenSimulationRunner(object):
 
         observables_lines = []
         for var in variables:
-            # TODO: review
-            molecule_type, _, molecule_id = var.target.partition('.')
-            assert molecule_type == 'molecules', "Variable target must be a molecule"
-            observables_lines.append('Molecules {} {}\n'.format(var.id, molecule_id))
+            target = var.target.split('.')
+            if len(target) != 3:
+                raise ValueError("Target must be a tuple of "
+                                 "an object type ('molecules', species'), "
+                                 "object id (e.g., 'A'), and "
+                                 "object attribute ('count')")
+
+            obs_type, obs_id, obs_attr = target
+            if obs_type == 'molecules' and obs_attr == 'count':
+                observables_lines.append('Molecules {} {}\n'.format(var.id, obs_id))
+            elif obs_type == 'species' and obs_attr == 'count':
+                observables_lines.append('Species {} {}\n'.format(var.id, obs_id))
+            else:
+                raise ValueError('{} of {} cannot be changed'.format(obs_attr, obs_type))
 
         modified_model_lines = \
             model_lines[0:i_observables_start + 1] \
