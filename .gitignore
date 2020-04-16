@@ -3,3 +3,5 @@ _pycache__/
 *.egg-info/
 
 tests/results/
+htmlcov/
+.coverage
