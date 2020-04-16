@@ -59,7 +59,7 @@ class BioNetGenSimulationRunner(object):
         out_dir = tempfile.mkdtemp()
 
         # simulate the modified model
-        subprocess.call(['BNG2.pl', modified_model_filename, '--outdir', out_dir])
+        subprocess.check_call(['BNG2.pl', modified_model_filename, '--outdir', out_dir])
 
         # put files into output path
         gdat_results_filename = os.path.join(out_dir, os.path.splitext(os.path.basename(modified_model_filename))[0] + '.gdat')
@@ -129,20 +129,43 @@ class BioNetGenSimulationRunner(object):
                                  "object id (e.g., 'A'), and "
                                  "object attribute ('count', 'expression', 'size', or 'value')")
 
-            param_type, param_id, param_attr = target
-            if param_type == 'compartments' and param_attr == 'size':
-                # TODO: implement
-                pass
-            elif param_type == 'parameters' and param_attr == 'value':
-                model_lines.append('setParameter("{}", {})\n'.format(param_id, change.value))
-            elif param_type == 'species' and param_attr == 'count':
+            obj_type, obj_id, obj_attr = target
+            if obj_type == 'compartments' and obj_attr == 'size':
+                i_block_start, i_block_end = self.find_model_block(model_lines, 'compartments')
+                block_lines = self.get_model_block(model_lines, i_block_start, i_block_end)
+                comp_changed = False
+                for i_line, line in enumerate(block_lines):
+                    match = re.match(r'( +)(.*?) +(\d+) +([^ ]+)( +(.*))?$', line)
+                    if match and match.group(2).strip() == obj_id:
+                        block_lines[i_line] = '{}{} {} {} {}\n'.format(
+                            match.group(1), obj_id, match.group(3), change.value, (match.group(5) or '').strip())
+                        comp_changed = True
+                if not comp_changed:
+                    raise ValueError('Model does not have compartment {}'.format(obj_id))
+                model_lines = self.replace_model_block(model_lines, i_block_start, i_block_end, block_lines)
+
+            elif obj_type == 'parameters' and obj_attr == 'value':
+                model_lines.append('setParameter("{}", {})\n'.format(obj_id, change.value))
+
+            elif obj_type == 'species' and obj_attr == 'count':
                 # TODO: is the correct function to use?
-                model_lines.append('setConcentration("{}", {})\n'.format(param_id, change.value))
-            elif param_type == 'functions' and param_attr == 'expression':
-                # TODO: implement
-                pass
+                model_lines.append('setConcentration("{}", {})\n'.format(obj_id, change.value))
+
+            elif obj_type == 'functions' and obj_attr == 'expression':
+                i_block_start, i_block_end = self.find_model_block(model_lines, 'functions')
+                block_lines = self.get_model_block(model_lines, i_block_start, i_block_end)
+                func_changed = False
+                for i_line, line in enumerate(block_lines):
+                    match = re.match(r'( +)(.*?)=(.*?)(#|$)', line)
+                    if match and match.group(2).strip() == obj_id:
+                        block_lines[i_line] = '{}{} = {}\n'.format(match.group(1), obj_id, change.value)
+                        func_changed = True
+                if not func_changed:
+                    raise ValueError('Model does not have function {}'.format(obj_id))
+                model_lines = self.replace_model_block(model_lines, i_block_start, i_block_end, block_lines)
+
             else:
-                raise ValueError('{} of {} cannot be changed'.format(param_attr, param_type))
+                raise ValueError('{} of {} cannot be changed'.format(obj_attr, obj_type))
 
         # get the initial time, end time, and the number of time points to record
         simulate_args = {
@@ -250,14 +273,6 @@ class BioNetGenSimulationRunner(object):
         Raises:
             :obj:`ValueError`: if a target of an observable is not valid
         """
-        i_observables_start = None
-        i_observables_end = None
-        for i_line, line in enumerate(model_lines):
-            if re.match(r'^begin +observables *(#|$)', line):
-                i_observables_start = i_line
-            elif re.match(r'^end +observables *(#|$)', line):
-                i_observables_end = i_line
-
         observables_lines = []
         for var in variables:
             target = var.target.split('.')
@@ -269,18 +284,62 @@ class BioNetGenSimulationRunner(object):
 
             obs_type, obs_id, obs_attr = target
             if obs_type == 'molecules' and obs_attr == 'count':
-                observables_lines.append('Molecules {} {}\n'.format(var.id, obs_id))
+                observables_lines.append('    Molecules {} {}\n'.format(var.id, obs_id))
             elif obs_type == 'species' and obs_attr == 'count':
-                observables_lines.append('Species {} {}\n'.format(var.id, obs_id))
+                observables_lines.append('    Species {} {}\n'.format(var.id, obs_id))
             else:
                 raise ValueError('{} of {} cannot be changed'.format(obs_attr, obs_type))
 
-        modified_model_lines = \
-            model_lines[0:i_observables_start + 1] \
-            + observables_lines \
-            + model_lines[i_observables_end:]
+        i_observables_start, i_observables_end = self.find_model_block(model_lines, 'observables')
+        return self.replace_model_block(model_lines, i_observables_start, i_observables_end, observables_lines)
 
-        return modified_model_lines
+    def find_model_block(self, model_lines, name):
+        """ Find the start and end lines of a block of a model
+
+        Args:
+            model_lines (:obj:`list` of :obj:`str`): lines of the model
+            name (:obj:`str`): name of the model block (e.g., 'functions', observables', species')
+
+        Returns:
+            :obj:`tuple` of :obj:`int`, :obj:`int`: start and end coordinates of the lines of the block
+        """
+        i_start = None
+        i_end = None
+        for i_line, line in enumerate(model_lines):
+            if re.match(r'^begin +{} *(#|$)'.format(name), line):
+                i_start = i_line
+            elif re.match(r'^end +{} *(#|$)'.format(name), line):
+                i_end = i_line
+        return (i_start, i_end)
+
+    def get_model_block(self, model_lines, i_block_start, i_block_end):
+        """ Replace a block of a model
+
+        Args:
+            model_lines (:obj:`list` of :obj:`str`): lines of the model
+            i_block_start (:obj:`int`): start line of the block within :obj:`model_lines`
+            i_block_end (:obj:`int`): end line of the block within :obj:`model_lines`
+
+        Returns:
+            :obj:`list` of :obj:`str`: lines of the block
+        """
+        return model_lines[i_block_start + 1:i_block_end]
+
+    def replace_model_block(self, model_lines, i_old_block_start, i_old_block_end, new_block_lines):
+        """ Replace a block of a model
+
+        Args:
+            model_lines (:obj:`list` of :obj:`str`): lines of the model
+            i_old_block_start (:obj:`int`): start line of the block within :obj:`model_lines`
+            i_old_block_end (:obj:`int`): end line of the block within :obj:`model_lines`
+            new_block_lines (:obj:`list` of :obj:`str`): new lines of the block
+
+        Returns:
+            :obj:`list` of :obj:`str`: lines of the modified model
+        """
+        return model_lines[0:i_old_block_start + 1] \
+            + new_block_lines \
+            + model_lines[i_old_block_end:]
 
     def convert_simulation_results(self, gdat_filename, out_filename, out_format):
         """ Convert simulation results from gdat to the desired output format

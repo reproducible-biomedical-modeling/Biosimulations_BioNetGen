@@ -8,6 +8,7 @@
 
 
 from Biosimulations_bionetgen import __main__
+from unittest import mock
 try:
     from Biosimulations_utils.simulator.testing import SimulatorValidator
 except ModuleNotFoundError:
@@ -32,6 +33,13 @@ class CliTestCase(unittest.TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.dirname)
+
+    def test_raw_cli(self):
+        with mock.patch('sys.argv', ['bionetgen', '--help']):
+            with capturer.CaptureOutput(relay=False):
+                with self.assertRaises(SystemExit) as context:
+                    __main__.main()
+                    self.assertRegex(context.Exception, 'usage: bionetgen')
 
     def test_help(self):
         with self.assertRaises(SystemExit):
