@@ -20,7 +20,20 @@
 # Author: Jonathan Karr <karr@mssm.edu>
 # Date: 2020-04-13
 
-FROM continuumio/anaconda3
+FROM continuumio/anaconda3:2020.02
+
+# metadata
+LABEL base_image="continuumio/anaconda3:2020.02"
+LABEL version="2.5.0"
+LABEL software="BioNetGen"
+LABEL software.version="2.5.0"
+LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
+LABEL about.home="https://bionetgen.org/"
+LABEL about.documentation="https://bionetgen.org/"
+LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
+LABEL about.license="SPDX:MIT"
+LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX"
+LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
 
 # install requirements and BioNetGet
 RUN apt-get update -y \
