@@ -15,7 +15,7 @@ except (subprocess.CalledProcessError, AssertionError):
 import os
 import pkg_utils
 
-name = 'Biosimulations_bionetgen'
+name = 'Biosimulators_bionetgen'
 dirname = os.path.dirname(__file__)
 
 # get package metadata
@@ -25,12 +25,12 @@ md = pkg_utils.get_package_metadata(dirname, name)
 setuptools.setup(
     name=name,
     version=md.version,
-    description=("BioSimulations-compliant command-line interface to the BioNetGen simulation program <https://bionetgen.org>."),
+    description=("BioSimulators-compliant command-line interface to the BioNetGen simulation program <https://bionetgen.org>."),
     long_description=md.long_description,
-    url="https://github.com/reproducible-biomedical-modeling/" + name,
-    download_url='https://github.com/reproducible-biomedical-modeling/' + name,
+    url="https://github.com/biosimulators/" + name,
+    download_url='https://github.com/biosimulators/' + name,
     author='Center for Reproducible Biomedical Modeling',
-    author_email="info@reproduciblebiomodels.org",
+    author_email="info@biosimulators.org",
     license="MIT",
     keywords='systems biology rule-based modeling network-free simulation',
     packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
@@ -46,7 +46,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'bionetgen = Biosimulations_bionetgen.__main__:main',
+            'bionetgen = Biosimulators_bionetgen.__main__:main',
         ],
     },
 )

@@ -7,13 +7,13 @@
 """
 
 
-from Biosimulations_bionetgen import __main__
+from Biosimulators_bionetgen import __main__
 from unittest import mock
 try:
     from Biosimulations_utils.simulator.testing import SimulatorValidator
 except ModuleNotFoundError:
     pass
-import Biosimulations_bionetgen
+import Biosimulators_bionetgen
 import capturer
 try:
     import docker
@@ -51,14 +51,14 @@ class CliTestCase(unittest.TestCase):
             with capturer.CaptureOutput(merged=False, relay=False) as captured:
                 with self.assertRaises(SystemExit):
                     app.run()
-                self.assertIn(Biosimulations_bionetgen.__version__, captured.stdout.get_text())
+                self.assertIn(Biosimulators_bionetgen.__version__, captured.stdout.get_text())
                 self.assertEqual(captured.stderr.get_text(), '')
 
         with __main__.App(argv=['--version']) as app:
             with capturer.CaptureOutput(merged=False, relay=False) as captured:
                 with self.assertRaises(SystemExit):
                     app.run()
-                self.assertIn(Biosimulations_bionetgen.__version__, captured.stdout.get_text())
+                self.assertIn(Biosimulators_bionetgen.__version__, captured.stdout.get_text())
                 self.assertEqual(captured.stderr.get_text(), '')
 
     def test_sim_short_arg_names(self):
@@ -78,8 +78,8 @@ class CliTestCase(unittest.TestCase):
         docker_client = docker.from_env()
 
         # build image
-        image_repo = 'crbm/biosimulations_bionetgen'
-        image_tag = Biosimulations_bionetgen.__version__
+        image_repo = 'biosimulators/bionetgen'
+        image_tag = Biosimulators_bionetgen.__version__
         image, _ = docker_client.images.build(
             path='.',
             dockerfile='Dockerfile',
@@ -94,8 +94,8 @@ class CliTestCase(unittest.TestCase):
         docker_client = docker.from_env()
 
         # image config
-        image_repo = 'crbm/biosimulations_bionetgen'
-        image_tag = Biosimulations_bionetgen.__version__
+        image_repo = 'biosimulators/bionetgen'
+        image_tag = Biosimulators_bionetgen.__version__
 
         # setup input and output directories
         in_dir = os.path.join(self.dirname, 'in')
@@ -159,6 +159,6 @@ class CliTestCase(unittest.TestCase):
     @unittest.skipIf(os.getenv('CI', '0') in ['1', 'true'], 'Docker not setup in CI')
     def test_validator(self):
         validator = SimulatorValidator()
-        valid_cases, case_exceptions, _ = validator.run('crbm/biosimulations_bionetgen', 'properties.json')
+        valid_cases, case_exceptions, _ = validator.run('biosimulators/bionetgen', 'properties.json')
         self.assertGreater(len(valid_cases), 0)
         self.assertEqual(case_exceptions, [])

@@ -1,9 +1,9 @@
-# BioSimulations-compliant Docker image for BioNetGen <https://bionetgen.org>
+# BioSimulators-compliant Docker image for BioNetGen <https://bionetgen.org>
 #
 # Build image:
 #   docker build \
-#     --tag crbm/biosimulations_bionetgen:2.5.0 \
-#     --tag crbm/biosimulations_bionetgen:latest \
+#     --tag biosimulators/bionetgen:2.5.0 \
+#     --tag biosimulators/bionetgen:latest \
 #     .
 #
 # Run image:
@@ -12,7 +12,7 @@
 #     --rm \
 #     --mount type=bind,source="$(pwd)"/tests/fixtures,target=/root/in,readonly \
 #     --mount type=bind,source="$(pwd)"/tests/results,target=/root/out \
-#     crbm/biosimulations_bionetgen:latest \
+#     biosimulators/bionetgen:latest \
 #       -i /root/in/test.omex \
 #       -o /root/out
 #
@@ -32,7 +32,7 @@ LABEL about.home="https://bionetgen.org/"
 LABEL about.documentation="https://bionetgen.org/"
 LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
 LABEL about.license="SPDX:MIT"
-LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX"
+LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX,BioSimulators"
 LABEL extra.identifiers.biotools="bionetgen"
 LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
 
@@ -62,14 +62,14 @@ RUN apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 ENV PATH=${PATH}:/root/bionetgen/bng2
 
-# install BioSimulations-compliant command-line interface to BioNetGen
-COPY . /root/Biosimulations_BioNetGen
+# install BioSimulators-compliant command-line interface to BioNetGen
+COPY . /root/Biosimulators_BioNetGen
 RUN apt-get update -y \
     && apt-get install --no-install-recommends -y \
         git \
-    && pip install git+https://github.com/reproducible-biomedical-modeling/Biosimulations_utils.git#egg=Biosimulations_utils \
+    && pip install git+https://github.com/biosimulations/Biosimulations_utils.git#egg=Biosimulations_utils \
     \
-    && pip install /root/Biosimulations_BioNetGen \
+    && pip install /root/Biosimulators_BioNetGen \
     \
     && apt-get remove -y \
         git \

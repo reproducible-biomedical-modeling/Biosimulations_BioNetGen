@@ -1,4 +1,4 @@
-""" BioSimulations-compliant command-line interface to the `BioNetGen <https://bionetgen.org/>`_ simulation program.
+""" BioSimulators-compliant command-line interface to the `BioNetGen <https://bionetgen.org/>`_ simulation program.
 
 :Author: Jonathan Karr <karr@mssm.edu>
 :Date: 2020-04-13
@@ -7,7 +7,7 @@
 """
 
 from .core import exec_combine_archive
-import Biosimulations_bionetgen
+import Biosimulators_bionetgen
 import cement
 
 
@@ -16,7 +16,7 @@ class BaseController(cement.Controller):
 
     class Meta:
         label = 'base'
-        description = "BioSimulations-compliant command-line interface to the BioNetGen simulation program <https://bionetgen.org>."
+        description = "BioSimulators-compliant command-line interface to the BioNetGen simulation program <https://bionetgen.org>."
         help = "bionetgen"
         arguments = [
             (['-i', '--archive'], dict(type=str,
@@ -26,7 +26,7 @@ class BaseController(cement.Controller):
                                        default='.',
                                        help='Directory to save outputs')),
             (['-v', '--version'], dict(action='version',
-                                       version=Biosimulations_bionetgen.__version__)),
+                                       version=Biosimulators_bionetgen.__version__)),
         ]
 
     @cement.ex(hide=True)

@@ -1,4 +1,4 @@
-""" BioSimulations-compliant command-line interface to the `BioNetGen <https://bionetgen.org/>`_ simulation program.
+""" BioSimulators-compliant command-line interface to the `BioNetGen <https://bionetgen.org/>`_ simulation program.
 
 :Author: Ali Sinan Saglam <als251@pitt.edu>
 :Author: Jonathan Karr <karr@mssm.edu>
