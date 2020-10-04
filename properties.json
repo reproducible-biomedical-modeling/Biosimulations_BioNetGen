@@ -4,11 +4,10 @@
   "version": "2.5.0",
   "description": "BioNetGen is an open-source software package for rule-based modeling of complex biochemical systems.",
   "url": "https://bionetgen.org/",
-  "dockerHubImageId": "biosimulators/bionetgen:2.5.0",
+  "image": "docker.io/biosimulators/bionetgen:2.5.0",
   "format": {
-    "name": "Docker Image",
-    "version": "1.2",
-    "url": "https://github.com/moby/moby/blob/master/image/spec/v1.2.md"
+    "namespace": "EDAM",
+    "id": "format_3973"
   },
   "authors": [
     {
@@ -71,98 +70,70 @@
       "lastName": "Hlavacek"
     }
   ],
-  "references": [
-    {
-      "title": "BioNetGen 2.2: advances in rule-based modeling",
-      "authors": "Leonard A. Harris, Justin S. Hogg, José-Juan Tapia, John A. P. Sekar, Sanjana Gupta, Ilya Korsunsky, Arshi Arora, Dipak Barua, Robert P. Sheehan & James R. Faeder",
-      "journal": "Bioinformatics",
-      "volume": 32,
-      "issue": 21,
-      "pages": "3366-3368",
-      "year": 2016,
-      "doi": "10.1093/bioinformatics/btw469"
-    },
-    {
-      "title": "Rule-based modeling of biochemical systems with BioNetGen",
-      "authors": "James R. Faeder, Michael L. Blinov & William S. Hlavacek",
-      "journal": "Methods in Molecular Biology",
-      "volume": 500,
-      "pages": "113-167",
-      "year": 2009,
-      "doi": "10.1007/978-1-59745-525-1_5"
-    },
-    {
-      "title": "BioNetGen: software for rule-based modeling of signal transduction based on the interactions of molecular domains",
-      "authors": "Michael L. Blinov, James R. Faeder, Byron Goldstein & William S. Hlavacek",
-      "journal": "Bioinformatics",
-      "volume": 20,
-      "issue": 17,
-      "pages": "3289-3291",
-      "year": 2004,
-      "doi": "10.1093/bioinformatics/bth378"
-    }
-  ],
-  "license": "MIT",
+  "references": {
+    "identifiers": {},
+    "citations": [
+      {
+        "title": "BioNetGen 2.2: advances in rule-based modeling",
+        "authors": "Leonard A. Harris, Justin S. Hogg, José-Juan Tapia, John A. P. Sekar, Sanjana Gupta, Ilya Korsunsky, Arshi Arora, Dipak Barua, Robert P. Sheehan & James R. Faeder",
+        "journal": "Bioinformatics",
+        "volume": 32,
+        "issue": 21,
+        "pages": "3366-3368",
+        "year": 2016,
+        "doi": "10.1093/bioinformatics/btw469"
+      },
+      {
+        "title": "Rule-based modeling of biochemical systems with BioNetGen",
+        "authors": "James R. Faeder, Michael L. Blinov & William S. Hlavacek",
+        "journal": "Methods in Molecular Biology",
+        "volume": 500,
+        "pages": "113-167",
+        "year": 2009,
+        "doi": "10.1007/978-1-59745-525-1_5"
+      },
+      {
+        "title": "BioNetGen: software for rule-based modeling of signal transduction based on the interactions of molecular domains",
+        "authors": "Michael L. Blinov, James R. Faeder, Byron Goldstein & William S. Hlavacek",
+        "journal": "Bioinformatics",
+        "volume": 20,
+        "issue": 17,
+        "pages": "3289-3291",
+        "year": 2004,
+        "doi": "10.1093/bioinformatics/bth378"
+      }
+    ]
+  },
+  "license": { "namespace": "SPDX", "id": "MIT" },
   "algorithms": [
     {
       "id": "ode",
       "name": "CVODE",
-      "description": "Simulates reaction networks using SUNDIALS CVODE ordinary differential equation integrator.",
-      "kisaoTerm": {
-        "ontology": "KISAO",
-        "id": "0000019",
-        "name": "CVODE",
-        "description": "The CVODE is a package written in C that solves ODE initial value problems, in real N-space, written as y'=f(t,y), y(t0)=y0. It is capable for stiff and non-stiff systems and uses two different linear multi-step methods, namely the Adam-Moulton method and the backward differentiation formula.",
-        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000019"
+      "kisaoId": {
+        "namespace": "KISAO",
+        "id": "KISAO_0000019"
       },
-      "ontologyTerms": [],
+
       "modelingFrameworks": [
         {
-          "ontology": "SBO",
-          "id": "0000293",
-          "name": "non-spatial continuous framework",
-          "description": "Modelling approach where the quantities of participants are considered continuous, and represented by real values. The associated simulation methods make use of differential equations. The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
-          "iri": "http://biomodels.net/SBO/SBO_0000293"
+          "namespace": "SBO",
+          "id": "SBO_0000293"
         }
       ],
-      "modelFormats": [
-        {
-          "id": "BNGL",
-          "name": "BioNetGen Language",
-          "version": null,
-          "edamId": null,
-          "url": "https://bionetgen.org/",
-          "specUrl": "https://bionetgen.org/",
-          "mimeType": "text/plain",
-          "extension": "bngl",
-          "sedUrn": "urn:sed:language:bngl"
-        }
-      ],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
       "simulationFormats": [
         {
-          "id": "SED-ML",
-          "name": "Simulation Experiment Description Markup Language",
-          "version": "L1V3",
-          "edamId": "format_3685",
-          "url": "https://sed-ml.org",
-          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
-          "mimeType": "application/xml",
-          "extension": "sedml"
+          "namespace": "EDAM",
+          "id": "format_3685"
         }
       ],
       "archiveFormats": [
         {
-          "id": "COMBINE",
-          "name": "COMBINE",
-          "version": "V1",
-          "edamId": "format_3686",
-          "url": "https://combinearchive.org/",
-          "specUrl": "http://identifiers.org/combine.specifications/omex",
-          "mimeType": "application/zip",
-          "extension": "omex"
+          "namespace": "EDAM",
+          "id": "format_3686"
         }
       ],
-      "references": [
+      "citations": [
         {
           "title": "CVODE, a stiff/nonstiff ODE solver in C",
           "authors": "Scott D Cohen, Alan C Hindmarsh & and Paul F Dubois",
@@ -180,12 +151,9 @@
           "name": "Relative tolerance",
           "type": "float",
           "default": 1e-8,
-          "kisaoTerm": {
-            "ontology": "KISAO",
-            "id": "0000209",
-            "name": "relative tolerance",
-            "description": "This parameter is a numeric value specifying the desired relative tolerance the user wants to achieve. A smaller value means that the trajectory is calculated more accurately.",
-            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000209"
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "0000209"
           }
         },
         {
@@ -193,12 +161,9 @@
           "name": "Absolute tolerance",
           "type": "float",
           "default": 1e-8,
-          "kisaoTerm": {
-            "ontology": "KISAO",
-            "id": "0000211",
-            "name": "absolute tolerance",
-            "description": "This parameter is a positive numeric value specifying the desired absolute tolerance the user wants to achieve.",
-            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000211"
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000211"
           }
         }
       ]
@@ -207,58 +172,29 @@
       "id": "ssa",
       "name": "Stochastic simulation algorithm",
       "description": "Simulates reaction networks using Gillespie's stochastic simulation algorithm (direct method with propensity sorting).",
-      "kisaoTerm": {
-        "ontology": "KISAO",
-        "id": "0000029",
-        "name": "Gillespie direct algorithm",
-        "description": "Stochastic simulation algorithm using the reaction probability density function (next-reaction density function), giving the probability that the next reaction will happen in a given time interval. To choose the next reaction to fire, the algorithm directly and separately calculates the identity of the reaction and the time it will fire.",
-        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000029"
+      "kisaoId": {
+        "namespace": "KISAO",
+        "id": "KISAO_0000029"
       },
-      "ontologyTerms": [],
+
       "modelingFrameworks": [
         {
-          "ontology": "SBO",
-          "id": "0000295",
-          "name": "non-spatial discrete framework",
-          "description": "Modelling approach where the quantities of participants are considered discrete, and represented by integer values. The associated simulation methods can be deterministic or stochastic.The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
-          "iri": "http://biomodels.net/SBO/SBO_0000295"
+          "namespace": "SBO",
+          "id": "SBO_0000295"
         }
       ],
-      "modelFormats": [
-        {
-          "id": "BNGL",
-          "name": "BioNetGen Language",
-          "version": null,
-          "edamId": null,
-          "url": "https://bionetgen.org/",
-          "specUrl": "https://bionetgen.org/",
-          "mimeType": "text/plain",
-          "extension": "bngl",
-          "sedUrn": "urn:sed:language:bngl"
-        }
-      ],
+
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
       "simulationFormats": [
         {
-          "id": "SED-ML",
-          "name": "Simulation Experiment Description Markup Language",
-          "version": "L1V3",
-          "edamId": "format_3685",
-          "url": "https://sed-ml.org",
-          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
-          "mimeType": "application/xml",
-          "extension": "sedml"
+          "namespace": "EDAM",
+          "id": "format_3685"
         }
       ],
       "archiveFormats": [
         {
-          "id": "COMBINE",
-          "name": "COMBINE",
-          "version": "V1",
-          "edamId": "format_3686",
-          "url": "https://combinearchive.org/",
-          "specUrl": "http://identifiers.org/combine.specifications/omex",
-          "mimeType": "application/zip",
-          "extension": "omex"
+          "namespace": "EDAM",
+          "id": "format_3686"
         }
       ],
       "references": [
@@ -278,13 +214,10 @@
           "id": "seed",
           "name": "Random seed",
           "type": "integer",
-          "default": 0,
-          "kisaoTerm": {
-            "ontology": "KISAO",
-            "id": "0000488",
-            "name": "seed",
-            "description": "Random seed of a stochastic algorithm. Setting it allows one to reproduce their results while running the same algorithm on the same computer.",
-            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000488"
+          "value": 0,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000488"
           }
         }
       ]
@@ -293,61 +226,31 @@
       "id": "nf",
       "name": "Network-free simulation",
       "description": "Simulates rule-based models using network-free stochastic simulator NFsim.",
-      "kisaoTerm": {
-        "ontology": "KISAO",
-        "id": "0000263",
-        "name": "NFSim agent-based simulation method",
-        "description": "A generalization a rule-based version of 'Gillespie's direct method' (SSA) [http://identifiers.org/biomodels.kisao/KISAO_0000029]. The method is guaranteed to produce the same results as the exact SSA [http://identifiers.org/biomodels.kisao/KISAO_0000029] by cycling over three primary steps. First, NFsim calculates the probability or propensity for each rule to take effect given the current molecular states. Second, it samples the time to the next reaction event and selects the corresponding reaction rule. Finally, NFsim executes the selected reaction by applying the rule and updating the molecular agents accordingly.",
-        "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000263"
+      "kisaoId": {
+        "namespace": "KISAO",
+        "id": "KISAO_0000263"
       },
-      "ontologyTerms": [],
+
       "modelingFrameworks": [
         {
-          "ontology": "SBO",
-          "id": "0000295",
-          "name": "non-spatial discrete framework",
-          "description": "Modelling approach where the quantities of participants are considered discrete, and represented by integer values. The associated simulation methods can be deterministic or stochastic.The models do not take into account the distribution of the entities and describe only the temporal fluxes.",
-          "iri": "http://biomodels.net/SBO/SBO_0000295"
+          "namespace": "SBO",
+          "id": "SBO_0000295"
         }
       ],
-      "modelFormats": [
-        {
-          "id": "BNGL",
-          "name": "BioNetGen Language",
-          "version": null,
-          "edamId": null,
-          "url": "https://bionetgen.org/",
-          "specUrl": "https://bionetgen.org/",
-          "mimeType": "text/plain",
-          "extension": "bngl",
-          "sedUrn": "urn:sed:language:bngl"
-        }
-      ],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
       "simulationFormats": [
         {
-          "id": "SED-ML",
-          "name": "Simulation Experiment Description Markup Language",
-          "version": "L1V3",
-          "edamId": "format_3685",
-          "url": "https://sed-ml.org",
-          "specUrl": "http://identifiers.org/combine.specifications/sed-ml",
-          "mimeType": "application/xml",
-          "extension": "sedml"
+          "namespace": "EDAM",
+          "id": "format_3685"
         }
       ],
       "archiveFormats": [
         {
-          "id": "COMBINE",
-          "name": "COMBINE",
-          "version": "V1",
-          "edamId": "format_3686",
-          "url": "https://combinearchive.org/",
-          "specUrl": "http://identifiers.org/combine.specifications/omex",
-          "mimeType": "application/zip",
-          "extension": "omex"
+          "namespace": "EDAM",
+          "id": "format_3686"
         }
       ],
-      "references": [
+      "citations": [
         {
           "title": "Efficient modeling, simulation and coarse-graining of biological complexity with NFsim",
           "authors": "Michael W Sneddon, James R Faeder & Thierry Emonet",
@@ -365,17 +268,12 @@
           "name": "Random seed",
           "type": "integer",
           "default": 0,
-          "kisaoTerm": {
-            "ontology": "KISAO",
-            "id": "0000488",
-            "name": "seed",
-            "description": "Random seed of a stochastic algorithm. Setting it allows one to reproduce their results while running the same algorithm on the same computer.",
-            "iri": "http://identifiers.org/biomodels.kisao/KISAO_0000488"
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000488"
           }
         }
       ]
     }
-  ],
-  "created": "2020-04-13T12:00:00Z",
-  "updated": "2020-04-13T12:00:00Z"
+  ]
 }
