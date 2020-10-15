@@ -71,7 +71,10 @@
     }
   ],
   "references": {
-    "identifiers": {},
+    "identifiers": [{
+      "namespace": "biotools",
+      "id": "bionetgen"
+    }],
     "citations": [
       {
         "title": "BioNetGen 2.2: advances in rule-based modeling",
@@ -81,7 +84,7 @@
         "issue": 21,
         "pages": "3366-3368",
         "year": 2016,
-        "doi": "10.1093/bioinformatics/btw469"
+        "identifiers": [{"namespace": "doi", "id": "10.1093/bioinformatics/btw469"}]
       },
       {
         "title": "Rule-based modeling of biochemical systems with BioNetGen",
@@ -90,7 +93,7 @@
         "volume": 500,
         "pages": "113-167",
         "year": 2009,
-        "doi": "10.1007/978-1-59745-525-1_5"
+        "identifiers": [{"namespace": "doi", "id": "10.1007/978-1-59745-525-1_5"}]
       },
       {
         "title": "BioNetGen: software for rule-based modeling of signal transduction based on the interactions of molecular domains",
@@ -100,7 +103,7 @@
         "issue": 17,
         "pages": "3289-3291",
         "year": 2004,
-        "doi": "10.1093/bioinformatics/bth378"
+        "identifiers": [{"namespace": "doi", "id": "10.1093/bioinformatics/bth378"}]
       }
     ]
   },
@@ -142,7 +145,7 @@
           "issue": 2,
           "pages": "138-143",
           "year": 1996,
-          "doi": "10.1063/1.4822377"
+          "identifiers": [{"namespace": "doi", "id": "10.1063/1.4822377"}]
         }
       ],
       "parameters": [
@@ -259,7 +262,10 @@
           "issue": 2,
           "pages": "177",
           "year": 2011,
-          "doi": "10.1038/nmeth.1546"
+          "identifiers": [{
+            "namespace": "doi",
+            "id": "10.1038/nmeth.1546"
+          }]
         }
       ],
       "parameters": [
