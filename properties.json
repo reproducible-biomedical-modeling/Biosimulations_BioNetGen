@@ -154,7 +154,7 @@
           "id": "rtol",
           "name": "Relative tolerance",
           "type": "float",
-          "default": 1e-8,
+          "value": 1e-8,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000209"
@@ -164,7 +164,7 @@
           "id": "atol",
           "name": "Absolute tolerance",
           "type": "float",
-          "default": 1e-8,
+          "value": 1e-8,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000211"
@@ -209,7 +209,7 @@
           "volume": 81,
           "issue": 25,
           "pages": "2340-2361",
-          "year": 1997,
+          "year": 1977,
           "doi": "10.1021/j100540a008"
         }
       ],
@@ -275,7 +275,7 @@
           "id": "seed",
           "name": "Random seed",
           "type": "integer",
-          "default": 0,
+          "value": 0,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000488"
