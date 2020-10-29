@@ -34,7 +34,7 @@ LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LIC
 LABEL about.license="SPDX:MIT"
 LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX,BioSimulators"
 LABEL extra.identifiers.biotools="bionetgen"
-LABEL maintainer="Jonathan Karr <karr@mssm.edu>"
+LABEL maintainer="BioSimulators Team <info@biosimulators.org>"
 
 # install requirements and BioNetGet
 RUN apt-get update -y \
