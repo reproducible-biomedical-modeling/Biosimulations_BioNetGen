@@ -78,7 +78,7 @@ class CliTestCase(unittest.TestCase):
         docker_client = docker.from_env()
 
         # build image
-        image_repo = 'biosimulators/bionetgen'
+        image_repo = 'ghcr.io/biosimulators/bionetgen'
         image_tag = Biosimulators_bionetgen.__version__
         image, _ = docker_client.images.build(
             path='.',
@@ -94,7 +94,7 @@ class CliTestCase(unittest.TestCase):
         docker_client = docker.from_env()
 
         # image config
-        image_repo = 'biosimulators/bionetgen'
+        image_repo = 'ghcr.io/biosimulators/bionetgen'
         image_tag = Biosimulators_bionetgen.__version__
 
         # setup input and output directories
@@ -159,6 +159,6 @@ class CliTestCase(unittest.TestCase):
     @unittest.skipIf(os.getenv('CI', '0') in ['1', 'true'], 'Docker not setup in CI')
     def test_validator(self):
         validator = SimulatorValidator()
-        valid_cases, case_exceptions, _ = validator.run('biosimulators/bionetgen', 'biosimulators.json')
+        valid_cases, case_exceptions, _ = validator.run('ghcr.io/biosimulators/bionetgen', 'biosimulators.json')
         self.assertGreater(len(valid_cases), 0)
         self.assertEqual(case_exceptions, [])
