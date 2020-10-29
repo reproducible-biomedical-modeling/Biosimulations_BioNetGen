@@ -17,7 +17,7 @@ pip install git+https://github.com/biosimulators/Biosimulators_BioNetGen
 
 ### Install Docker image
 ```
-docker pull biosimulators/bionetgen
+docker pull ghcr.io/biosimulators/bionetgen
 ```
 
 ## Local usage
