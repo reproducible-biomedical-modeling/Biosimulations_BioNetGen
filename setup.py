@@ -15,7 +15,7 @@ except (subprocess.CalledProcessError, AssertionError):
 import os
 import pkg_utils
 
-name = 'Biosimulators_bionetgen'
+name = 'biosimulators_bionetgen'
 dirname = os.path.dirname(__file__)
 
 # get package metadata
@@ -46,7 +46,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'bionetgen = Biosimulators_bionetgen.__main__:main',
+            'bionetgen = biosimulators_bionetgen.__main__:main',
         ],
     },
 )

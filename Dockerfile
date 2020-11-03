@@ -24,7 +24,7 @@ FROM continuumio/anaconda3:2020.02
 
 # metadata
 LABEL base_image="continuumio/anaconda3:2020.02"
-LABEL version="2.5.0"
+LABEL version="0.0.1"
 LABEL software="BioNetGen"
 LABEL software.version="2.5.0"
 LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"

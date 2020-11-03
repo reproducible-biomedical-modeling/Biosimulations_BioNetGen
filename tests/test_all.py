@@ -7,13 +7,13 @@
 """
 
 
-from Biosimulators_bionetgen import __main__
+from biosimulators_bionetgen import __main__
 from unittest import mock
 try:
     from Biosimulations_utils.simulator.testing import SimulatorValidator
 except ModuleNotFoundError:
     pass
-import Biosimulators_bionetgen
+import biosimulators_bionetgen
 import capturer
 try:
     import docker
@@ -51,14 +51,14 @@ class CliTestCase(unittest.TestCase):
             with capturer.CaptureOutput(merged=False, relay=False) as captured:
                 with self.assertRaises(SystemExit):
                     app.run()
-                self.assertIn(Biosimulators_bionetgen.__version__, captured.stdout.get_text())
+                self.assertIn(biosimulators_bionetgen.__version__, captured.stdout.get_text())
                 self.assertEqual(captured.stderr.get_text(), '')
 
         with __main__.App(argv=['--version']) as app:
             with capturer.CaptureOutput(merged=False, relay=False) as captured:
                 with self.assertRaises(SystemExit):
                     app.run()
-                self.assertIn(Biosimulators_bionetgen.__version__, captured.stdout.get_text())
+                self.assertIn(biosimulators_bionetgen.__version__, captured.stdout.get_text())
                 self.assertEqual(captured.stderr.get_text(), '')
 
     def test_sim_short_arg_names(self):
@@ -79,7 +79,7 @@ class CliTestCase(unittest.TestCase):
 
         # build image
         image_repo = 'ghcr.io/biosimulators/bionetgen'
-        image_tag = Biosimulators_bionetgen.__version__
+        image_tag = biosimulators_bionetgen.__version__
         image, _ = docker_client.images.build(
             path='.',
             dockerfile='Dockerfile',
@@ -95,7 +95,7 @@ class CliTestCase(unittest.TestCase):
 
         # image config
         image_repo = 'ghcr.io/biosimulators/bionetgen'
-        image_tag = Biosimulators_bionetgen.__version__
+        image_tag = biosimulators_bionetgen.__version__
 
         # setup input and output directories
         in_dir = os.path.join(self.dirname, 'in')
