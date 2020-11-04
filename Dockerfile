@@ -20,13 +20,15 @@
 # Author: Jonathan Karr <karr@mssm.edu>
 # Date: 2020-04-13
 
-FROM continuumio/anaconda3:2020.02
+FROM continuumio/miniconda3:4.8.2
+
+ENV VERSION=2.5.1
 
 # metadata
-LABEL base_image="continuumio/anaconda3:2020.02"
+LABEL base_image="continuumio/miniconda3:4.8.2"
 LABEL version="0.0.1"
 LABEL software="BioNetGen"
-LABEL software.version="2.5.0"
+LABEL software.version="${VERSION}"
 LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
 LABEL about.home="https://bionetgen.org/"
 LABEL about.documentation="https://bionetgen.org/"
@@ -37,6 +39,13 @@ LABEL extra.identifiers.biotools="bionetgen"
 LABEL maintainer="BioSimulators Team <info@biosimulators.org>"
 
 # install requirements and BioNetGet
+ENV CONDA_ENV=py37
+RUN conda update -y -n base -c defaults conda \
+    && conda create -y -n ${CONDA_ENV} python=3.7 \
+    && conda install lxml
+ENV PATH=/opt/conda/envs/${CONDA_ENV}/bin:${PATH}
+RUN /bin/bash -c "source activate ${CONDA_ENV}"
+
 RUN apt-get update -y \
     && apt-get install --no-install-recommends -y \
         cmake \
@@ -46,7 +55,7 @@ RUN apt-get update -y \
         perl \
         vim \
     \
-    && git clone https://github.com/RuleWorld/bionetgen /root/bionetgen \
+    && git clone https://github.com/RuleWorld/bionetgen.git --branch BioNetGen-${VERSION} --depth 1 /root/bionetgen \
     && cd /root/bionetgen \
     && git submodule init \
     && git submodule update \
@@ -64,17 +73,7 @@ ENV PATH=${PATH}:/root/bionetgen/bng2
 
 # install BioSimulators-compliant command-line interface to BioNetGen
 COPY . /root/Biosimulators_BioNetGen
-RUN apt-get update -y \
-    && apt-get install --no-install-recommends -y \
-        git \
-    && pip install git+https://github.com/biosimulations/Biosimulations_utils.git#egg=Biosimulations_utils \
-    \
-    && pip install /root/Biosimulators_BioNetGen \
-    \
-    && apt-get remove -y \
-        git \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip install /root/Biosimulators_BioNetGen
 
 # setup entry point
 ENTRYPOINT ["bionetgen"]
