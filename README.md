@@ -1,4 +1,11 @@
-# Biosimulators_BioNetGen
+![Latest version](https://img.shields.io/github/v/tag/biosimulators/Biosimulators_BioNetGen)
+[![PyPI](https://img.shields.io/pypi/v/biosimulators_bionetgen)](https://pypi.org/project/biosimulators_bionetgen/)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/biosimulators/Biosimulators_BioNetGen/workflow-id)](https://github.com/biosimulators/Biosimulators_BioNetGen/actions?query=workflow%3Aworkflow-id)
+[![Documentation](https://img.shields.io/github/license/biosimulators/Biosimulators_BioNetGen?badges-awesome-green.svg)](https://biosimulators.github.io/Biosimulators_BioNetGen/)
+[![Issues](https://img.shields.io/github/issues/biosimulators/Biosimulators_BioNetGen)](https://github.com/biosimulators/Biosimulators_BioNetGen/issues)
+[![License](https://img.shields.io/github/license/biosimulators/Biosimulators_BioNetGen?badges-awesome-green.svg)](https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/LICENSE)
+
+# BioSimulators-BioNetGen
 BioSimulators-compliant command-line interface and Docker image for the [BioNetGen](https://bionetgen.org/) simulation program.
 
 This command-line interface and Docker image enable users to use BioNetGen to execute [COMBINE/OMEX archives](https://combinearchive.org/) that describe one or more simulation experiments (in [SED-ML format](https://sed-ml.org)) of one or more models (in [BNGL format](https://bionetgen.org])).
@@ -10,6 +17,7 @@ A simple web application and web service for using BioNetGen to execute COMBINE/
 ## Contents
 * [Installation](#installation)
 * [Usage](#usage)
+* [Documentation](#documentation)
 * [License](#license)
 * [Development team](#development-team)
 * [Questions and comments](#questions-and-comments)
@@ -26,7 +34,9 @@ pip install git+https://github.com/biosimulators/Biosimulators_BioNetGen
 docker pull ghcr.io/biosimulators/bionetgen
 ```
 
-## Local usage
+## Usage
+
+### Local usage
 ```
 usage: bionetgen [-h] [-d] [-q] -i ARCHIVE [-o OUT_DIR] [-v]
 
@@ -44,7 +54,7 @@ optional arguments:
   -v, --version         show program's version number and exit
 ```
 
-## Usage through Docker container
+### Usage through Docker container
 ```
 docker run \
   --tty \
@@ -55,6 +65,9 @@ docker run \
     -i /root/in/BIOMD0000000297.omex \
     -o /root/out
 ```
+
+## Documentation
+Documentation is available at https://biosimulators.github.io/Biosimulators_BioNetGen/.
 
 ## License
 This package is released under the [MIT license](LICENSE).
