@@ -180,7 +180,6 @@
     {
       "id": "ssa",
       "name": "Stochastic simulation algorithm",
-      "description": "Simulates reaction networks using Gillespie's stochastic simulation algorithm (direct method with propensity sorting).",
       "kisaoId": {
         "namespace": "KISAO",
         "id": "KISAO_0000029"
@@ -206,7 +205,7 @@
           "id": "format_3686"
         }
       ],
-      "references": [
+      "citations": [
         {
           "title": "Exact stochastic simulation of coupled chemical reactions",
           "authors": "Daniel T. Gillespie",
@@ -215,7 +214,11 @@
           "issue": 25,
           "pages": "2340-2361",
           "year": 1977,
-          "doi": "10.1021/j100540a008"
+          "identifiers": [{
+            "namespace": "doi",
+            "id": "10.1021/j100540a008",
+            "url": "https://doi.org/10.1021/j100540a008"
+          }]
         }
       ],
       "parameters": [
@@ -234,7 +237,6 @@
     {
       "id": "nf",
       "name": "Network-free simulation",
-      "description": "Simulates rule-based models using network-free stochastic simulator NFsim.",
       "kisaoId": {
         "namespace": "KISAO",
         "id": "KISAO_0000263"
