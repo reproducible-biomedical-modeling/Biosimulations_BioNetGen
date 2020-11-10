@@ -72,6 +72,11 @@
   ],
   "references": {
     "identifiers": [{
+      "namespace": "pypi",
+      "id": "biosimulators-bionetgen",
+      "url": "https://pypi.org/project/biosimulators-bionetgen/"
+    },
+    {
       "namespace": "biotools",
       "id": "bionetgen",
       "url": "https://bio.tools/bionetgen"
@@ -286,6 +291,7 @@
   ],
   "biosimulators": {
     "specificationsVersion": "1.0.0",
-    "imageVersion": "1.0.0"
+    "imageVersion": "1.0.0",
+    "validated": false
   }
 }
