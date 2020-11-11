@@ -22,21 +22,32 @@
 
 FROM continuumio/miniconda3:4.8.2
 
-ENV VERSION=2.5.1
+ARG VERSION=2.5.1
 
 # metadata
-LABEL base_image="continuumio/miniconda3:4.8.2"
-LABEL version="0.0.1"
-LABEL software="BioNetGen"
-LABEL software.version="${VERSION}"
-LABEL about.summary="Open-source software package for rule-based modeling of complex biochemical systems"
-LABEL about.home="https://bionetgen.org/"
-LABEL about.documentation="https://bionetgen.org/"
-LABEL about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE"
-LABEL about.license="SPDX:MIT"
-LABEL about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX,BioSimulators"
-LABEL extra.identifiers.biotools="bionetgen"
-LABEL maintainer="BioSimulators Team <info@biosimulators.org>"
+LABEL \
+    org.opencontainers.image.title="BioNetGen" \
+    org.opencontainers.image.version="${VERSION}" \
+    org.opencontainers.image.description="Open-source software package for rule-based modeling of complex biochemical systems" \
+    org.opencontainers.image.url="https://bionetgen.org/" \
+    org.opencontainers.image.documentation="https://bionetgen.org/" \
+    org.opencontainers.image.source="https://github.com/biosimulators/Biosimulators_BioNetGen" \
+    org.opencontainers.image.authors="BioSimulators Team <info@biosimulators.org>" \
+    org.opencontainers.image.vendor="BioSimulators Team" \
+    org.opencontainers.image.licenses="MIT" \
+    \
+    base_image="continuumio/miniconda3:4.8.2" \
+    version="0.0.1" \
+    software="BioNetGen" \
+    software.version="${VERSION}" \
+    about.summary="Open-source software package for rule-based modeling of complex biochemical systems" \
+    about.home="https://bionetgen.org/" \
+    about.documentation="https://bionetgen.org/" \
+    about.license_file="https://github.com/RuleWorld/bionetgen/blob/master/LICENSE" \
+    about.license="SPDX:MIT" \
+    about.tags="rule-based modeling,kinetic modeling,dynamical simulation,systems biology,BNGL,SED-ML,COMBINE,OMEX,BioSimulators" \
+    extra.identifiers.biotools="bionetgen" \
+    maintainer="BioSimulators Team <info@biosimulators.org>"
 
 # install requirements and BioNetGet
 ENV CONDA_ENV=py37
