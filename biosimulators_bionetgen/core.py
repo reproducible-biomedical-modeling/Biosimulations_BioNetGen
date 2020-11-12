@@ -8,7 +8,7 @@
 """
 
 from Biosimulations_utils.biomodel.data_model import BiomodelVariable  # noqa: F401
-from Biosimulations_utils.simulation.data_model import Simulation  # noqa: F401
+from Biosimulations_utils.simulation.data_model import TimecourseSimulation
 from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
 import os
 import pandas
@@ -37,11 +37,13 @@ class BioNetGenSimulationRunner(object):
         Args:
            model_filename (:obj:`str`): path to the model in BNGL format
            model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., `urn:sedml:language:sbml`)
-           simulation (:obj:`Simulation`): simulation
+           simulation (:obj:`TimecourseSimulation`): simulation
            working_dir (:obj:`str`): directory of the SED-ML file
            out_filename (:obj:`str`): path to save the results of the simulation
            out_format (:obj:`str`): format to save the results of the simulation (e.g., `csv`)
         """
+        if not isinstance(simulation, TimecourseSimulation):
+            raise ValueError('{} is not supported'.format(simulation.__class__.__name__))
 
         # read the model from the BNGL file
         model_lines = self.read_model(model_filename, model_sed_urn)
@@ -111,7 +113,7 @@ class BioNetGenSimulationRunner(object):
 
         Args:
             model_lines (:obj:`list` of :obj:`str`): lines of the model
-            simulation (:obj:`Simulation`): simulation
+            simulation (:obj:`TimecourseSimulation`): simulation
 
         Returns:
             :obj:`list` of :obj:`str`: modified model
@@ -119,7 +121,6 @@ class BioNetGenSimulationRunner(object):
         Raises:
             :obj:`ValueError`: if a target of a parameter change or the desired simulation algorithm is not valid
         """
-
         # use `setParameter` to add parameter changes to the model
         for change in simulation.model_parameter_changes:
             target = change.parameter.target.split('.')
