@@ -159,7 +159,7 @@
           "id": "rtol",
           "name": "Relative tolerance",
           "type": "float",
-          "value": 1e-8,
+          "value": "1e-8",
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000209"
@@ -169,7 +169,7 @@
           "id": "atol",
           "name": "Absolute tolerance",
           "type": "float",
-          "value": 1e-8,
+          "value": "1e-8",
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000211"
@@ -226,7 +226,7 @@
           "id": "seed",
           "name": "Random seed",
           "type": "integer",
-          "value": 0,
+          "value": "0",
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000488"
@@ -282,7 +282,7 @@
           "id": "seed",
           "name": "Random seed",
           "type": "integer",
-          "value": 0,
+          "value": "0",
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000488"
