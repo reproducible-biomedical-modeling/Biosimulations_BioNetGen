@@ -3,71 +3,86 @@
   "name": "BioNetGen",
   "version": "2.5.1",
   "description": "BioNetGen is an open-source software package for rule-based modeling of complex biochemical systems.",
-  "url": "https://bionetgen.org/",
-  "image": "ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:2.5.1",
-  "format": {
-    "namespace": "EDAM",
-    "id": "format_3973"
+  "urls": [{"type": "Home page", "url": "https://bionetgen.org/"}],
+  "image": {
+    "url": "ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:2.5.1",
+    "format": {
+      "namespace": "EDAM",
+      "id": "format_3973", "version": null
+    }
   },
   "authors": [
     {
       "firstName": "Ali",
       "middleName": "Sinan",
-      "lastName": "Saglam"
+      "lastName": "Saglam",
+            "identifiers": []
     },
     {
       "firstName": "Leonard",
       "middleName": "A",
-      "lastName": "Harris"
+      "lastName": "Harris",
+            "identifiers": []
     },
     {
       "firstName": "Justin",
       "middleName": "S",
-      "lastName": "Hogg"
+      "lastName": "Hogg",
+            "identifiers": []
     },
     {
       "firstName": "José-Juan",
-      "lastName": "Tapi"
+      "lastName": "Tapi",
+            "identifiers": []
     },
     {
       "firstName": "John",
       "middleName": "A P",
-      "lastName": "Sekar"
+      "lastName": "Sekar",
+            "identifiers": []
     },
     {
       "firstName": "Sanjana",
-      "lastName": "Gupta"
+      "lastName": "Gupta",
+            "identifiers": []
     },
     {
       "firstName": "Ilya",
-      "lastName": "Korsunsky"
+      "lastName": "Korsunsky",
+            "identifiers": []
     },
     {
       "firstName": "Arshi",
-      "lastName": "Arora"
+      "lastName": "Arora",
+            "identifiers": []
     },
     {
       "firstName": "Dipak",
-      "lastName": "Barua"
+      "lastName": "Barua",
+            "identifiers": []
     },
     {
       "firstName": "Robert",
       "middleName": "P",
-      "lastName": "Sheehan"
+      "lastName": "Sheehan",
+            "identifiers": []
     },
     {
       "firstName": "James",
       "middleName": "R",
-      "lastName": "Faeder"
+      "lastName": "Faeder",
+            "identifiers": []
     },
     {
       "firstName": "Byron",
-      "lastName": "Goldstein"
+      "lastName": "Goldstein",
+            "identifiers": []
     },
     {
       "firstName": "William",
       "middleName": "S",
-      "lastName": "Hlavacek"
+      "lastName": "Hlavacek",
+            "identifiers": []
     }
   ],
   "references": {
@@ -129,17 +144,17 @@
           "id": "SBO_0000293"
         }
       ],
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3685"
+          "id": "format_3685", "version": null
         }
       ],
       "archiveFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3686"
+          "id": "format_3686", "version": null
         }
       ],
       "citations": [
@@ -160,22 +175,27 @@
           "name": "Relative tolerance",
           "type": "float",
           "value": "1e-8",
+          "recommendedRange": null,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000209"
-          }
+          },
+                    "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         },
         {
           "id": "atol",
           "name": "Absolute tolerance",
           "type": "float",
           "value": "1e-8",
+          "recommendedRange": null,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000211"
-          }
+          },
+                    "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
-      ]
+      ],
+      "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
     },
     {
       "id": "ssa",
@@ -192,17 +212,17 @@
         }
       ],
 
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3685"
+          "id": "format_3685", "version": null
         }
       ],
       "archiveFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3686"
+          "id": "format_3686", "version": null
         }
       ],
       "citations": [
@@ -227,12 +247,15 @@
           "name": "Random seed",
           "type": "integer",
           "value": "0",
+          "recommendedRange": null,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000488"
-          }
+          },
+                    "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
-      ]
+      ],
+      "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
     },
     {
       "id": "nf",
@@ -248,17 +271,17 @@
           "id": "SBO_0000295"
         }
       ],
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972" }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3685"
+          "id": "format_3685", "version": null
         }
       ],
       "archiveFormats": [
         {
           "namespace": "EDAM",
-          "id": "format_3686"
+          "id": "format_3686", "version": null
         }
       ],
       "citations": [
@@ -283,16 +306,21 @@
           "name": "Random seed",
           "type": "integer",
           "value": "0",
+          "recommendedRange": null,
           "kisaoId": {
             "namespace": "KISAO",
             "id": "KISAO_0000488"
-          }
+          },
+                    "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
-      ]
+      ],
+      "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
     }
   ],
+  "interfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
+  "supportedProgrammingLanguages": [],
   "biosimulators": {
-    "specificationsVersion": "1.0.0",
+    "specificationVersion": "1.0.0",
     "imageVersion": "1.0.0",
     "validated": false
   }
