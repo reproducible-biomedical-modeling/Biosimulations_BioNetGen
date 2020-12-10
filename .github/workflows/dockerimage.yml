@@ -12,15 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login to DockerHub Registry
-        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        run: echo ${{ secrets.GHCR_USERNAME }} | docker login ghcr.io -u ${{ secrets.GHCR_TOKEN }}} --password-stdin
       - name: Get the version
         id: vars
         run: echo ::set-output name=tag::$(cat "$(pwd)"/biosimulators_bionetgen/_version.py| grep __version__ | awk '{print $3}')
       - name: Build the tagged Docker image
-        run: docker build --file Dockerfile --tag biosimulators/bionetgen:${{steps.vars.outputs.tag}} .
+        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/bionetgen:${{steps.vars.outputs.tag}} .
       - name: Push the tagged Docker image
-        run: docker push biosimulators/bionetgen:${{steps.vars.outputs.tag}}
+        run: docker push ghcr.io/biosimulators/bionetgen:${{steps.vars.outputs.tag}}
       - name: Build the latest Docker image
-        run: docker build --file Dockerfile --tag biosimulators/bionetgen:latest .
+        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/bionetgen:latest .
       - name: Push the latest Docker image
-        run: docker push biosimulators/bionetgen:latest
+        run: docker push ghcr.io/biosimulators/bionetgen:latest
