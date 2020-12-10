@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login to DockerHub Registry
-        run: echo ${{ secrets.GHCR_USERNAME }} | docker login ghcr.io -u ${{ secrets.GHCR_TOKEN }}} --password-stdin
+        run: echo  ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
       - name: Get the version
         id: vars
         run: echo ::set-output name=tag::$(cat "$(pwd)"/biosimulators_bionetgen/_version.py| grep __version__ | awk '{print $3}')
