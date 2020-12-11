@@ -20,7 +20,7 @@
 # Author: Jonathan Karr <karr@mssm.edu>
 # Date: 2020-04-13
 
-FROM continuumio/anaconda3
+FROM continuumio/anaconda3:2020.11
 
 # install requirements and BioNetGet
 RUN apt-get update -y \
@@ -32,7 +32,7 @@ RUN apt-get update -y \
         perl \
         vim \
     \
-    && git clone https://github.com/RuleWorld/bionetgen /root/bionetgen \
+    && git clone https://github.com/RuleWorld/bionetgen.git --branch BioNetGen-2.5.1 --depth 1 /root/bionetgen \
     && cd /root/bionetgen \
     && git submodule init \
     && git submodule update \
@@ -53,7 +53,7 @@ COPY . /root/Biosimulations_BioNetGen
 RUN apt-get update -y \
     && apt-get install --no-install-recommends -y \
         git \
-    && pip install git+https://github.com/reproducible-biomedical-modeling/Biosimulations_utils.git#egg=Biosimulations_utils \
+    && pip install git+https://github.com/biosimulations/Biosimulations_utils.git@9eb054ca8d3a364ec8a9b2a795a77448cdd3f45a \
     \
     && pip install /root/Biosimulations_BioNetGen \
     \

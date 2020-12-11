@@ -59,7 +59,7 @@ class BioNetGenSimulationRunner(object):
         out_dir = tempfile.mkdtemp()
 
         # simulate the modified model
-        subprocess.check_call(['BNG2.pl', modified_model_filename, '--outdir', out_dir])
+        subprocess.check_call(['/root/bionetgen/bng2/BNG2.pl', modified_model_filename, '--outdir', out_dir])
 
         # put files into output path
         gdat_results_filename = os.path.join(out_dir, os.path.splitext(os.path.basename(modified_model_filename))[0] + '.gdat')
