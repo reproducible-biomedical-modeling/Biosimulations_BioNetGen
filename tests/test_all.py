@@ -10,7 +10,7 @@
 from biosimulators_bionetgen import __main__
 from unittest import mock
 try:
-    from Biosimulations_utils.simulator.testing import SimulatorValidator
+    from biosimulations_utils.simulator.testing import SimulatorValidator
 except ModuleNotFoundError:
     pass
 import biosimulators_bionetgen

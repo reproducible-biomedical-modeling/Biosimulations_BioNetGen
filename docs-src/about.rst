@@ -3,7 +3,7 @@ About BioSimulators-BioNetGen
 
 License
 -------
-This package is released under the `MIT License <https://github.com/biosimulators/BioSimulators_BioNetGen/blob/dev/LICENSE>`_. BioNetGen is released under the `MIT License <https://github.com/RuleWorld/bionetgen/blob/master/LICENSE>`_.
+This package is released under the `MIT License <https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/LICENSE>`_. BioNetGen is released under the `MIT License <https://github.com/RuleWorld/bionetgen/blob/master/LICENSE>`_.
 
 Development team
 ----------------

@@ -1,9 +1,7 @@
-![Latest version](https://img.shields.io/github/v/tag/biosimulators/Biosimulators_BioNetGen)
+[![Latest release](https://img.shields.io/github/v/tag/biosimulators/Biosimulators_BioNetGen)](https://github.com/biosimulations/Biosimulators_BioNetGen/releases)
 [![PyPI](https://img.shields.io/pypi/v/biosimulators_bionetgen)](https://pypi.org/project/biosimulators_bionetgen/)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/biosimulators/Biosimulators_BioNetGen/workflow-id)](https://github.com/biosimulators/Biosimulators_BioNetGen/actions?query=workflow%3Aworkflow-id)
-[![Documentation](https://img.shields.io/github/license/biosimulators/Biosimulators_BioNetGen?badges-awesome-green.svg)](https://biosimulators.github.io/Biosimulators_BioNetGen/)
-[![Issues](https://img.shields.io/github/issues/biosimulators/Biosimulators_BioNetGen)](https://github.com/biosimulators/Biosimulators_BioNetGen/issues)
-[![License](https://img.shields.io/github/license/biosimulators/Biosimulators_BioNetGen?badges-awesome-green.svg)](https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/LICENSE)
+[![CI status](https://github.com/biosimulators/Biosimulators_BioNetGen/workflows/Continuous%20integration/badge.svg)](https://github.com/biosimulators/Biosimulators_BioNetGen/actions?query=workflow%3A%22Continuous+integration%22)
+[![Test coverage](https://codecov.io/gh/biosimulators/Biosimulators_BioNetGen/branch/dev/graph/badge.svg)](https://codecov.io/gh/biosimulators/Biosimulators_BioNetGen)
 
 # BioSimulators-BioNetGen
 BioSimulators-compliant command-line interface and Docker image for the [BioNetGen](https://bionetgen.org/) simulation program.

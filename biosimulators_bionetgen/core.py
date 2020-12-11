@@ -7,9 +7,8 @@
 :License: MIT
 """
 
-from Biosimulations_utils.biomodel.data_model import BiomodelVariable  # noqa: F401
-from Biosimulations_utils.simulation.data_model import TimecourseSimulation, SimulationResultsFormat
-from Biosimulations_utils.simulator.utils import exec_simulations_in_archive
+from biosimulations_utils.biomodel.data_model import BiomodelVariable  # noqa: F401
+from biosimulators_utils import TimecourseSimulation, TimecourseSimulationexec_sed_tasks_in_combine_archive
 import os
 import pandas
 import re
@@ -17,21 +16,33 @@ import shutil
 import subprocess
 import tempfile
 
-__all__ = ['exec_combine_archive', 'BioNetGenSimulationRunner']
+__all__ = ['get_bionetgen_version', 'exec_sedml_docs_in_combine_archive', 'BioNetGenSimulationRunner']
 
 
-def exec_combine_archive(archive_file, out_dir):
+BIONETGEN_PATH = os.getenv(BIONETGEN_PATH, 'BNG2.pl')
+
+
+def get_bionetgen_version():
+    """ Get the version of BioNetGen 
+
+    Returns:
+        :obj:`str`: version
+    """
+    return subprocess.check_output([BIONETGEN_PATH, '--version']).decode().strip().split(' ')[2]
+
+
+def exec_sedml_docs_in_combine_archive(archive_file, out_dir):
     """ Execute the SED tasks defined in a COMBINE archive and save the outputs
 
     Args:
         archive_file (:obj:`str`): path to COMBINE archive
         out_dir (:obj:`str`): directory to store the outputs of the tasks
     """
-    exec_simulations_in_archive(archive_file, BioNetGenSimulationRunner().run, out_dir)
+    exec_sed_tasks_in_combine_archive(archive_file, BioNetGenSimulationRunner().run, out_dir)
 
 
 class BioNetGenSimulationRunner(object):
-    def run(self, model_filename, model_sed_urn, simulation, working_dir, out_filename, out_format):
+    def run(self, model_filename, model_sed_urn, simulation, working_dir, out_filename):
         """ Execute a simulation and save its results
 
         Args:
@@ -40,7 +51,6 @@ class BioNetGenSimulationRunner(object):
            simulation (:obj:`TimecourseSimulation`): simulation
            working_dir (:obj:`str`): directory of the SED-ML file
            out_filename (:obj:`str`): path to save the results of the simulation
-           out_format (:obj:`SimulationResultsFormat`): format to save the results of the simulation (e.g., `HDF5`)
         """
         # check that model is encoded in BGNL
         if model_sed_urn != "urn:sedml:language:bngl":
@@ -49,10 +59,6 @@ class BioNetGenSimulationRunner(object):
         # check that simulation is a time course
         if not isinstance(simulation, TimecourseSimulation):
             raise NotImplementedError('{} is not supported'.format(simulation.__class__.__name__))
-
-        # check that the desired output format is supported
-        if out_format != SimulationResultsFormat.HDF5:
-            raise NotImplementedError("Simulation results format '{}' is not supported".format(out_format))
 
         # read the model from the BNGL file
         model_lines = self.read_model(model_filename, model_sed_urn)
@@ -70,11 +76,11 @@ class BioNetGenSimulationRunner(object):
         out_dir = tempfile.mkdtemp()
 
         # simulate the modified model
-        subprocess.check_call(['BNG2.pl', modified_model_filename, '--outdir', out_dir])
+        subprocess.check_call([BIONETGEN_PATH, modified_model_filename, '--outdir', out_dir])
 
         # put files into output path
         gdat_results_filename = os.path.join(out_dir, os.path.splitext(os.path.basename(modified_model_filename))[0] + '.gdat')
-        self.convert_simulation_results(gdat_results_filename, out_filename, out_format)
+        self.convert_simulation_results(gdat_results_filename, out_filename)
 
         # cleanup temporary files
         os.remove(modified_model_filename)
@@ -348,24 +354,17 @@ class BioNetGenSimulationRunner(object):
             + new_block_lines \
             + model_lines[i_old_block_end:]
 
-    def convert_simulation_results(self, gdat_filename, out_filename, out_format):
+    def convert_simulation_results(self, gdat_filename, out_filename):
         """ Convert simulation results from gdat to the desired output format
 
         Args:
             gdat_filename (:obj:`str`): path to simulation results in gdat format
             out_filename (:obj:`str`): path to save the results of the simulation
-            out_format (:obj:`str`): format to save the results of the simulation (e.g., `csv`)
 
         Raises:
             :obj:`NotImplementedError`: if the desired output format is not supported
         """
         data = self.read_simulation_results(gdat_filename)
-        if out_format == 'csv':
-            data.to_csv(out_filename)
-        elif out_format == 'tsv':
-            data.to_csv(out_filename, sep='\t')
-        else:
-            raise NotImplementedError('Unsupported output format {}'.format(out_format))
 
     def read_simulation_results(self, gdat_filename):
         """ Read the results of a simulation

@@ -22,12 +22,13 @@
 
 FROM continuumio/miniconda3:4.8.2
 
-ARG VERSION=2.5.1
+ARG VERSION="0.0.1"
+ARG SIMULATOR_VERSION=2.5.1
 
 # metadata
 LABEL \
     org.opencontainers.image.title="BioNetGen" \
-    org.opencontainers.image.version="${VERSION}" \
+    org.opencontainers.image.version="${SIMULATOR_VERSION}" \
     org.opencontainers.image.description="Open-source software package for rule-based modeling of complex biochemical systems" \
     org.opencontainers.image.url="https://bionetgen.org/" \
     org.opencontainers.image.documentation="https://bionetgen.org/" \
@@ -37,9 +38,9 @@ LABEL \
     org.opencontainers.image.licenses="MIT" \
     \
     base_image="continuumio/miniconda3:4.8.2" \
-    version="0.0.1" \
+    version="${VERSION}" \
     software="BioNetGen" \
-    software.version="${VERSION}" \
+    software.version="${SIMULATOR_VERSION}" \
     about.summary="Open-source software package for rule-based modeling of complex biochemical systems" \
     about.home="https://bionetgen.org/" \
     about.documentation="https://bionetgen.org/" \
@@ -66,7 +67,7 @@ RUN apt-get update -y \
         perl \
         vim \
     \
-    && git clone https://github.com/RuleWorld/bionetgen.git --branch BioNetGen-${VERSION} --depth 1 /root/bionetgen \
+    && git clone https://github.com/RuleWorld/bionetgen.git --branch BioNetGen-${SIMULATOR_VERSION} --depth 1 /root/bionetgen \
     && cd /root/bionetgen \
     && git submodule init \
     && git submodule update \
