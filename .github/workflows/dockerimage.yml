@@ -19,10 +19,10 @@ jobs:
         id: vars
         run: echo ::set-output name=tag::$(cat "$(pwd)"/biosimulators_bionetgen/_version.py| grep __version__ | awk '{print $3}')
       - name: Build the tagged Docker image
-        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/bionetgen:${{steps.vars.outputs.tag}} .
+        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:${{steps.vars.outputs.tag}} .
       - name: Push the tagged Docker image
-        run: docker push ghcr.io/biosimulators/bionetgen:${{steps.vars.outputs.tag}}
+        run: docker push ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:${{steps.vars.outputs.tag}}
       - name: Build the latest Docker image
-        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/bionetgen:latest .
+        run: docker build --file Dockerfile --tag ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:latest .
       - name: Push the latest Docker image
-        run: docker push ghcr.io/biosimulators/bionetgen:latest
+        run: docker push ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:latest
