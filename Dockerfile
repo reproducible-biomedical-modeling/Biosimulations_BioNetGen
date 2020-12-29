@@ -85,7 +85,9 @@ ENV PATH=${PATH}:/root/bionetgen/bng2
 
 # install BioSimulators-compliant command-line interface to BioNetGen
 COPY . /root/Biosimulators_BioNetGen
-RUN pip install /root/Biosimulators_BioNetGen
+RUN pip install /root/Biosimulators_BioNetGen \
+    && rm -rf /root/Biosimulators_BioNetGen
+ENV MPLBACKEND=PDF
 
 # setup entry point
 ENTRYPOINT ["bionetgen"]
