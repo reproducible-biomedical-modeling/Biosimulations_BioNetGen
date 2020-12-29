@@ -24,7 +24,7 @@ A simple web application and web service for using BioNetGen to execute COMBINE/
 
 ### Install Python package
 ```
-pip install git+https://github.com/biosimulators/Biosimulators_BioNetGen
+pip install biosimulators-bionetgen
 ```
 
 ### Install Docker image
