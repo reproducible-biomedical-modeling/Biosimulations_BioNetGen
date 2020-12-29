@@ -145,7 +145,7 @@
           "id": "SBO_0000293"
         }
       ],
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": [] }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null, "supportedFeatures": [] }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
@@ -220,7 +220,7 @@
         }
       ],
 
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": [] }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null, "supportedFeatures": [] }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
@@ -280,7 +280,7 @@
           "id": "SBO_0000295"
         }
       ],
-      "modelFormats": [{ "namespace": "EDAM", "id": "format_2585", "version": null, "supportedFeatures": [] }],
+      "modelFormats": [{ "namespace": "EDAM", "id": "format_3972", "version": null, "supportedFeatures": [] }],
       "simulationFormats": [
         {
           "namespace": "EDAM",
