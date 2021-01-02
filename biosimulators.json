@@ -196,6 +196,20 @@
                     "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
+      "dependentDimensions": [{
+        "namespace": "SIO",
+        "id": "SIO_000418"
+      }],
+      "dependentVariableTargetPatterns": [
+        {
+          "variables": "species concentrations",
+          "targetPattern": "species.<species_id>.count"
+        },
+        {
+          "variables": "molecule concentrations",
+          "targetPattern": "molecules.<molecule_pattern>.count"
+        }
+      ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
       "dependencies": [{
         "name": "SUNDIALS",
@@ -263,6 +277,20 @@
                     "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
+      "dependentDimensions": [{
+        "namespace": "SIO",
+        "id": "SIO_000418"
+      }],
+      "dependentVariableTargetPatterns": [
+        {
+          "variables": "species counts",
+          "targetPattern": "species.<species_id>.count"
+        },
+        {
+          "variables": "molecule counts",
+          "targetPattern": "molecules.<molecule_pattern>.count"
+        }
+      ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
       "dependencies": null
     },
@@ -323,6 +351,20 @@
                     "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
+      "dependentDimensions": [{
+        "namespace": "SIO",
+        "id": "SIO_000418"
+      }],
+      "dependentVariableTargetPatterns": [
+        {
+          "variables": "species counts",
+          "targetPattern": "species.<species_id>.count"
+        },
+        {
+          "variables": "molecule counts",
+          "targetPattern": "molecules.<molecule_pattern>.count"
+        }
+      ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
       "dependencies": [{
         "name": "NFsim",
@@ -340,6 +382,7 @@
   "biosimulators": {
     "specificationVersion": "1.0.0",
     "imageVersion": "1.0.0",
-    "validated": false
+    "validated": false,
+    "validationTests": null
   }
 }
