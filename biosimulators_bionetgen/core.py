@@ -47,7 +47,7 @@ class BioNetGenSimulationRunner(object):
 
         Args:
            model_filename (:obj:`str`): path to the model in BNGL format
-           model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., `urn:sedml:language:sbml`)
+           model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., ``urn:sedml:language:bngl``)
            simulation (:obj:`TimecourseSimulation`): simulation
            working_dir (:obj:`str`): directory of the SED-ML file
            out_filename (:obj:`str`): path to save the results of the simulation
@@ -91,7 +91,7 @@ class BioNetGenSimulationRunner(object):
 
         Args:
            model_filename (:obj:`str`): path to the model in BNGL format
-           model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., `urn:sedml:language:sbml`)
+           model_sed_urn (:obj:`str`): SED URN for the format of the model (e.g., ``urn:sedml:language:bngl``)
 
         Returns:
             :obj:`list` of :obj:`str`: model
@@ -115,10 +115,10 @@ class BioNetGenSimulationRunner(object):
 
         * Modify parameters
 
-            * Compartment sizes: targets should follow the pattern `compartments.<compartment_id>.size`
-            * Function expressions: targets should follow the pattern `functions.<function_id>.expression`
-            * Initial species counts: targets should follow the pattern `species.<species_id>.count`
-            * Parameter values: targets should follow the pattern `parameters.<parameter_id>.value`
+            * Compartment sizes: targets should follow the pattern ``compartments.<compartment_id>.size``
+            * Function expressions: targets should follow the pattern ``functions.<function_id>.expression``
+            * Initial species counts: targets should follow the pattern ``species.<species_id>.count``
+            * Parameter values: targets should follow the pattern ``parameters.<parameter_id>.value``
 
         * Set simulation time course
         * Set simulation algorithm and algorithm parameters
@@ -273,8 +273,8 @@ class BioNetGenSimulationRunner(object):
 
         Supports observables of species and molecules
 
-        * Species: variable target should follow the pattern `species.<species_id>.count`
-        * Molecules: variable target should follow the pattern `molecules.<molecule_pattern>.count`
+        * Species: variable target should follow the pattern ``species.<species_id>.count``
+        * Molecules: variable target should follow the pattern ``molecules.<molecule_pattern>.count``
 
         Args:
             model_lines (:obj:`list` of :obj:`str`): lines of the model
@@ -311,7 +311,7 @@ class BioNetGenSimulationRunner(object):
 
         Args:
             model_lines (:obj:`list` of :obj:`str`): lines of the model
-            name (:obj:`str`): name of the model block (e.g., 'functions', observables', species')
+            name (:obj:`str`): name of the model block (e.g., ``functions``, ``observables``, ``species``)
 
         Returns:
             :obj:`tuple` of :obj:`int`, :obj:`int`: start and end coordinates of the lines of the block
