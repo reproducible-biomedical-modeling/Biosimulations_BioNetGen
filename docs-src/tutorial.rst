@@ -12,6 +12,56 @@ Information about how to create COMBINE/OMEX archives which can be executed by B
 A list of the algorithms and algorithm parameters supported by BioNetGen is available at `BioSimulators <https://biosimulators.org/simulators/bionetgen>`_.
 
 
+Targets for encoding changes to model parameters into SED-ML
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The following targets should be used to encode changes to model parameters into SED-ML.
+
+* Compartment sizes: targets should follow the pattern ``compartments.<compartment_id>.size``. E.g.::
+
+    <sedml:changeAttribute target="compartments.Compartment_C.size" newValue="1e-6" />
+
+* Function expressions: targets should follow the pattern ``functions.<function_id>.expression``. E.g.::
+
+    <sedml:changeAttribute target="functions.gfunc().expression" newValue="0.5" />
+
+* Initial species counts: targets should follow the pattern ``species.<species_id>.count``. E.g.::
+
+    <sedml:changeAttribute target="species.GeneA_00().count" newValue="10" />
+
+* Parameter values: targets should follow the pattern ``parameters.<parameter_id>.value``. E.g.::
+
+    <sedml:changeAttribute target="parameters.k_1.value" newValue="2.0" />
+
+
+Targets for encoding the desired observables into SED-ML
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The following patterns should be used to encode the desired observables of a simulation into SED-ML.
+
+* Species: targets for species counts and concentrations should follow the pattern ``species.<species_id>.count``. E.g.::
+
+    <sedml:dataGenerator id="data_generator_species_A">
+      <listOfVariables>
+        <sedml:Variable id="variable_species_A" target="species.A.count" taskReference="taskId" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci>variable_species_A</ci>
+      </math>
+    </sedml:dataGenerator>
+
+* Molecules: targets for molecule counts and concentrations should follow the pattern ``molecules.<molecule_pattern>.count``. E.g.::
+
+    <sedml:dataGenerator id="data_generator_molecule_B">
+      <listOfVariables>
+        <sedml:Variable id="variable_molecule_B" target="molecules.B().count" taskReference="taskId" />
+      </listOfVariables>
+      <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <ci>variable_molecule_B</ci>
+      </math>
+    </sedml:dataGenerator>
+
+
 Command-line program
 --------------------
 
