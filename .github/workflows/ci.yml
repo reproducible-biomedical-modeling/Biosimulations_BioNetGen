@@ -129,8 +129,8 @@ jobs:
             version="${TAG/refs\/tags\//}"
           else
             versionFileDir=$(find -name _version.py | rev | cut -d / -f 2- | rev)
-            echo $versionFileDir
-            version=$(PYTHONPATH=$versionFileDir python -c "import _version; print(_version.__version__)")
+            cd $versionFileDir
+            version=$(python -c "import _version; print(_version.__version__)")
             echo $version
           fi
 
