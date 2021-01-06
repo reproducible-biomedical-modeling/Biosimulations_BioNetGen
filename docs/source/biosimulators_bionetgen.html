@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>biosimulators_bionetgen package &#8212; BioSimulators-BioNetGen 0.1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="About BioSimulators-BioNetGen" href="../about.html" />
+    <link rel="prev" title="Tutorial" href="../tutorial.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BioSimulators-BioNetGen</a></h1>
+
+
+
+<p class="blurb">BioSimulators-compliant interface to BioNetGen</p>
+
+
+
+
+<p>
+<iframe src="https://ghbtns.com/github-btn.html?user=biosimulators&repo=Biosimulators_BioNetGen&type=watch&count=true&size=large&v=2"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.config">biosimulators_bionetgen.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.core">biosimulators_bionetgen.core module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.data_model">biosimulators_bionetgen.data_model module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.io">biosimulators_bionetgen.io module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.utils">biosimulators_bionetgen.utils module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-biosimulators_bionetgen.warnings">biosimulators_bionetgen.warnings module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About BioSimulators-BioNetGen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="https://biosimulators.org">BioSimulators</a></li>
+    
+    <li class="toctree-l1"><a href="https://run.biosimulations.org">runBioSimulations</a></li>
+    
+    <li class="toctree-l1"><a href="https://biosimulations.org">BioSimulations</a></li>
+    
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../tutorial.html" title="previous chapter">Tutorial</a></li>
+      <li>Next: <a href="../about.html" title="next chapter">About BioSimulators-BioNetGen</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-biosimulators_bionetgen">
+<span id="biosimulators-bionetgen-package"></span><h1>biosimulators_bionetgen package<a class="headerlink" href="#module-biosimulators_bionetgen" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-biosimulators_bionetgen.config">
+<span id="biosimulators-bionetgen-config-module"></span><h2>biosimulators_bionetgen.config module<a class="headerlink" href="#module-biosimulators_bionetgen.config" title="Permalink to this headline">¶</a></h2>
+<p>Configuration for BioSimulators-BioNetGen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>2021-01-05</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-even">License</dt>
+<dd class="field-even"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt id="biosimulators_bionetgen.config.Config">
+<em class="property">class </em><code class="sig-prename descclassname">biosimulators_bionetgen.config.</code><code class="sig-name descname">Config</code><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/config.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Configuration</p>
+<dl class="py attribute">
+<dt id="biosimulators_bionetgen.config.Config.bionetgen_path">
+<code class="sig-name descname">bionetgen_path</code><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/config.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.config.Config.bionetgen_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to BioNetGen executable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-biosimulators_bionetgen.core">
+<span id="biosimulators-bionetgen-core-module"></span><h2>biosimulators_bionetgen.core module<a class="headerlink" href="#module-biosimulators_bionetgen.core" title="Permalink to this headline">¶</a></h2>
+<p>BioSimulators-compliant command-line interface to the <a class="reference external" href="https://bionetgen.org/">BioNetGen</a> simulation program.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Author</dt>
+<dd class="field-even"><p>Ali Sinan Saglam &lt;<a class="reference external" href="mailto:als251&#37;&#52;&#48;pitt&#46;edu">als251<span>&#64;</span>pitt<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-odd">Date</dt>
+<dd class="field-odd"><p>2021-01-05</p>
+</dd>
+<dt class="field-even">Copyright</dt>
+<dd class="field-even"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-odd">License</dt>
+<dd class="field-odd"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt id="biosimulators_bionetgen.core.exec_sed_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.core.</code><code class="sig-name descname">exec_sed_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sed_task</span></em>, <em class="sig-param"><span class="n">variables</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/core.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.core.exec_sed_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a task and save its results</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sed_task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – task</p></li>
+<li><p><strong>variables</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataGeneratorVariable</span></code>) – variables that should be recorded</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>results of variables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataGeneratorVariableResults</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.core.exec_sedml_docs_in_combine_archive">
+<code class="sig-prename descclassname">biosimulators_bionetgen.core.</code><code class="sig-name descname">exec_sedml_docs_in_combine_archive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">archive_filename</span></em>, <em class="sig-param"><span class="n">out_dir</span></em>, <em class="sig-param"><span class="n">report_formats</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">plot_formats</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bundle_outputs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">keep_individual_outputs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/core.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.core.exec_sedml_docs_in_combine_archive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the SED tasks defined in a COMBINE/OMEX archive and save the outputs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>archive_filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – path to COMBINE/OMEX archive</p></li>
+<li><p><strong>out_dir</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – <p>path to store the outputs of the archive</p>
+<ul>
+<li><p>CSV: directory in which to save outputs to files
+<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">out_dir</span> <span class="pre">}/{</span> <span class="pre">relative-path-to-SED-ML-file-within-archive</span> <span class="pre">}/{</span> <span class="pre">report.id</span> <span class="pre">}.csv</span></code></p></li>
+<li><p>HDF5: directory in which to save a single HDF5 file (<code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">out_dir</span> <span class="pre">}/reports.h5</span></code>),
+with reports at keys <code class="docutils literal notranslate"><span class="pre">{</span> <span class="pre">relative-path-to-SED-ML-file-within-archive</span> <span class="pre">}/{</span> <span class="pre">report.id</span> <span class="pre">}</span></code> within the HDF5 file</p></li>
+</ul>
+</p></li>
+<li><p><strong>report_formats</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">ReportFormat</span></code>, optional) – report format (e.g., csv or h5)</p></li>
+<li><p><strong>plot_formats</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">PlotFormat</span></code>, optional) – report format (e.g., pdf)</p></li>
+<li><p><strong>bundle_outputs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – if <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, bundle outputs into archives for reports and plots</p></li>
+<li><p><strong>keep_individual_outputs</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>, optional) – if <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, keep individual output files</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-biosimulators_bionetgen.data_model">
+<span id="biosimulators-bionetgen-data-model-module"></span><h2>biosimulators_bionetgen.data_model module<a class="headerlink" href="#module-biosimulators_bionetgen.data_model" title="Permalink to this headline">¶</a></h2>
+<p>Data structures for representing BNGL models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>2021-01-05</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-even">License</dt>
+<dd class="field-even"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt id="biosimulators_bionetgen.data_model.Model">
+<em class="property">class </em><code class="sig-prename descclassname">biosimulators_bionetgen.data_model.</code><code class="sig-name descname">Model</code><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></p>
+<p>A BNGL model: a collection of model blocks</p>
+<dl class="py method">
+<dt id="biosimulators_bionetgen.data_model.Model.is_equal">
+<code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.Model.is_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether two models are semantically equivalent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#biosimulators_bionetgen.data_model.Model" title="biosimulators_bionetgen.data_model.Model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code></a>) – second model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the models are semantically equivalent</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosimulators_bionetgen.data_model.ModelBlock">
+<em class="property">class </em><code class="sig-prename descclassname">biosimulators_bionetgen.data_model.</code><code class="sig-name descname">ModelBlock</code><span class="sig-paren">(</span><em class="sig-param">iterable=()</em>, <em class="sig-param">/</em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.ModelBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></p>
+<p>A “block” or section of a model such as <cite>parameters</cite> or ‘molecule types’</p>
+<dl class="py method">
+<dt id="biosimulators_bionetgen.data_model.ModelBlock.is_equal">
+<code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.ModelBlock.is_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether two model blocks are semantically equivalent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#biosimulators_bionetgen.data_model.ModelBlock" title="biosimulators_bionetgen.data_model.ModelBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelBlock</span></code></a>) – second model block</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the model blocks are semantically equivalent</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="biosimulators_bionetgen.data_model.Task">
+<em class="property">class </em><code class="sig-prename descclassname">biosimulators_bionetgen.data_model.</code><code class="sig-name descname">Task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">actions</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.Task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A BNGL task</p>
+<dl class="simple">
+<dt>Attributes</dt><dd><p>model (<a class="reference internal" href="#biosimulators_bionetgen.data_model.Model" title="biosimulators_bionetgen.data_model.Model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code></a>): model
+actions (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): actions such as simulations</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="biosimulators_bionetgen.data_model.Task.is_equal">
+<code class="sig-name descname">is_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/data_model.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.data_model.Task.is_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine whether two model blocks are semantically equivalent</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>other</strong> (<a class="reference internal" href="#biosimulators_bionetgen.data_model.ModelBlock" title="biosimulators_bionetgen.data_model.ModelBlock"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelBlock</span></code></a>) – second model block</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>whether the model blocks are semantically equivalent</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-biosimulators_bionetgen.io">
+<span id="biosimulators-bionetgen-io-module"></span><h2>biosimulators_bionetgen.io module<a class="headerlink" href="#module-biosimulators_bionetgen.io" title="Permalink to this headline">¶</a></h2>
+<p>Methods for reading BNGL models</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>2021-01-05</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-even">License</dt>
+<dd class="field-even"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt id="biosimulators_bionetgen.io.read_simulation_results">
+<code class="sig-prename descclassname">biosimulators_bionetgen.io.</code><code class="sig-name descname">read_simulation_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/io.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.io.read_simulation_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read the predicted time courses of the observables of a simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – path to simulation results in BioNetGen’s gdat format</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>predicted time courses of the observables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.io.read_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.io.</code><code class="sig-name descname">read_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/io.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.io.read_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a BNGL task from a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – path to the task</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>task</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if the file is invalid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.io.write_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.io.</code><code class="sig-name descname">write_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">task</span></em>, <em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/io.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.io.write_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a BNGL task to a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – task</p></li>
+<li><p><strong>filename</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>) – path to save the model</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-biosimulators_bionetgen.utils">
+<span id="biosimulators-bionetgen-utils-module"></span><h2>biosimulators_bionetgen.utils module<a class="headerlink" href="#module-biosimulators_bionetgen.utils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for working with BioNetGen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>2021-01-05</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-even">License</dt>
+<dd class="field-even"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.add_model_attribute_change_to_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">add_model_attribute_change_to_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">task</span></em>, <em class="sig-param"><span class="n">change</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.add_model_attribute_change_to_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode SED model attribute changes into a BioNetGen task</p>
+<ul class="simple">
+<li><p>Compartment sizes: targets should follow the pattern <code class="docutils literal notranslate"><span class="pre">compartments.&lt;compartment_id&gt;.size</span></code></p></li>
+<li><p>Function expressions: targets should follow the pattern <code class="docutils literal notranslate"><span class="pre">functions.&lt;function_id&gt;.expression</span></code></p></li>
+<li><p>Initial species counts: targets should follow the pattern <code class="docutils literal notranslate"><span class="pre">species.&lt;species_id&gt;.count</span></code></p></li>
+<li><p>Parameter values: targets should follow the pattern <code class="docutils literal notranslate"><span class="pre">parameters.&lt;parameter_id&gt;.value</span></code></p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – BioNetGen task</p></li>
+<li><p><strong>change</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">ModelAttributeChange</span></code>) – model attribute change</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if a target of a change is not valid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.add_simulation_to_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">add_simulation_to_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">task</span></em>, <em class="sig-param"><span class="n">simulation</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.add_simulation_to_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a SED simulation to a BioNetGen task</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – BioNetGen task</p></li>
+<li><p><strong>simulation</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">UniformTimeCourseSimulation</span></code>) – SED simulation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – if BioNetGen doesn’t support the request algorithm or
+    algorithm parameters</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.add_variables_to_model">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">add_variables_to_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">model</span></em>, <em class="sig-param"><span class="n">variables</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.add_variables_to_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode SED variables into observables in a BioNetGen task</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Model</span></code>) – model</p></li>
+<li><p><strong>variables</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataGeneratorVariable</span></code>) – desired variables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – if BioNetGen doesn’t support the symbol or target of a variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.exec_bionetgen_task">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">exec_bionetgen_task</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">task</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.exec_bionetgen_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute a task and return the predicted values of the observables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – task</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>predicted values of the observables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>Exception</strong> – if the task fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.get_bionetgen_version">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">get_bionetgen_version</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.get_bionetgen_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the version of BioNetGen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>version</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="biosimulators_bionetgen.utils.get_variables_results_from_observable_results">
+<code class="sig-prename descclassname">biosimulators_bionetgen.utils.</code><code class="sig-name descname">get_variables_results_from_observable_results</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observable_results</span></em>, <em class="sig-param"><span class="n">variables</span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.get_variables_results_from_observable_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the predicted values of the desired variables</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observable_results</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>) – predicted values of the observables of a simulation</p></li>
+<li><p><strong>variables</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataGeneratorVariable</span></code>) – desired variables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>predicted values of the desired variables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataGeneratorVariableResults</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>NotImplementedError</strong> – if an unsupported symbol is requested</p></li>
+<li><p><strong>ValueError</strong> – if an undefined target is requested</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-biosimulators_bionetgen.warnings">
+<span id="biosimulators-bionetgen-warnings-module"></span><h2>biosimulators_bionetgen.warnings module<a class="headerlink" href="#module-biosimulators_bionetgen.warnings" title="Permalink to this headline">¶</a></h2>
+<p>Warnings</p>
+<dl class="field-list simple">
+<dt class="field-odd">Author</dt>
+<dd class="field-odd"><p>Jonathan Karr &lt;<a class="reference external" href="mailto:karr&#37;&#52;&#48;mssm&#46;edu">karr<span>&#64;</span>mssm<span>&#46;</span>edu</a>&gt;</p>
+</dd>
+<dt class="field-even">Date</dt>
+<dd class="field-even"><p>2021-01-05</p>
+</dd>
+<dt class="field-odd">Copyright</dt>
+<dd class="field-odd"><p>2020-2021, Center for Reproducible Biomedical Modeling</p>
+</dd>
+<dt class="field-even">License</dt>
+<dd class="field-even"><p>MIT</p>
+</dd>
+</dl>
+<dl class="py exception">
+<dt id="biosimulators_bionetgen.warnings.BioNetGenWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">biosimulators_bionetgen.warnings.</code><code class="sig-name descname">BioNetGenWarning</code><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/warnings.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.warnings.BioNetGenWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UserWarning</span></code></p>
+<p>Base class for warnings</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt id="biosimulators_bionetgen.warnings.IgnoredBnglFileContentWarning">
+<em class="property">exception </em><code class="sig-prename descclassname">biosimulators_bionetgen.warnings.</code><code class="sig-name descname">IgnoredBnglFileContentWarning</code><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/warnings.py"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#biosimulators_bionetgen.warnings.IgnoredBnglFileContentWarning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#biosimulators_bionetgen.warnings.BioNetGenWarning" title="biosimulators_bionetgen.warnings.BioNetGenWarning"><code class="xref py py-class docutils literal notranslate"><span class="pre">biosimulators_bionetgen.warnings.BioNetGenWarning</span></code></a></p>
+<p>Warning for content of a BNGL file that is ignored</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2021, BioSimulators Team.
+      
+      |
+      <a href="../_sources/source/biosimulators_bionetgen.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+    <a href="https://github.com/biosimulators/Biosimulators_BioNetGen" class="github">
+        <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"  class="github"/>
+    </a>
+    
+
+    
+  </body>
+</html>
