@@ -162,8 +162,18 @@ class UtilsTestCase(unittest.TestCase):
         with self.assertRaisesRegex(NotImplementedError, 'must specify an integer number of steps'):
             add_simulation_to_task(task, simulation)
 
-        # Error handling: unknown algorithm
+        # Error handling: non-zero initial time
         simulation.output_end_time = 20.0
+        simulation.initial_time = 5.
+        simulation.algorithm.kisao_id = 'KISAO_0000019'
+        add_simulation_to_task(task, simulation)
+
+        simulation.initial_time = 5.
+        simulation.algorithm.kisao_id = 'KISAO_0000263'
+        with self.assertRaisesRegex(NotImplementedError, 'must be 0'):
+            add_simulation_to_task(task, simulation)
+
+        # Error handling: unknown algorithm
         simulation.algorithm.kisao_id = 'KISAO_0000001'
         with self.assertRaisesRegex(NotImplementedError, 'is not supported. Algorithm must have'):
             add_simulation_to_task(task, simulation)

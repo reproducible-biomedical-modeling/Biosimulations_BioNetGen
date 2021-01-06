@@ -231,6 +231,9 @@ def add_simulation_to_task(task, simulation):
 
     simulate_args['n_steps'] = int(n_steps)
 
+    if simulation.algorithm.kisao_id == 'KISAO_0000263' and simulation.initial_time != 0:
+        raise NotImplementedError('The initial time of a network free simulation (KISAO_0000263) must be 0.')
+
     # setup the simulation method
     algorithm_kisao_id = simulation.algorithm.kisao_id
     simulation_method = KISAO_SIMULATION_METHOD_ARGUMENTS_MAP.get(algorithm_kisao_id, None)
