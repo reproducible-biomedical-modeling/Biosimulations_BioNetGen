@@ -77,7 +77,7 @@ Documentation is available at https://biosimulators.github.io/Biosimulators_BioN
 This package is released under the [MIT license](LICENSE).
 
 ## Development team
-This package was developed by [Ali Sinan Saglam](https://scholar.google.com/citations?user=7TM0eekAAAAJ&hl=en) in the Faeder Lab at the University of Pittsburgh, the [Karr Lab](https://www.karrlab.org) at the Icahn School of Medicine at Mount Sinai, and the [Center for Reproducible Biomedical Modeling](http://reproduciblebiomodels.org).
+This package was developed by the [Karr Lab](https://www.karrlab.org) at the Icahn School of Medicine at Mount Sinai, [Ali Sinan Saglam](https://scholar.google.com/citations?user=7TM0eekAAAAJ&hl=en) in the Faeder Lab at the University of Pittsburgh, and the [Center for Reproducible Biomedical Modeling](http://reproduciblebiomodels.org).
 
 ## Questions and comments
-Please contact [Ali Sinan Saglam](mailto:als251@pitt.edu) or the [BioSimulators Team](mailto:info@biosimulators.org) with any questions or comments.
+Please contact the [BioSimulators Team](mailto:info@biosimulators.org) with any questions or comments about the command-line program or Docker image. Please contact [Ali Sinan Saglam](mailto:als251@pitt.edu) with any questions or comments about BioNetGen.
