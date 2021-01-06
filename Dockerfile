@@ -2,7 +2,7 @@
 #
 # Build image:
 #   docker build \
-#     --tag biosimulators/bionetgen:2.5.0 \
+#     --tag biosimulators/bionetgen:2.5.2 \
 #     --tag biosimulators/bionetgen:latest \
 #     .
 #
@@ -16,14 +16,14 @@
 #       -i /root/in/test.omex \
 #       -o /root/out
 #
-# Author: Ali Sinan Saglam <als251@pitt.edu>
 # Author: Jonathan Karr <karr@mssm.edu>
-# Date: 2020-04-13
+# Author: Ali Sinan Saglam <als251@pitt.edu>
+# Date: 2021-01-05
 
-FROM continuumio/miniconda3:4.8.2
+FROM python:3.7.9-slim-buster
 
-ARG VERSION="0.0.1"
-ARG SIMULATOR_VERSION=2.5.1
+ARG VERSION="0.1.0"
+ARG SIMULATOR_VERSION=2.5.2
 
 # metadata
 LABEL \
@@ -37,7 +37,7 @@ LABEL \
     org.opencontainers.image.vendor="BioSimulators Team" \
     org.opencontainers.image.licenses="MIT" \
     \
-    base_image="continuumio/miniconda3:4.8.2" \
+    base_image="python:3.7.9-slim-buster" \
     version="${VERSION}" \
     software="BioNetGen" \
     software.version="${SIMULATOR_VERSION}" \
@@ -50,38 +50,25 @@ LABEL \
     extra.identifiers.biotools="bionetgen" \
     maintainer="BioSimulators Team <info@biosimulators.org>"
 
-# install requirements and BioNetGet
-ENV CONDA_ENV=py37
-RUN conda update -y -n base -c defaults conda \
-    && conda create -y -n ${CONDA_ENV} python=3.7 \
-    && conda install lxml
-ENV PATH=/opt/conda/envs/${CONDA_ENV}/bin:${PATH}
-RUN /bin/bash -c "source activate ${CONDA_ENV}"
-
+# install BioNetGet and its dependencies
 RUN apt-get update -y \
-    && apt-get install --no-install-recommends -y \
-        cmake \
-        g++ \
-        git \
-        make \
+    && apt-get install -y --no-install-recommends \
         perl \
-        vim \
+        tar \
+        wget \
     \
-    && git clone https://github.com/RuleWorld/bionetgen.git --branch BioNetGen-${SIMULATOR_VERSION} --depth 1 /root/bionetgen \
-    && cd /root/bionetgen \
-    && git submodule init \
-    && git submodule update \
-    && cd /root/bionetgen/bng2 \
-    && make \
+    && cd /tmp \
+    && wget https://github.com/RuleWorld/bionetgen/releases/download/BioNetGen-${SIMULATOR_VERSION}/BioNetGen-${SIMULATOR_VERSION}-linux.tgz \
+    && tar xvvf BioNetGen-${SIMULATOR_VERSION}-linux.tgz \
+    && mv BioNetGen-${SIMULATOR_VERSION}/ /opt/ \
+    \
+    && rm BioNetGen-${SIMULATOR_VERSION}-linux.tgz \
     \
     && apt-get remove -y \
-        cmake \
-        g++ \
-        git \
-        make \
+        wget \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
-ENV PATH=${PATH}:/root/bionetgen/bng2
+ENV PATH=${PATH}:/opt/BioNetGen-${SIMULATOR_VERSION}/
 
 # install BioSimulators-compliant command-line interface to BioNetGen
 COPY . /root/Biosimulators_BioNetGen

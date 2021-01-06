@@ -6,7 +6,7 @@ BioSimulators-BioNetGen is available as a command-line program and as a command-
 Command-line program
 --------------------
 
-After installing `Python <https://www.python.org/downloads/>`_ (>= 3.7) and `pip <https://pip.pypa.io/>`_, run the following command to install BioSimulators-BioNetGen:
+After installing `Python <https://www.python.org/downloads/>`_ (>= 3.7), `pip <https://pip.pypa.io/>`_, and `BioNetGen <https://bionetgen.org/>`_, run the following command to install BioSimulators-BioNetGen:
 
 .. code-block:: text
 

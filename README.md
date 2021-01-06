@@ -23,6 +23,8 @@ A simple web application and web service for using BioNetGen to execute COMBINE/
 ## Installation
 
 ### Install Python package
+
+After installing BioNetGen, use pip to install this package as illustrated below.
 ```
 pip install biosimulators-bionetgen
 ```
@@ -53,7 +55,7 @@ optional arguments:
 ```
 
 ### Usage through Docker container
-The entrypoint to the Docker image supports the same command-line interface described above. 
+The entrypoint to the Docker image supports the same command-line interface described above.
 
 For example, the following command could be used to use the Docker image to execute the COMBINE/OMEX archive `./modeling-study.omex` and save its outputs to `./`.
 

@@ -23,11 +23,15 @@ The following targets should be used to encode changes to model parameters into 
 
 * Function expressions: targets should follow the pattern ``functions.<function_id>.expression``. E.g.::
 
+    <sedml:changeAttribute target="functions.gfunc.expression" newValue="0.5" />
+
+* Function arguments and expressions: targets should follow the pattern ``functions.<function_id>(<args>).expression``. E.g.::
+
     <sedml:changeAttribute target="functions.gfunc().expression" newValue="0.5" />
 
-* Initial species counts: targets should follow the pattern ``species.<species_id>.count``. E.g.::
+* Initial species counts: targets should follow the pattern ``species.<species_id>.initialCount``. E.g.::
 
-    <sedml:changeAttribute target="species.GeneA_00().count" newValue="10" />
+    <sedml:changeAttribute target="species.GeneA_00().initialCount" newValue="10" />
 
 * Parameter values: targets should follow the pattern ``parameters.<parameter_id>.value``. E.g.::
 
@@ -94,7 +98,7 @@ For example, the following command could be used to execute the simulations desc
 Docker image with a command-line entrypoint
 -------------------------------------------
 
-The entrypoint to the Docker image supports the same command-line interface described above. 
+The entrypoint to the Docker image supports the same command-line interface described above.
 
 For example, the following command could be used to use the Docker image to execute the same simulations described in ``./modeling-study.omex`` and save their results to ``./``:
 
