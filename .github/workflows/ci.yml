@@ -102,7 +102,7 @@ jobs:
 
           wget https://github.com/RuleWorld/bionetgen/releases/download/BioNetGen-${SIMULATOR_VERSION}/BioNetGen-${SIMULATOR_VERSION}-linux.tgz
           tar xvvf BioNetGen-${SIMULATOR_VERSION}-linux.tgz
-          sudo mv BioNetGen-${SIMULATOR_VERSION}/ /opt/BioNetGen/          
+          sudo mv BioNetGen-${SIMULATOR_VERSION}/ /opt/BioNetGen/
 
       # install package
       - name: Install the package
@@ -131,7 +131,6 @@ jobs:
             versionFileDir=$(find -name _version.py | rev | cut -d / -f 2- | rev)
             cd $versionFileDir
             version=$(python -c "import _version; print(_version.__version__)")
-            echo $version
           fi
 
           echo "::set-output name=version::$version"
