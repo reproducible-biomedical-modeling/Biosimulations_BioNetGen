@@ -102,8 +102,7 @@ jobs:
 
           wget https://github.com/RuleWorld/bionetgen/releases/download/BioNetGen-${SIMULATOR_VERSION}/BioNetGen-${SIMULATOR_VERSION}-linux.tgz
           tar xvvf BioNetGen-${SIMULATOR_VERSION}-linux.tgz
-          sudo mv BioNetGen-${SIMULATOR_VERSION}/ /opt/
-          export PATH=${PATH}:/opt/BioNetGen-${SIMULATOR_VERSION}/
+          sudo mv BioNetGen-${SIMULATOR_VERSION}/ /opt/BioNetGen/          
 
       # install package
       - name: Install the package
@@ -130,7 +129,9 @@ jobs:
             version="${TAG/refs\/tags\//}"
           else
             versionFileDir=$(find -name _version.py | rev | cut -d / -f 2- | rev)
+            echo $versionFileDir
             version=$(PYTHONPATH=$versionFileDir python -c "import _version; print(_version.__version__)")
+            echo $version
           fi
 
           echo "::set-output name=version::$version"
@@ -177,6 +178,8 @@ jobs:
         run: python -m pip install .[tests]
 
       - name: Run the tests
+        env:
+          BIONETGEN_PATH: /opt/BioNetGen/BNG2.pl
         run: python -m pytest tests/ --cov=./ --cov-report=xml
 
       - name: Upload the coverage report to Codecov
