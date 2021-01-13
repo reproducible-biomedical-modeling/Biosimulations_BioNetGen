@@ -137,7 +137,7 @@ def add_model_attribute_change_to_task(task, change):
         'function arguments and expression': function_args_expression_match,
     }
     msg = '`{}` is not a valid target. The following patterns of targets are supported:\n  - {}'.format(
-        target, '\n  - {}'.join('{}: `{}`'.format(key, target_patterns[key]) for key in sorted(target_patterns.keys())))
+        target, '\n  - '.join('{}: `{}`'.format(key, target_patterns[key]) for key in sorted(target_patterns.keys())))
     raise NotImplementedError(msg)
 
 

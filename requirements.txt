@@ -1,2 +1,2 @@
-biosimulators_utils >= 0.1.31
+biosimulators_utils >= 0.1.32
 pandas

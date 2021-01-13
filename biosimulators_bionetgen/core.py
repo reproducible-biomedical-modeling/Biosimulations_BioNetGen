@@ -12,6 +12,7 @@ from .utils import (exec_bionetgen_task, add_model_attribute_change_to_task, add
                     get_variables_results_from_observable_results, add_variables_to_model)
 from .warnings import IgnoredBnglFileContentWarning
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
+from biosimulators_utils.log.data_model import CombineArchiveLog, TaskLog  # noqa: F401
 from biosimulators_utils.plot.data_model import PlotFormat  # noqa: F401
 from biosimulators_utils.report.data_model import ReportFormat, DataGeneratorVariableResults  # noqa: F401
 from biosimulators_utils.sedml import validation
@@ -42,25 +43,32 @@ def exec_sedml_docs_in_combine_archive(archive_filename, out_dir,
         plot_formats (:obj:`list` of :obj:`PlotFormat`, optional): report format (e.g., pdf)
         bundle_outputs (:obj:`bool`, optional): if :obj:`True`, bundle outputs into archives for reports and plots
         keep_individual_outputs (:obj:`bool`, optional): if :obj:`True`, keep individual output files
+
+    Returns:
+        :obj:`CombineArchiveLog`: log
     """
     sed_doc_executer = functools.partial(exec_sed_doc, exec_sed_task)
-    exec_sedml_docs_in_archive(sed_doc_executer, archive_filename, out_dir,
-                               apply_xml_model_changes=False,
-                               report_formats=report_formats,
-                               plot_formats=plot_formats,
-                               bundle_outputs=bundle_outputs,
-                               keep_individual_outputs=keep_individual_outputs)
+    return exec_sedml_docs_in_archive(sed_doc_executer, archive_filename, out_dir,
+                                      apply_xml_model_changes=False,
+                                      report_formats=report_formats,
+                                      plot_formats=plot_formats,
+                                      bundle_outputs=bundle_outputs,
+                                      keep_individual_outputs=keep_individual_outputs)
 
 
-def exec_sed_task(sed_task, variables):
+def exec_sed_task(sed_task, variables, log=None):
     """ Execute a task and save its results
 
     Args:
        sed_task (:obj:`Task`): task
        variables (:obj:`list` of :obj:`DataGeneratorVariable`): variables that should be recorded
+       log (:obj:`TaskLog`, optional): log for the task
 
     Returns:
-        :obj:`DataGeneratorVariableResults`: results of variables
+        :obj:`tuple`:
+
+            :obj:`DataGeneratorVariableResults`: results of variables
+            :obj:`TaskLog`: log
     """
     """ Validate task
 
@@ -84,7 +92,9 @@ def exec_sed_task(sed_task, variables):
         * :obj:`add_variables_to_task`
         * BioNetGen
         * :obj:`get_variables_results_from_observable_results`
-   """
+    """
+    log = log or TaskLog()
+
     validation.validate_task(sed_task)
     validation.validate_model_language(sed_task.model.language, ModelLanguage.BNGL)
     validation.validate_model_change_types(sed_task.model.changes, (ModelAttributeChange, ))
@@ -116,5 +126,11 @@ def exec_sed_task(sed_task, variables):
     for key in variable_results.keys():
         variable_results[key] = variable_results[key][-(sed_task.simulation.number_of_points + 1):]
 
-    # return the values of the variables
-    return variable_results
+    # log action
+    log.algorithm = sed_task.simulation.algorithm.kisao_id
+    log.simulator_details = {
+        'actions': bionetgen_task.actions,
+    }
+
+    # return the values of the variables and log
+    return variable_results, log

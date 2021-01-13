@@ -42,7 +42,7 @@ class CliTestCase(unittest.TestCase):
         doc.models[0].source = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
 
         variables = [data_gen.variables[0] for data_gen in doc.data_generators]
-        variable_results = exec_sed_task(doc.tasks[0], variables)
+        variable_results, _ = exec_sed_task(doc.tasks[0], variables)
 
         self.assertEqual(set(variable_results.keys()), set([var.id for var in variables]))
         for var in variables:
@@ -58,7 +58,7 @@ class CliTestCase(unittest.TestCase):
         doc.simulations[0].initial_time = 0.1
 
         variables = [data_gen.variables[0] for data_gen in doc.data_generators]
-        variable_results = exec_sed_task(doc.tasks[0], variables)
+        variable_results, _ = exec_sed_task(doc.tasks[0], variables)
 
         self.assertEqual(set(variable_results.keys()), set([var.id for var in variables]))
         for var in variables:
@@ -166,10 +166,10 @@ class CliTestCase(unittest.TestCase):
             source='model_1.bngl',
             language=sedml_data_model.ModelLanguage.BNGL.value,
             changes=[
-                sedml_data_model.ModelAttributeChange('functions.gfunc.expression', '0.5*Atot^2/(10 + Atot^2)'),
-                sedml_data_model.ModelAttributeChange('functions.gfunc().expression', '0.5*Atot^2/(10 + Atot^2)'),
-                sedml_data_model.ModelAttributeChange('species.A().initialCount', '5'),
-                sedml_data_model.ModelAttributeChange('parameters.g1.value', '16.0'),
+                sedml_data_model.ModelAttributeChange(target='functions.gfunc.expression', new_value='0.5*Atot^2/(10 + Atot^2)'),
+                sedml_data_model.ModelAttributeChange(target='functions.gfunc().expression', new_value='0.5*Atot^2/(10 + Atot^2)'),
+                sedml_data_model.ModelAttributeChange(target='species.A().initialCount', new_value='5'),
+                sedml_data_model.ModelAttributeChange(target='parameters.g1.value', new_value='16.0'),
             ],
         ))
         doc.simulations.append(sedml_data_model.UniformTimeCourseSimulation(

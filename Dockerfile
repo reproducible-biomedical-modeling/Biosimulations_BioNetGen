@@ -22,7 +22,7 @@
 
 FROM python:3.7.9-slim-buster
 
-ARG VERSION="0.1.0"
+ARG VERSION="0.1.1"
 ARG SIMULATOR_VERSION=2.5.2
 
 # metadata
@@ -74,7 +74,8 @@ ENV PATH=${PATH}:/opt/BioNetGen-${SIMULATOR_VERSION}/
 COPY . /root/Biosimulators_BioNetGen
 RUN pip install /root/Biosimulators_BioNetGen \
     && rm -rf /root/Biosimulators_BioNetGen
-ENV MPLBACKEND=PDF
+ENV VERBOSE=0 \
+    MPLBACKEND=PDF
 
 # setup entry point
 ENTRYPOINT ["bionetgen"]
