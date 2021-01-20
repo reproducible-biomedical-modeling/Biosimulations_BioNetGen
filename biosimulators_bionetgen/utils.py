@@ -9,9 +9,9 @@
 from .config import Config
 from .data_model import Model, ModelBlock, Task, KISAO_SIMULATION_METHOD_ARGUMENTS_MAP  # noqa: F401
 from .io import write_task, read_simulation_results
-from biosimulators_utils.report.data_model import DataGeneratorVariableResults
-from biosimulators_utils.sedml.data_model import (ModelAttributeChange, DataGeneratorVariable,  # noqa: F401
-                                                  DataGeneratorVariableSymbol, UniformTimeCourseSimulation)
+from biosimulators_utils.report.data_model import VariableResults
+from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,  # noqa: F401
+                                                  Symbol, UniformTimeCourseSimulation)
 from collections import OrderedDict
 import os
 import pandas  # noqa: F401
@@ -146,7 +146,7 @@ def add_variables_to_model(model, variables):
 
     Args:
         model (:obj:`Model`): model
-        variables (:obj:`list` of :obj:`DataGeneratorVariable`): desired variables
+        variables (:obj:`list` of :obj:`Variable`): desired variables
 
     Raises:
         :obj:`NotImplementedError`: if BioNetGen doesn't support the symbol or target of a variable
@@ -164,7 +164,7 @@ def add_variables_to_model(model, variables):
 
     for variable in variables:
         if variable.symbol:
-            if variable.symbol != DataGeneratorVariableSymbol.time:
+            if variable.symbol != Symbol.time:
                 invalid_symbols.add(variable.symbol)
 
         elif variable.target:
@@ -190,7 +190,7 @@ def add_variables_to_model(model, variables):
             "The following variable symbols are not supported:\n  - {}\n\n".format(
                 '\n  - '.join(sorted(invalid_symbols)),
             ),
-            "Symbols must be one of the following:\n  - {}".format(DataGeneratorVariableSymbol.time),
+            "Symbols must be one of the following:\n  - {}".format(Symbol.time),
         ]))
 
     if invalid_targets:
@@ -312,21 +312,21 @@ def get_variables_results_from_observable_results(observable_results, variables)
 
     Args:
         observable_results (:obj:`pandas.DataFrame`): predicted values of the observables of a simulation
-        variables (:obj:`list` of :obj:`DataGeneratorVariable`): desired variables
+        variables (:obj:`list` of :obj:`Variable`): desired variables
 
     Returns:
-        :obj:`DataGeneratorVariableResults`: predicted values of the desired variables
+        :obj:`VariableResults`: predicted values of the desired variables
 
     Raises:
         :obj:`NotImplementedError`: if an unsupported symbol is requested
         :obj:`ValueError`: if an undefined target is requested
     """
-    variable_results = DataGeneratorVariableResults()
+    variable_results = VariableResults()
     invalid_symbols = set()
     invalid_targets = set()
     for variable in variables:
         if variable.symbol:
-            if variable.symbol == DataGeneratorVariableSymbol.time:
+            if variable.symbol == Symbol.time:
                 variable_result = observable_results.loc['time', :]
 
             else:
@@ -350,7 +350,7 @@ def get_variables_results_from_observable_results(observable_results, variables)
             "The following variable symbols are not supported:\n  - {}\n\n".format(
                 '\n  - '.join(sorted(invalid_symbols)),
             ),
-            "Symbols must be one of the following:\n  - {}".format(DataGeneratorVariableSymbol.time),
+            "Symbols must be one of the following:\n  - {}".format(Symbol.time),
         ]))
 
     if invalid_targets:

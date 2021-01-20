@@ -188,11 +188,10 @@ class CliTestCase(unittest.TestCase):
         doc.data_generators.append(sedml_data_model.DataGenerator(
             id='data_gen_time',
             variables=[
-                sedml_data_model.DataGeneratorVariable(
+                sedml_data_model.Variable(
                     id='var_time',
-                    symbol=sedml_data_model.DataGeneratorVariableSymbol.time,
+                    symbol=sedml_data_model.Symbol.time,
                     task=doc.tasks[0],
-                    model=doc.models[0],
                 ),
             ],
             math='var_time',
@@ -200,11 +199,10 @@ class CliTestCase(unittest.TestCase):
         doc.data_generators.append(sedml_data_model.DataGenerator(
             id='data_gen_A',
             variables=[
-                sedml_data_model.DataGeneratorVariable(
+                sedml_data_model.Variable(
                     id='var_A',
                     target="species.A",
                     task=doc.tasks[0],
-                    model=doc.models[0],
                 ),
             ],
             math='var_A',
@@ -212,11 +210,10 @@ class CliTestCase(unittest.TestCase):
         doc.data_generators.append(sedml_data_model.DataGenerator(
             id='data_gen_B',
             variables=[
-                sedml_data_model.DataGeneratorVariable(
+                sedml_data_model.Variable(
                     id='var_B',
                     target='species.B.count',
                     task=doc.tasks[0],
-                    model=doc.models[0],
                 ),
             ],
             math='var_B',
@@ -224,11 +221,10 @@ class CliTestCase(unittest.TestCase):
         doc.data_generators.append(sedml_data_model.DataGenerator(
             id='data_gen_GeneA_00',
             variables=[
-                sedml_data_model.DataGeneratorVariable(
+                sedml_data_model.Variable(
                     id='var_GeneA_00',
                     target="molecules.GeneA_00()",
                     task=doc.tasks[0],
-                    model=doc.models[0],
                 ),
             ],
             math='var_GeneA_00',
@@ -236,11 +232,10 @@ class CliTestCase(unittest.TestCase):
         doc.data_generators.append(sedml_data_model.DataGenerator(
             id='data_gen_GeneA_01',
             variables=[
-                sedml_data_model.DataGeneratorVariable(
+                sedml_data_model.Variable(
                     id='var_GeneA_01',
                     target="molecules.GeneA_01()",
                     task=doc.tasks[0],
-                    model=doc.models[0],
                 ),
             ],
             math='var_GeneA_01',

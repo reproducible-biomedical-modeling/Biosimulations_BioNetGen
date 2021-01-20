@@ -7,8 +7,8 @@ from biosimulators_bionetgen.utils import (get_bionetgen_version,
                                            exec_bionetgen_task,
                                            get_variables_results_from_observable_results)
 from biosimulators_bionetgen.io import read_task, read_simulation_results
-from biosimulators_utils.sedml.data_model import (ModelAttributeChange, DataGeneratorVariable,
-                                                  DataGeneratorVariableSymbol, UniformTimeCourseSimulation,
+from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,
+                                                  Symbol, UniformTimeCourseSimulation,
                                                   Algorithm, AlgorithmParameterChange)
 from unittest import mock
 import os
@@ -94,11 +94,11 @@ class UtilsTestCase(unittest.TestCase):
         task.model.pop('observables')
 
         variables = [
-            DataGeneratorVariable(id='Time', symbol=DataGeneratorVariableSymbol.time),
-            DataGeneratorVariable(id='A', target='species.A'),
-            DataGeneratorVariable(id='B', target='species.B.count'),
-            DataGeneratorVariable(id='Atot', target='molecules.A()'),
-            DataGeneratorVariable(id='GA00tot', target='molecules.GeneA_00().count'),
+            Variable(id='Time', symbol=Symbol.time),
+            Variable(id='A', target='species.A'),
+            Variable(id='B', target='species.B.count'),
+            Variable(id='Atot', target='molecules.A()'),
+            Variable(id='GA00tot', target='molecules.GeneA_00().count'),
         ]
         add_variables_to_model(task.model, variables)
 
@@ -131,10 +131,10 @@ class UtilsTestCase(unittest.TestCase):
 
         # error handling
         with self.assertRaisesRegex(NotImplementedError, 'symbols are not supported'):
-            add_variables_to_model(task.model, [DataGeneratorVariable(id='X', symbol='x')])
+            add_variables_to_model(task.model, [Variable(id='X', symbol='x')])
 
         with self.assertRaisesRegex(NotImplementedError, 'targets are not supported'):
-            add_variables_to_model(task.model, [DataGeneratorVariable(id='X', target='x')])
+            add_variables_to_model(task.model, [Variable(id='X', target='x')])
 
     def test_add_simulation_to_task(self):
         # CVODE
@@ -217,9 +217,9 @@ class UtilsTestCase(unittest.TestCase):
 
         obs_results = read_simulation_results(os.path.join(self.dirname, 'test.gdat'))
         variables = [
-            DataGeneratorVariable(id='Time', symbol=DataGeneratorVariableSymbol.time),
-            DataGeneratorVariable(id='Atot', target='A()'),
-            DataGeneratorVariable(id='GA00tot', target='GeneA_00()'),
+            Variable(id='Time', symbol=Symbol.time),
+            Variable(id='Atot', target='A()'),
+            Variable(id='GA00tot', target='GeneA_00()'),
         ]
         var_results = get_variables_results_from_observable_results(obs_results, variables)
 
@@ -234,7 +234,7 @@ class UtilsTestCase(unittest.TestCase):
         numpy.testing.assert_allclose(var_results['Time'], numpy.linspace(0., 1000000., 1000 + 1))
 
         # handle errors
-        variables.append(DataGeneratorVariable(id='X', symbol='x'))
+        variables.append(Variable(id='X', symbol='x'))
         with self.assertRaisesRegex(NotImplementedError, 'symbols are not supported'):
             get_variables_results_from_observable_results(obs_results, variables)
 
