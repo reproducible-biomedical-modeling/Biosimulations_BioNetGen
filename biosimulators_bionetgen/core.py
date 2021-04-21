@@ -102,13 +102,13 @@ def exec_sed_task(sed_task, variables, log=None):
                           error_summary='Language for model `{}` is not supported.'.format(sed_task.model.id))
     raise_errors_warnings(validation.validate_model_change_types(sed_task.model.changes, (ModelAttributeChange, )),
                           error_summary='Changes for model `{}` are not supported.'.format(sed_task.model.id))
-    raise_errors_warnings(validation.validate_model_changes(sed_task.model),
+    raise_errors_warnings(*validation.validate_model_changes(sed_task.model),
                           error_summary='Changes for model `{}` are invalid.'.format(sed_task.model.id))
     raise_errors_warnings(validation.validate_simulation_type(sed_task.simulation, (UniformTimeCourseSimulation, )),
                           error_summary='{} `{}` is not supported.'.format(sed_task.simulation.__class__.__name__, sed_task.simulation.id))
     raise_errors_warnings(validation.validate_simulation(sed_task.simulation),
                           error_summary='Simulation `{}` is invalid.'.format(sed_task.simulation.id))
-    raise_errors_warnings(validation.validate_data_generator_variables(variables),
+    raise_errors_warnings(*validation.validate_data_generator_variables(variables),
                           error_summary='Data generator variables for task `{}` are invalid.'.format(sed_task.id))
 
     # read the model from the BNGL file
