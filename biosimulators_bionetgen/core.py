@@ -125,7 +125,7 @@ def exec_sed_task(sed_task, variables, log=None):
     add_variables_to_model(bionetgen_task.model, variables)
 
     # apply the SED algorithm and its parameters to the BioNetGen task
-    add_simulation_to_task(bionetgen_task, sed_task.simulation)
+    alg_kisao_id = add_simulation_to_task(bionetgen_task, sed_task.simulation)
 
     # execute the task
     observable_results = exec_bionetgen_task(bionetgen_task)
@@ -136,7 +136,7 @@ def exec_sed_task(sed_task, variables, log=None):
         variable_results[key] = variable_results[key][-(sed_task.simulation.number_of_points + 1):]
 
     # log action
-    log.algorithm = sed_task.simulation.algorithm.kisao_id
+    log.algorithm = alg_kisao_id
     log.simulator_details = {
         'actions': bionetgen_task.actions,
     }

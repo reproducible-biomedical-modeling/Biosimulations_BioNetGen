@@ -216,6 +216,9 @@ def add_simulation_to_task(task, simulation):
     Raises:
         :obj:`NotImplementedError`: if BioNetGen doesn't support the request algorithm or
             algorithm parameters
+
+    Returns:
+        :obj:`str`: KiSAO id of the algorithm that will be executed
     """
     simulate_args = OrderedDict()
 
@@ -263,6 +266,9 @@ def add_simulation_to_task(task, simulation):
 
     # add the simulation to the BioNetGen task
     task.actions.append('simulate({{{}}})'.format(', '.join('{} => {}'.format(key, val) for key, val in simulate_args.items())))
+
+    # return the KiSAO id of the algorithm that will be executed
+    return exec_kisao_id
 
 
 def exec_bionetgen_task(task):
