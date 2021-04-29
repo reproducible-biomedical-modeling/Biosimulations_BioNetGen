@@ -20,7 +20,7 @@
 # Author: Ali Sinan Saglam <als251@pitt.edu>
 # Date: 2021-01-05
 
-FROM python:3.7.9-slim-buster
+FROM python:3.9-slim-buster
 
 ARG VERSION="0.1.7"
 ARG SIMULATOR_VERSION=2.5.2
@@ -37,7 +37,7 @@ LABEL \
     org.opencontainers.image.vendor="BioSimulators Team" \
     org.opencontainers.image.licenses="MIT" \
     \
-    base_image="python:3.7.9-slim-buster" \
+    base_image="python:3.9-slim-buster" \
     version="${VERSION}" \
     software="BioNetGen" \
     software.version="${SIMULATOR_VERSION}" \

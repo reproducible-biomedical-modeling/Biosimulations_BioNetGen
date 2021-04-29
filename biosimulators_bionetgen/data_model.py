@@ -119,8 +119,8 @@ class Task(object):
         return True
 
 
-KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = {
-    'KISAO_0000019': {
+KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = OrderedDict([
+    ('KISAO_0000019', {
         'id': 'ode',
         'name': 'CVODE',
         'generate_network': True,
@@ -141,8 +141,8 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = {
                 'type': ValueType.string,
             },
         }
-    },
-    'KISAO_0000029': {
+    }),
+    ('KISAO_0000029', {
         'id': 'ssa',
         'name': 'SSA',
         'generate_network': True,
@@ -158,8 +158,8 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = {
                 'type': ValueType.string,
             },
         },
-    },
-    'KISAO_0000263': {
+    }),
+    ('KISAO_0000263', {
         'id': 'nf',
         'name': 'network free simulation',
         'generate_network': False,
@@ -175,8 +175,8 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = {
                 'type': ValueType.string,
             },
         },
-    },
-    'KISAO_0000524': {
+    }),
+    ('KISAO_0000524', {
         'id': 'pla',
         'name': 'partitioned leaping method',
         'generate_network': True,
@@ -192,5 +192,5 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = {
                 'type': ValueType.string,
             },
         },
-    },
-}
+    }),
+])

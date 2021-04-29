@@ -10,6 +10,7 @@ from biosimulators_bionetgen.io import read_task, read_simulation_results
 from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,
                                                   Symbol, UniformTimeCourseSimulation,
                                                   Algorithm, AlgorithmParameterChange)
+from kisao.exceptions import AlgorithmCannotBeSubstitutedException
 from unittest import mock
 import os
 import numpy
@@ -174,8 +175,8 @@ class UtilsTestCase(unittest.TestCase):
             add_simulation_to_task(task, simulation)
 
         # Error handling: unknown algorithm
-        simulation.algorithm.kisao_id = 'KISAO_0000001'
-        with self.assertRaisesRegex(NotImplementedError, 'is not supported. Algorithm must have'):
+        simulation.algorithm.kisao_id = 'KISAO_0000448'
+        with self.assertRaisesRegex(AlgorithmCannotBeSubstitutedException, 'No algorithm can be substituted'):
             add_simulation_to_task(task, simulation)
 
         # Error handling: unknown algorithm parameter
