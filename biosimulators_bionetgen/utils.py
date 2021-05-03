@@ -13,7 +13,9 @@ from biosimulators_utils.report.data_model import VariableResults
 from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,  # noqa: F401
                                                   Symbol, UniformTimeCourseSimulation)
 from biosimulators_utils.simulator.utils import get_algorithm_substitution_policy
+from biosimulators_utils.warnings import warn, BioSimulatorsWarning
 from collections import OrderedDict
+from kisao.data_model import AlgorithmSubstitutionPolicy, ALGORITHM_SUBSTITUTION_POLICY_LEVELS
 from kisao.utils import get_preferred_substitute_algorithm_by_ids
 import os
 import pandas  # noqa: F401
@@ -236,9 +238,10 @@ def add_simulation_to_task(task, simulation):
 
     simulate_args['n_steps'] = int(n_steps)
 
+    algorithm_substitution_policy = get_algorithm_substitution_policy()
     exec_kisao_id = get_preferred_substitute_algorithm_by_ids(
         simulation.algorithm.kisao_id, KISAO_SIMULATION_METHOD_ARGUMENTS_MAP.keys(),
-        substitution_policy=get_algorithm_substitution_policy())
+        substitution_policy=algorithm_substitution_policy)
 
     if exec_kisao_id == 'KISAO_0000263' and simulation.initial_time != 0:
         raise NotImplementedError('The initial time of a network free simulation (KISAO_0000263) must be 0.')
@@ -251,14 +254,28 @@ def add_simulation_to_task(task, simulation):
     if exec_kisao_id == simulation.algorithm.kisao_id:
         for change in simulation.algorithm.changes:
             parameter = simulation_method['parameters'].get(change.kisao_id, None)
-            if not parameter:
-                raise NotImplementedError("".join([
-                    "Algorithm parameter with KiSAO id '{}' is not supported. ".format(change.kisao_id),
-                    "Parameter must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
-                        '{}: {}'.format(kisao_id, parameter['name']) for kisao_id, parameter in simulation_method['parameters'].items())),
-                ]))
-
-            simulate_args[parameter['id']] = change.new_value
+            if parameter:
+                simulate_args[parameter['id']] = change.new_value
+            else:
+                if (
+                    ALGORITHM_SUBSTITUTION_POLICY_LEVELS[algorithm_substitution_policy]
+                    <= ALGORITHM_SUBSTITUTION_POLICY_LEVELS[AlgorithmSubstitutionPolicy.SAME_METHOD]
+                ):
+                    msg = "".join([
+                        "Algorithm parameter with KiSAO id '{}' is not supported. ".format(change.kisao_id),
+                        "Parameter must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
+                            '{}: {}'.format(kisao_id, parameter['name'])
+                            for kisao_id, parameter in simulation_method['parameters'].items())),
+                    ])
+                    raise NotImplementedError(msg)
+                else:
+                    msg = "".join([
+                        "Algorithm parameter with KiSAO id '{}' was ignored because it is not supported. ".format(change.kisao_id),
+                        "Parameter must have one of the following KiSAO ids:\n  - {}".format('\n  - '.join(
+                            '{}: {}'.format(kisao_id, parameter['name'])
+                            for kisao_id, parameter in simulation_method['parameters'].items())),
+                    ])
+                    warn(msg, BioSimulatorsWarning)
 
     # if necessary add network generation to the BioNetGen task
     if simulation_method['generate_network']:

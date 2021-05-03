@@ -10,6 +10,7 @@ from biosimulators_bionetgen.io import read_task, read_simulation_results
 from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,
                                                   Symbol, UniformTimeCourseSimulation,
                                                   Algorithm, AlgorithmParameterChange)
+from biosimulators_utils.warnings import BioSimulatorsWarning
 from kisao.exceptions import AlgorithmCannotBeSubstitutedException
 from unittest import mock
 import os
@@ -182,8 +183,14 @@ class UtilsTestCase(unittest.TestCase):
         # Error handling: unknown algorithm parameter
         simulation.algorithm.kisao_id = 'KISAO_0000019'
         simulation.algorithm.changes[0].kisao_id = 'KISAO_0000001'
-        with self.assertRaisesRegex(NotImplementedError, 'is not supported. Parameter must have'):
-            add_simulation_to_task(task, simulation)
+
+        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SAME_METHOD'}):
+            with self.assertRaisesRegex(NotImplementedError, 'is not supported. Parameter must have'):
+                add_simulation_to_task(task, simulation)
+
+        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SIMILAR_VARIABLES'}):
+            with self.assertWarnsRegex(BioSimulatorsWarning, 'is not supported. Parameter must have'):
+                add_simulation_to_task(task, simulation)
 
     def test_exec_bionetgen_task(self):
         model_filename = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
