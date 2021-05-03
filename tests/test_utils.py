@@ -184,7 +184,7 @@ class UtilsTestCase(unittest.TestCase):
         simulation.algorithm.kisao_id = 'KISAO_0000019'
         simulation.algorithm.changes[0].kisao_id = 'KISAO_0000001'
 
-        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SAME_METHOD'}):
+        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'NONE'}):
             with self.assertRaisesRegex(NotImplementedError, 'is not supported. Parameter must have'):
                 add_simulation_to_task(task, simulation)
 
