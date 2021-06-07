@@ -57,7 +57,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'bionetgen = biosimulators_bionetgen.__main__:main',
+            'biosimulators-bionetgen = biosimulators_bionetgen.__main__:main',
         ],
     },
 )

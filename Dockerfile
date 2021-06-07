@@ -22,7 +22,7 @@
 
 FROM python:3.9-slim-buster
 
-ARG VERSION="0.1.9"
+ARG VERSION="0.1.10"
 ARG SIMULATOR_VERSION=2.5.2
 
 # metadata
@@ -78,5 +78,5 @@ ENV VERBOSE=0 \
     MPLBACKEND=PDF
 
 # setup entry point
-ENTRYPOINT ["bionetgen"]
+ENTRYPOINT ["biosimulators-bionetgen"]
 CMD []
