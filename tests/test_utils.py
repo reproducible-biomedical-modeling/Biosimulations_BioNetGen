@@ -5,8 +5,9 @@ from biosimulators_bionetgen.utils import (get_bionetgen_version,
                                            add_variables_to_model,
                                            add_simulation_to_task,
                                            exec_bionetgen_task,
-                                           get_variables_results_from_observable_results)
-from biosimulators_bionetgen.io import read_task, read_simulation_results
+                                           get_variables_results_from_observable_results,)
+from biosimulators_bionetgen.io import read_task, read_simulation_results, write_task
+from biosimulators_utils.model_lang.bngl.utils import get_parameters_variables_for_simulation
 from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,
                                                   Symbol, UniformTimeCourseSimulation,
                                                   Algorithm, AlgorithmParameterChange)
@@ -250,3 +251,31 @@ class UtilsTestCase(unittest.TestCase):
         variables[-1].target = 'undefined'
         with self.assertRaisesRegex(ValueError, 'could not be recorded'):
             get_variables_results_from_observable_results(obs_results, variables)
+
+    def test_get_parameters_variables_for_simulation(self):
+        fixtures_dirname = os.path.join(os.path.dirname(__file__), 'fixtures')
+        for model_filename in [
+            os.path.join(fixtures_dirname, 'test.bngl'),
+            os.path.join(fixtures_dirname, 'LR_comp_resolved.bngl'),
+        ]:
+            changes, variables = get_parameters_variables_for_simulation(model_filename, None, None, None)
+
+            task = read_task(model_filename)
+            task.actions = []
+
+            for change in changes:
+                add_model_attribute_change_to_task(task, change)
+
+            add_variables_to_model(task.model, variables)
+
+            model_filename_2 = os.path.join(self.dirname, 'task.bngl')
+            write_task(task, model_filename_2)
+
+            changes_2, variables_2 = get_parameters_variables_for_simulation(model_filename_2, None, None, None)
+            for change, change_2 in zip(changes, changes_2):
+                self.assertTrue(change_2.is_equal(change))
+            for variable, variable_2 in zip(variables, variables_2):
+                self.assertTrue(variable_2.is_equal(variable))
+
+            task_2 = read_task(model_filename_2)
+            self.assertEqual(task_2.model, task.model)

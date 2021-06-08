@@ -72,7 +72,7 @@ def add_model_attribute_change_to_task(task, change):
         for i_line, line in enumerate(block):
             match = re.match(pattern, line)
             if match:
-                block[i_line] = '{} {} {} {}'.format(obj_id, match.group(1), new_value, match.group(3) or '').strip()
+                block[i_line] = '{} {} {} {}'.format(obj_id, match.group(1), new_value, (match.group(3) or '').strip()).strip()
                 comp_changed = True
 
         if not comp_changed:
@@ -172,22 +172,22 @@ def add_variables_to_model(model, variables):
                 invalid_symbols.add(variable.symbol)
 
         elif variable.target:
-            species_match = re.match(r'^species\.([^\.]+)(\.count)?$', variable.target)
-            molecules_match = re.match(r'^molecules\.([^\.]+)(\.count)?$', variable.target)
+            species_match = re.match(r'^species\.(.*?)(\.count)?$', variable.target)
+            molecules_match = re.match(r'^molecules\.(.*?)(\.count)?$', variable.target)
 
-            if species_match:
+            if species_match and species_match.group(1):
                 observable = 'Species {} {}'.format(variable.id, species_match.group(1))
 
-            elif molecules_match:
+            elif molecules_match and molecules_match.group(1):
                 observable = 'Molecules {} {}'.format(variable.id, molecules_match.group(1))
+
+            else:
+                invalid_targets.add(variable.target)
 
             if species_match or molecules_match:
                 if observable not in observables_set:
                     observables.append(observable)
                     observables_set.add(observable)
-
-            else:
-                invalid_targets.add(variable.target)
 
     if invalid_symbols:
         raise NotImplementedError("".join([
