@@ -1,14 +1,14 @@
 {
   "id": "bionetgen",
   "name": "BioNetGen",
-  "version": "2.5.2",
+  "version": "2.6.0",
   "description": "BioNetGen is an open-source software package for rule-based modeling of complex biochemical systems.",
   "urls": [{
     "type": "Home page",
     "url": "https://bionetgen.org/"
   }],
   "image": {
-    "url": "ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:2.5.2",
+    "url": "ghcr.io/biosimulators/biosimulators_bionetgen/bionetgen:2.6.0",
     "format": {
       "namespace": "EDAM",
       "id": "format_3973",

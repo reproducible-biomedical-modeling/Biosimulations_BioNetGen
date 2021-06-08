@@ -2,7 +2,7 @@
 #
 # Build image:
 #   docker build \
-#     --tag biosimulators/bionetgen:2.5.2 \
+#     --tag biosimulators/bionetgen:2.6.0 \
 #     --tag biosimulators/bionetgen:latest \
 #     .
 #
@@ -23,7 +23,7 @@
 FROM python:3.9-slim-buster
 
 ARG VERSION="0.1.10"
-ARG SIMULATOR_VERSION=2.5.2
+ARG SIMULATOR_VERSION=2.6.0
 
 # metadata
 LABEL \
