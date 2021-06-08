@@ -47,7 +47,7 @@ The following patterns should be used to encode the desired observables of a sim
 
     <sedml:dataGenerator id="data_generator_species_A">
       <listOfVariables>
-        <sedml:Variable id="variable_species_A" target="species.A.count" taskReference="taskId" />
+        <sedml:Variable id="variable_species_A" target="species.A().count" taskReference="taskId" />
       </listOfVariables>
       <math xmlns="http://www.w3.org/1998/Math/MathML">
         <ci>variable_species_A</ci>
