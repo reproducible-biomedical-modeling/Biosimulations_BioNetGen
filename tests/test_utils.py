@@ -17,6 +17,7 @@ from unittest import mock
 import os
 import numpy
 import numpy.testing
+import pytest
 import shutil
 import subprocess
 import tempfile
@@ -190,7 +191,7 @@ class UtilsTestCase(unittest.TestCase):
                 add_simulation_to_task(task, simulation)
 
         with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SIMILAR_VARIABLES'}):
-            with self.assertWarnsRegex(BioSimulatorsWarning, 'is not supported. Parameter must have'):
+            with pytest.warns(BioSimulatorsWarning, match='is not supported. Parameter must have'):
                 add_simulation_to_task(task, simulation)
 
     def test_exec_bionetgen_task(self):

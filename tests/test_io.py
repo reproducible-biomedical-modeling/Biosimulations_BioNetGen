@@ -5,6 +5,7 @@ from biosimulators_bionetgen.warnings import IgnoredBnglFileContentWarning
 import numpy
 import numpy.testing
 import os
+import pytest
 import shutil
 import subprocess
 import tempfile
@@ -71,7 +72,7 @@ class DataModelTestCase(unittest.TestCase):
             file.write('\n')
             file.write('ode\n')
 
-        with self.assertWarnsRegex(IgnoredBnglFileContentWarning, 'outside content blocks were ignored'):
+        with pytest.warns(IgnoredBnglFileContentWarning, match='outside content blocks were ignored'):
             task = read_task(filename)
         self.assertTrue(task.model.is_equal(Model({
             'parameters': ModelBlock(['k_1 0.0'])
@@ -152,7 +153,7 @@ class DataModelTestCase(unittest.TestCase):
             file.write('    k_1 0.0\n')
             file.write('end model\n')
 
-        with self.assertWarnsRegex(IgnoredBnglFileContentWarning, 'outside content blocks were ignored'):
+        with pytest.warns(IgnoredBnglFileContentWarning, match='outside content blocks were ignored'):
             read_task(filename)
 
         # inappropriately nested content
