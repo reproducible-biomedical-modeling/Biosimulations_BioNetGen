@@ -259,7 +259,8 @@ class UtilsTestCase(unittest.TestCase):
             os.path.join(fixtures_dirname, 'test.bngl'),
             os.path.join(fixtures_dirname, 'LR_comp_resolved.bngl'),
         ]:
-            changes, variables = get_parameters_variables_for_simulation(model_filename, None, None, None)
+            changes, sim, variables = get_parameters_variables_for_simulation(
+                model_filename, None, UniformTimeCourseSimulation, None)
 
             task = read_task(model_filename)
             task.actions = []
@@ -272,7 +273,8 @@ class UtilsTestCase(unittest.TestCase):
             model_filename_2 = os.path.join(self.dirname, 'task.bngl')
             write_task(task, model_filename_2)
 
-            changes_2, variables_2 = get_parameters_variables_for_simulation(model_filename_2, None, None, None)
+            changes_2, sim, variables_2 = get_parameters_variables_for_simulation(
+                model_filename_2, None, UniformTimeCourseSimulation, None)
             for change, change_2 in zip(changes, changes_2):
                 self.assertTrue(change_2.is_equal(change))
             for variable, variable_2 in zip(variables, variables_2):
