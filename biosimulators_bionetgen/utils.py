@@ -25,23 +25,12 @@ import subprocess
 import tempfile
 
 __all__ = [
-    'get_bionetgen_version',
     'add_model_attribute_change_to_task',
     'add_variables_to_model',
     'add_simulation_to_task',
     'exec_bionetgen_task',
     'get_variables_results_from_observable_results',
 ]
-
-
-def get_bionetgen_version():
-    """ Get the version of BioNetGen
-
-    Returns:
-        :obj:`str`: version
-    """
-    config = Config()
-    return subprocess.check_output([config.bionetgen_path, '--version']).decode().strip().split(' ')[2]
 
 
 def add_model_attribute_change_to_task(task, change):

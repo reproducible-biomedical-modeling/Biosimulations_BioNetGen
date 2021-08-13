@@ -1,7 +1,7 @@
+from biosimulators_bionetgen import get_simulator_version
 from biosimulators_bionetgen.config import Config
 from biosimulators_bionetgen.data_model import Task
-from biosimulators_bionetgen.utils import (get_bionetgen_version,
-                                           add_model_attribute_change_to_task,
+from biosimulators_bionetgen.utils import (add_model_attribute_change_to_task,
                                            add_variables_to_model,
                                            add_simulation_to_task,
                                            exec_bionetgen_task,
@@ -31,8 +31,8 @@ class UtilsTestCase(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.dirname)
 
-    def test_get_bionetgen_version(self):
-        self.assertRegex(get_bionetgen_version(), r'^\d+\.\d+\.\d+$')
+    def test_get_simulator_version(self):
+        self.assertRegex(get_simulator_version(), r'^\d+\.\d+\.\d+$')
 
     def test_add_model_attribute_change_to_task(self):
         model_filename = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')

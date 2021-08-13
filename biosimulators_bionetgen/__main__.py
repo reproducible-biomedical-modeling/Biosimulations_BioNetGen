@@ -6,13 +6,13 @@
 :License: MIT
 """
 
+from . import get_simulator_version
 from ._version import __version__
 from .core import exec_sedml_docs_in_combine_archive
-from .utils import get_bionetgen_version
 from biosimulators_utils.simulator.cli import build_cli
 
 App = build_cli('bionetgen', __version__,
-                'BioNetGen', get_bionetgen_version(), 'https://bionetgen.org',
+                'BioNetGen', get_simulator_version(), 'https://bionetgen.org',
                 exec_sedml_docs_in_combine_archive)
 
 
