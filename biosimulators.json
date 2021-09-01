@@ -17,6 +17,10 @@
     },
     "operatingSystemType": "Linux"
   },
+  "pythonApi": {
+    "package": "biosimulators-bionetgen",
+    "module": "biosimulators_bionetgen"
+  },
   "authors": [{
       "firstName": "Ali",
       "middleName": "Sinan",
@@ -91,7 +95,13 @@
     }
   ],
   "references": {
-    "identifiers": [{
+    "identifiers": [
+      {
+            "namespace": "pypi",
+            "id": "bionetgen",
+            "url": "https://pypi.org/project/bionetgen/"
+          },
+      {
         "namespace": "pypi",
         "id": "biosimulators-bionetgen",
         "url": "https://pypi.org/project/biosimulators-bionetgen/"
@@ -434,7 +444,7 @@
 
       "modelingFrameworks": [{
         "namespace": "SBO",
-        "id": "SBO_0000295"
+        "id": "SBO_0000680"
       }],
       "modelFormats": [{
         "namespace": "EDAM",

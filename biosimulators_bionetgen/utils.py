@@ -6,9 +6,10 @@
 :License: MIT
 """
 
-from .config import Config
+from .config import Config as SimulatorConfig
 from .data_model import Model, ModelBlock, Task, KISAO_SIMULATION_METHOD_ARGUMENTS_MAP  # noqa: F401
 from .io import write_task, read_simulation_results
+from biosimulators_utils.config import Config  # noqa: F401
 from biosimulators_utils.report.data_model import VariableResults
 from biosimulators_utils.sedml.data_model import (ModelAttributeChange, Variable,  # noqa: F401
                                                   Symbol, UniformTimeCourseSimulation)
@@ -197,12 +198,13 @@ def add_variables_to_model(model, variables):
         raise NotImplementedError(msg)
 
 
-def add_simulation_to_task(task, simulation):
+def add_simulation_to_task(task, simulation, config=None):
     """ Add a SED simulation to a BioNetGen task
 
     Args:
         task (:obj:`Task`): BioNetGen task
         simulation (:obj:`UniformTimeCourseSimulation`): SED simulation
+        config (:obj:`Config`, optional): configuration
 
     Raises:
         :obj:`NotImplementedError`: if BioNetGen doesn't support the request algorithm or
@@ -227,7 +229,7 @@ def add_simulation_to_task(task, simulation):
 
     simulate_args['n_steps'] = int(n_steps)
 
-    algorithm_substitution_policy = get_algorithm_substitution_policy()
+    algorithm_substitution_policy = get_algorithm_substitution_policy(config=config)
     exec_kisao_id = get_preferred_substitute_algorithm_by_ids(
         simulation.algorithm.kisao_id, KISAO_SIMULATION_METHOD_ARGUMENTS_MAP.keys(),
         substitution_policy=algorithm_substitution_policy)
@@ -298,7 +300,7 @@ def exec_bionetgen_task(task):
     write_task(task, task_filename)
 
     # execute the task
-    bionetgen_path = Config().bionetgen_path
+    bionetgen_path = SimulatorConfig().bionetgen_path
     try:
         subprocess.check_call([bionetgen_path, task_filename, '--outdir', temp_dirname])
     except Exception:

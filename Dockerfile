@@ -22,7 +22,7 @@
 
 FROM python:3.9-slim-buster
 
-ARG VERSION="0.1.11"
+ARG VERSION="0.1.12"
 ARG SIMULATOR_VERSION=2.6.0
 
 # metadata
@@ -69,6 +69,11 @@ RUN apt-get update -y \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 ENV PATH=${PATH}:/opt/BioNetGen-${SIMULATOR_VERSION}/
+
+# fonts for matplotlib
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends libfreetype6 \
+    && rm -rf /var/lib/apt/lists/*
 
 # install BioSimulators-compliant command-line interface to BioNetGen
 COPY . /root/Biosimulators_BioNetGen
