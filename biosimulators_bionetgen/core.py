@@ -8,7 +8,7 @@
 """
 
 from .io import read_task
-from .utils import (exec_bionetgen_task, add_model_attribute_change_to_task, add_simulation_to_task,
+from .utils import (exec_bionetgen_task, preprocess_model_attribute_change, add_model_attribute_change_to_task, add_simulation_to_task,
                     get_variables_results_from_observable_results, add_variables_to_model)
 from .warnings import IgnoredBnglFileContentWarning
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
@@ -100,7 +100,7 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
     Args:
         task (:obj:`Task`): SED task
         variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
-        preprocessed_task (:obj:`object`, optional): preprocessed information about the task, including possible
+        preprocessed_task (:obj:`dict`, optional): preprocessed information about the task, including possible
             model changes and variables. This can be used to avoid repeatedly executing the same initialization
             for repeated calls to this method.
         log (:obj:`TaskLog`, optional): log for the task
@@ -136,11 +136,55 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
         * :obj:`get_variables_results_from_observable_results`
     """
     config = config or get_config()
+
     if config.LOG and not log:
         log = TaskLog()
 
     if preprocessed_task is None:
         preprocessed_task = preprocess_sed_task(task, variables, config=config)
+
+    # read the model from the BNGL file
+    bionetgen_task = preprocessed_task['bionetgen_task']
+
+    # validate and apply the model attribute changes to the BioNetGen task
+    for change in task.model.changes:
+        add_model_attribute_change_to_task(bionetgen_task, change, preprocessed_task['model_changes'][change.target])
+
+    # apply the SED algorithm and its parameters to the BioNetGen task
+    alg_kisao_id = preprocessed_task['algorithm_kisao_id']
+
+    # execute the task
+    observable_results = exec_bionetgen_task(bionetgen_task)
+
+    # get predicted values of the variables
+    variable_results = get_variables_results_from_observable_results(observable_results, variables)
+    for key in variable_results.keys():
+        variable_results[key] = variable_results[key][-(task.simulation.number_of_points + 1):]
+
+    # log action
+    if config.LOG:
+        log.algorithm = alg_kisao_id
+        log.simulator_details = {
+            'actions': bionetgen_task.actions,
+        }
+
+    # return the values of the variables and log
+    return variable_results, log
+
+
+def preprocess_sed_task(task, variables, config=None):
+    """ Preprocess a SED task, including its possible model changes and variables. This is useful for avoiding
+    repeatedly initializing tasks on repeated calls of :obj:`exec_sed_task`.
+
+    Args:
+        task (:obj:`Task`): task
+        variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
+        config (:obj:`Config`, optional): BioSimulators common configuration
+
+    Returns:
+        :obj:`dict`: preprocessed information about the task
+    """
+    config = config or get_config()
 
     if config.VALIDATE_SEDML:
         raise_errors_warnings(
@@ -174,8 +218,9 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
         bionetgen_task.actions = []
 
     # validate and apply the model attribute changes to the BioNetGen task
+    model_changes = {}
     for change in task.model.changes:
-        add_model_attribute_change_to_task(bionetgen_task, change)
+        model_changes[change.target] = preprocess_model_attribute_change(bionetgen_task, change)
 
     # add observables for the variables to the BioNetGen model
     add_variables_to_model(bionetgen_task.model, variables)
@@ -183,38 +228,9 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
     # apply the SED algorithm and its parameters to the BioNetGen task
     alg_kisao_id = add_simulation_to_task(bionetgen_task, task.simulation)
 
-    # execute the task
-    observable_results = exec_bionetgen_task(bionetgen_task)
-
-    # get predicted values of the variables
-    variable_results = get_variables_results_from_observable_results(observable_results, variables)
-    for key in variable_results.keys():
-        variable_results[key] = variable_results[key][-(task.simulation.number_of_points + 1):]
-
-    # log action
-    if config.LOG:
-        log.algorithm = alg_kisao_id
-        log.simulator_details = {
-            'actions': bionetgen_task.actions,
-        }
-
     # return the values of the variables and log
-    return variable_results, log
-
-
-def preprocess_sed_task(task, variables, config=None):
-    """ Preprocess a SED task, including its possible model changes and variables. This is useful for avoiding
-    repeatedly initializing tasks on repeated calls of :obj:`exec_sed_task`.
-
-    Args:
-        task (:obj:`Task`): task
-        variables (:obj:`list` of :obj:`Variable`): variables that should be recorded
-        preprocessed_task (:obj:`PreprocessedTask`, optional): preprocessed information about the task, including possible
-            model changes and variables. This can be used to avoid repeatedly executing the same initialization for repeated
-            calls to this method.
-        config (:obj:`Config`, optional): BioSimulators common configuration
-
-    Returns:
-        :obj:`object`: preprocessed information about the task
-    """
-    pass
+    return {
+        'bionetgen_task': bionetgen_task,
+        'model_changes': model_changes,
+        'algorithm_kisao_id': alg_kisao_id,
+    }

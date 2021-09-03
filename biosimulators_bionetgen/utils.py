@@ -26,6 +26,7 @@ import subprocess
 import tempfile
 
 __all__ = [
+    'preprocess_model_attribute_change',
     'add_model_attribute_change_to_task',
     'add_variables_to_model',
     'add_simulation_to_task',
@@ -34,8 +35,8 @@ __all__ = [
 ]
 
 
-def add_model_attribute_change_to_task(task, change):
-    """ Encode SED model attribute changes into a BioNetGen task
+def preprocess_model_attribute_change(task, change):
+    """ Process a model change
 
     * Compartment sizes: targets should follow the pattern ``compartments.<compartment_id>.size``
     * Function expressions: targets should follow the pattern ``functions.<function_id>.expression``
@@ -46,11 +47,13 @@ def add_model_attribute_change_to_task(task, change):
         task (:obj:`Task`): BioNetGen task
         change (:obj:`ModelAttributeChange`): model attribute change
 
+    Returns:
+        :obj:`dict`: processed information about the model change
+
     Raises:
         :obj:`ValueError`: if a target of a change is not valid
     """
     target = change.target
-    new_value = change.new_value
 
     compartment_size_match = re.match(r'^compartments\.([^\.]+)(\.size)?$', target)
     if compartment_size_match:
@@ -62,25 +65,32 @@ def add_model_attribute_change_to_task(task, change):
         for i_line, line in enumerate(block):
             match = re.match(pattern, line)
             if match:
-                block[i_line] = '{} {} {} {}'.format(obj_id, match.group(1), new_value, (match.group(3) or '').strip()).strip()
                 comp_changed = True
+                return {
+                    'type': 'replace_line_in_block',
+                    'block': block,
+                    'i_line': i_line,
+                    'new_line': lambda new_value: '{} {} {} {}'.format(obj_id, match.group(1), new_value, (match.group(3) or '').strip()).strip(),
+                }
 
         if not comp_changed:
             raise ValueError(('The size of compartment `{}` cannot be changed '
                               'because the model does not have a compartment with this id.').format(obj_id))
 
-        return
-
     parameter_values_match = re.match(r'^parameters\.([^\.]+)(\.value)?$', target)
     if parameter_values_match:
-        task.actions.append('setParameter("{}", {})'.format(parameter_values_match.group(1), new_value))
-        return
+        return {
+            'type': 'append_action',
+            'action': lambda new_value: 'setParameter("{}", {})'.format(parameter_values_match.group(1), new_value),
+        }
 
     species_counts_match = re.match(r'^species\.([^\.]+)\((.*?)\)(\.initialCount)?$', target)
     if species_counts_match:
-        task.actions.append('setConcentration("{}({})", {})'.format(
-            species_counts_match.group(1), species_counts_match.group(2), new_value))
-        return
+        return {
+            'type': 'append_action',
+            'action': lambda new_value: 'setConcentration("{}({})", {})'.format(
+                species_counts_match.group(1), species_counts_match.group(2), new_value),
+        }
 
     functions_expression_match = re.match(r'^functions\.([^\.\(\)]+)(\.expression)?$', target)
     if functions_expression_match:
@@ -94,13 +104,16 @@ def add_model_attribute_change_to_task(task, change):
             match = re.match(pattern, line)
             if match:
                 func_changed = True
-                block[i_line] = '{}({}) = {}'.format(obj_id, match.group(1), new_value)
+                return {
+                    'type': 'replace_line_in_block',
+                    'block': block,
+                    'i_line': i_line,
+                    'new_line': lambda new_value: '{}({}) = {}'.format(obj_id, match.group(1), new_value),
+                }
 
         if not func_changed:
             raise ValueError(('The expression of function `{}` cannot be changed '
                               'because the model does not have a function with this id.').format(obj_id))
-
-        return
 
     function_args_expression_match = re.match(r'^functions\.([^\.]+)\((.*?)\)(\.expression)?$', target)
     if function_args_expression_match:
@@ -115,13 +128,16 @@ def add_model_attribute_change_to_task(task, change):
             match = re.match(pattern, line)
             if match:
                 func_changed = True
-                block[i_line] = '{}({}) = {}'.format(obj_id, obj_args, new_value)
+                return {
+                    'type': 'replace_line_in_block',
+                    'block': block,
+                    'i_line': i_line,
+                    'new_line': lambda new_value: '{}({}) = {}'.format(obj_id, obj_args, new_value),
+                }
 
         if not func_changed:
             raise ValueError(('The expression of function `{}` cannot be changed '
                               'because the model does not have a function with this id.').format(obj_id))
-
-        return
 
     target_patterns = {
         'compartment size': compartment_size_match,
@@ -133,6 +149,33 @@ def add_model_attribute_change_to_task(task, change):
     msg = '`{}` is not a valid target. The following patterns of targets are supported:\n  - {}'.format(
         target, '\n  - '.join('{}: `{}`'.format(key, target_patterns[key]) for key in sorted(target_patterns.keys())))
     raise NotImplementedError(msg)
+
+
+def add_model_attribute_change_to_task(task, change, preprocessed_change=None):
+    """ Encode SED model attribute changes into a BioNetGen task
+
+    * Compartment sizes: targets should follow the pattern ``compartments.<compartment_id>.size``
+    * Function expressions: targets should follow the pattern ``functions.<function_id>.expression``
+    * Initial species counts: targets should follow the pattern ``species.<species_id>.count``
+    * Parameter values: targets should follow the pattern ``parameters.<parameter_id>.value``
+
+    Args:
+        task (:obj:`Task`): BioNetGen task
+        change (:obj:`ModelAttributeChange`): model attribute change
+        preprocessed_change (:obj:`dict`): preprocessed information about the change
+
+    Raises:
+        :obj:`ValueError`: if a target of a change is not valid
+    """
+    if preprocessed_change is None:
+        preprocessed_change = preprocess_model_attribute_change(task, change)
+
+    new_value = change.new_value
+
+    if preprocessed_change['type'] == 'replace_line_in_block':
+        preprocessed_change['block'][preprocessed_change['i_line']] = preprocessed_change['new_line'](new_value)
+    else:
+        task.actions.append(preprocessed_change['action'](new_value))
 
 
 def add_variables_to_model(model, variables):
