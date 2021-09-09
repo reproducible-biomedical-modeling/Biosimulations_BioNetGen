@@ -19,7 +19,8 @@
   },
   "pythonApi": {
     "package": "biosimulators-bionetgen",
-    "module": "biosimulators_bionetgen"
+    "module": "biosimulators_bionetgen",
+    "installationInstructions": "https://docs.biosimulators.org/Biosimulators_BioNetGen/installation.html"
   },
   "authors": [{
       "firstName": "Ali",
