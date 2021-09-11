@@ -20,6 +20,7 @@ from biosimulators_utils.sedml.utils import append_all_nested_children_to_doc
 from biosimulators_utils.simulator.exec import exec_sedml_docs_in_archive_with_containerized_simulator
 from biosimulators_utils.simulator.specs import gen_algorithms_from_specs
 from unittest import mock
+import copy
 import datetime
 import dateutil.tz
 import numpy
@@ -52,6 +53,25 @@ class CliTestCase(unittest.TestCase):
         self.assertEqual(variable_results['var_time'].size, sim.number_of_points + 1)
         numpy.testing.assert_allclose(variable_results['var_time'],
                                       numpy.linspace(sim.output_start_time, sim.output_end_time, sim.number_of_points + 1))
+        numpy.testing.assert_allclose(variable_results['var_A'][0], 4, rtol=1e-1)
+
+        doc2 = copy.deepcopy(doc)
+        doc2.tasks[0].model.changes.append(sedml_data_model.ModelAttributeChange(
+            target='species.A().initialCount',
+            new_value='5',
+        ))
+        variable_results_2, _ = exec_sed_task(doc2.tasks[0], variables)
+        numpy.testing.assert_allclose(variable_results_2['var_A'][0], 5, rtol=1e-1)
+        self.assertGreater(variable_results_2['var_A'][0], variable_results['var_A'][0])
+
+        doc3 = copy.deepcopy(doc)
+        doc3.tasks[0].model.changes.append(sedml_data_model.ModelAttributeChange(
+            target='species.A().initialCount',
+            new_value=6,
+        ))
+        variable_results_3, _ = exec_sed_task(doc3.tasks[0], variables)
+        numpy.testing.assert_allclose(variable_results_3['var_A'][0], 6, rtol=1e-1)
+        self.assertGreater(variable_results_3['var_A'][0], variable_results_2['var_A'][0])
 
     def test_exec_sed_task_non_zero_initial_time(self):
         doc = self._build_sed_doc()
@@ -75,7 +95,7 @@ class CliTestCase(unittest.TestCase):
         out_dir = os.path.join(self.dirname, 'out')
 
         config = get_config()
-        config.REPORT_FORMATS = [report_data_model.ReportFormat.h5, report_data_model.ReportFormat.csv,]
+        config.REPORT_FORMATS = [report_data_model.ReportFormat.h5, report_data_model.ReportFormat.csv]
         config.BUNDLE_OUTPUTS = True
         config.KEEP_INDIVIDUAL_OUTPUTS = True
 
@@ -92,7 +112,7 @@ class CliTestCase(unittest.TestCase):
             out_dir = os.path.join(self.dirname, alg.kisao_id)
 
             config = get_config()
-            config.REPORT_FORMATS = [report_data_model.ReportFormat.h5, report_data_model.ReportFormat.csv,]
+            config.REPORT_FORMATS = [report_data_model.ReportFormat.h5, report_data_model.ReportFormat.csv]
             config.BUNDLE_OUTPUTS = True
             config.KEEP_INDIVIDUAL_OUTPUTS = True
 
@@ -171,8 +191,8 @@ class CliTestCase(unittest.TestCase):
             changes=[
                 sedml_data_model.ModelAttributeChange(target='functions.gfunc.expression', new_value='0.5*Atot^2/(10 + Atot^2)'),
                 sedml_data_model.ModelAttributeChange(target='functions.gfunc().expression', new_value='0.5*Atot^2/(10 + Atot^2)'),
-                sedml_data_model.ModelAttributeChange(target='species.A().initialCount', new_value='5'),
-                sedml_data_model.ModelAttributeChange(target='parameters.g1.value', new_value='16.0'),
+                sedml_data_model.ModelAttributeChange(target='species.A().initialCount', new_value='4'),
+                sedml_data_model.ModelAttributeChange(target='parameters.g1.value', new_value='18.0'),
             ],
         ))
         doc.simulations.append(sedml_data_model.UniformTimeCourseSimulation(

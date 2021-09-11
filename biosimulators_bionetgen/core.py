@@ -8,7 +8,8 @@
 """
 
 from .io import read_task
-from .utils import (exec_bionetgen_task, preprocess_model_attribute_change, add_model_attribute_change_to_task, add_simulation_to_task,
+from .utils import (exec_bionetgen_task, preprocess_model_attribute_change, add_model_attribute_change_to_task,
+                    create_actions_for_simulation,
                     get_variables_results_from_observable_results, add_variables_to_model)
 from .warnings import IgnoredBnglFileContentWarning
 from biosimulators_utils.combine.exec import exec_sedml_docs_in_archive
@@ -21,6 +22,7 @@ from biosimulators_utils.sedml.data_model import (Task, ModelLanguage, ModelAttr
                                                   UniformTimeCourseSimulation, Variable)
 from biosimulators_utils.sedml.exec import exec_sed_doc as base_exec_sed_doc
 from biosimulators_utils.utils.core import raise_errors_warnings
+import copy
 import warnings
 
 __all__ = ['exec_sedml_docs_in_combine_archive', 'exec_sed_doc', 'exec_sed_task', 'preprocess_sed_task']
@@ -145,6 +147,8 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
 
     # read the model from the BNGL file
     bionetgen_task = preprocessed_task['bionetgen_task']
+    preprocessed_actions = bionetgen_task.actions
+    bionetgen_task.actions = copy.deepcopy(preprocessed_actions)
 
     # validate and apply the model attribute changes to the BioNetGen task
     for change in task.model.changes:
@@ -154,6 +158,8 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
     alg_kisao_id = preprocessed_task['algorithm_kisao_id']
 
     # execute the task
+    bionetgen_task.actions.extend(preprocessed_task['simulation_actions'])
+
     observable_results = exec_bionetgen_task(bionetgen_task)
 
     # get predicted values of the variables
@@ -167,6 +173,9 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
         log.simulator_details = {
             'actions': bionetgen_task.actions,
         }
+
+    # clean up
+    bionetgen_task.actions = preprocessed_actions
 
     # return the values of the variables and log
     return variable_results, log
@@ -226,11 +235,12 @@ def preprocess_sed_task(task, variables, config=None):
     add_variables_to_model(bionetgen_task.model, variables)
 
     # apply the SED algorithm and its parameters to the BioNetGen task
-    alg_kisao_id = add_simulation_to_task(bionetgen_task, task.simulation)
+    simulation_actions, alg_kisao_id = create_actions_for_simulation(task.simulation)
 
     # return the values of the variables and log
     return {
         'bionetgen_task': bionetgen_task,
         'model_changes': model_changes,
+        'simulation_actions': simulation_actions,
         'algorithm_kisao_id': alg_kisao_id,
     }

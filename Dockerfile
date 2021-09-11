@@ -22,7 +22,7 @@
 
 FROM python:3.9-slim-buster
 
-ARG VERSION="0.1.14"
+ARG VERSION="0.1.15"
 ARG SIMULATOR_VERSION=2.6.0
 
 # metadata

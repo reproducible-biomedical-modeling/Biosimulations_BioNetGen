@@ -3,7 +3,7 @@ from biosimulators_bionetgen.config import Config
 from biosimulators_bionetgen.data_model import Task
 from biosimulators_bionetgen.utils import (add_model_attribute_change_to_task,
                                            add_variables_to_model,
-                                           add_simulation_to_task,
+                                           create_actions_for_simulation,
                                            exec_bionetgen_task,
                                            get_variables_results_from_observable_results,)
 from biosimulators_bionetgen.io import read_task, read_simulation_results, write_task
@@ -62,6 +62,10 @@ class UtilsTestCase(unittest.TestCase):
         change = ModelAttributeChange(target='parameters.k_1.value', new_value='1.0')
         add_model_attribute_change_to_task(task, change)
         self.assertEqual(task.actions[-1], 'setParameter("k_1", 1.0)')
+
+        change = ModelAttributeChange(target='parameters.k_1.value', new_value=2.0)
+        add_model_attribute_change_to_task(task, change)
+        self.assertEqual(task.actions[-1], 'setParameter("k_1", 2.0)')
 
         change = ModelAttributeChange(target='species.GeneA_00().initialCount', new_value='1')
         add_model_attribute_change_to_task(task, change)
@@ -140,9 +144,8 @@ class UtilsTestCase(unittest.TestCase):
         with self.assertRaisesRegex(NotImplementedError, 'targets are not supported'):
             add_variables_to_model(task.model, [Variable(id='X', target='x')])
 
-    def test_add_simulation_to_task(self):
+    def test_create_actions_for_simulation(self):
         # CVODE
-        task = Task()
         simulation = UniformTimeCourseSimulation(
             initial_time=0.,
             output_start_time=10.,
@@ -155,8 +158,8 @@ class UtilsTestCase(unittest.TestCase):
                 ]
             ),
         )
-        add_simulation_to_task(task, simulation)
-        self.assertEqual(task.actions, [
+        actions, _ = create_actions_for_simulation(simulation)
+        self.assertEqual(actions, [
             'generate_network({overwrite => 1})',
             'simulate({t_start => 0.0, t_end => 20.0, n_steps => 20, method => "ode", atol => 1e-6})',
         ])
@@ -164,23 +167,23 @@ class UtilsTestCase(unittest.TestCase):
         # Error handling: non-integer steps
         simulation.output_end_time = 20.1
         with self.assertRaisesRegex(NotImplementedError, 'must specify an integer number of steps'):
-            add_simulation_to_task(task, simulation)
+            create_actions_for_simulation(simulation)
 
         # Error handling: non-zero initial time
         simulation.output_end_time = 20.0
         simulation.initial_time = 5.
         simulation.algorithm.kisao_id = 'KISAO_0000019'
-        add_simulation_to_task(task, simulation)
+        create_actions_for_simulation(simulation)
 
         simulation.initial_time = 5.
         simulation.algorithm.kisao_id = 'KISAO_0000263'
         with self.assertRaisesRegex(NotImplementedError, 'must be 0'):
-            add_simulation_to_task(task, simulation)
+            create_actions_for_simulation(simulation)
 
         # Error handling: unknown algorithm
         simulation.algorithm.kisao_id = 'KISAO_0000448'
         with self.assertRaisesRegex(AlgorithmCannotBeSubstitutedException, 'No algorithm can be substituted'):
-            add_simulation_to_task(task, simulation)
+            create_actions_for_simulation(simulation)
 
         # Error handling: unknown algorithm parameter
         simulation.algorithm.kisao_id = 'KISAO_0000019'
@@ -188,11 +191,11 @@ class UtilsTestCase(unittest.TestCase):
 
         with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'NONE'}):
             with self.assertRaisesRegex(NotImplementedError, 'is not supported. Parameter must have'):
-                add_simulation_to_task(task, simulation)
+                create_actions_for_simulation(simulation)
 
         with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SIMILAR_VARIABLES'}):
             with pytest.warns(BioSimulatorsWarning, match='is not supported. Parameter must have'):
-                add_simulation_to_task(task, simulation)
+                create_actions_for_simulation(simulation)
 
     def test_exec_bionetgen_task(self):
         model_filename = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
@@ -273,7 +276,7 @@ class UtilsTestCase(unittest.TestCase):
             model_filename_2 = os.path.join(self.dirname, 'task.bngl')
             write_task(task, model_filename_2)
 
-            changes_2, sim, variables_2,plots_2 = get_parameters_variables_outputs_for_simulation(
+            changes_2, sim, variables_2, plots_2 = get_parameters_variables_outputs_for_simulation(
                 model_filename_2, None, UniformTimeCourseSimulation, None)
             for change, change_2 in zip(changes, changes_2):
                 self.assertTrue(change_2.is_equal(change))

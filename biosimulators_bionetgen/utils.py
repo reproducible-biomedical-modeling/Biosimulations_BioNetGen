@@ -29,7 +29,7 @@ __all__ = [
     'preprocess_model_attribute_change',
     'add_model_attribute_change_to_task',
     'add_variables_to_model',
-    'add_simulation_to_task',
+    'create_actions_for_simulation',
     'exec_bionetgen_task',
     'get_variables_results_from_observable_results',
 ]
@@ -70,7 +70,8 @@ def preprocess_model_attribute_change(task, change):
                     'type': 'replace_line_in_block',
                     'block': block,
                     'i_line': i_line,
-                    'new_line': lambda new_value: '{} {} {} {}'.format(obj_id, match.group(1), new_value, (match.group(3) or '').strip()).strip(),
+                    'new_line': lambda new_value: '{} {} {} {}'.format(
+                        obj_id, match.group(1), new_value, (match.group(3) or '').strip()).strip(),
                 }
 
         if not comp_changed:
@@ -241,11 +242,10 @@ def add_variables_to_model(model, variables):
         raise NotImplementedError(msg)
 
 
-def add_simulation_to_task(task, simulation, config=None):
-    """ Add a SED simulation to a BioNetGen task
+def create_actions_for_simulation(simulation, config=None):
+    """ Create BioNetGen actions for a SED simulation
 
     Args:
-        task (:obj:`Task`): BioNetGen task
         simulation (:obj:`UniformTimeCourseSimulation`): SED simulation
         config (:obj:`Config`, optional): configuration
 
@@ -254,7 +254,10 @@ def add_simulation_to_task(task, simulation, config=None):
             algorithm parameters
 
     Returns:
-        :obj:`str`: KiSAO id of the algorithm that will be executed
+        :obj:`tuple`:
+
+            * :obj:`list` of :obj:`str`: actions for SED simulation
+            * :obj:`str`: KiSAO id of the algorithm that will be executed
     """
     simulate_args = OrderedDict()
 
@@ -311,15 +314,17 @@ def add_simulation_to_task(task, simulation, config=None):
                     ])
                     warn(msg, BioSimulatorsWarning)
 
-    # if necessary add network generation to the BioNetGen task
+    # if necessary create a network generation action
+    actions = []
+
     if simulation_method['generate_network']:
-        task.actions.append("generate_network({overwrite => 1})")
+        actions.append("generate_network({overwrite => 1})")
 
-    # add the simulation to the BioNetGen task
-    task.actions.append('simulate({{{}}})'.format(', '.join('{} => {}'.format(key, val) for key, val in simulate_args.items())))
+    # create a simulation action
+    actions.append('simulate({{{}}})'.format(', '.join('{} => {}'.format(key, val) for key, val in simulate_args.items())))
 
-    # return the KiSAO id of the algorithm that will be executed
-    return exec_kisao_id
+    # return actions and the KiSAO id of the algorithm that will be executed
+    return actions, exec_kisao_id
 
 
 def exec_bionetgen_task(task):
