@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>biosimulators_bionetgen package &#8212; BioSimulators-BioNetGen 0.1.14 documentation</title>
+    <title>biosimulators_bionetgen package &#8212; BioSimulators-BioNetGen 0.1.15 documentation</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet" />
   <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -604,31 +604,6 @@ actions (<code class="xref py py-obj docutils literal notranslate"><span class="
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="biosimulators_bionetgen.utils.add_simulation_to_task">
-<span class="sig-prename descclassname"><span class="pre">biosimulators_bionetgen.utils.</span></span><span class="sig-name descname"><span class="pre">add_simulation_to_task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.add_simulation_to_task" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a SED simulation to a BioNetGen task</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>task</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Task</span></code>) – BioNetGen task</p></li>
-<li><p><strong>simulation</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">UniformTimeCourseSimulation</span></code>) – SED simulation</p></li>
-<li><p><strong>config</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Config</span></code>, optional) – configuration</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>NotImplementedError</strong> – if BioNetGen doesn’t support the request algorithm or
-    algorithm parameters</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>KiSAO id of the algorithm that will be executed</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="biosimulators_bionetgen.utils.add_variables_to_model">
 <span class="sig-prename descclassname"><span class="pre">biosimulators_bionetgen.utils.</span></span><span class="sig-name descname"><span class="pre">add_variables_to_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.add_variables_to_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode SED variables into observables in a BioNetGen task</p>
@@ -641,6 +616,34 @@ actions (<code class="xref py py-obj docutils literal notranslate"><span class="
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>NotImplementedError</strong> – if BioNetGen doesn’t support the symbol or target of a variable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="biosimulators_bionetgen.utils.create_actions_for_simulation">
+<span class="sig-prename descclassname"><span class="pre">biosimulators_bionetgen.utils.</span></span><span class="sig-name descname"><span class="pre">create_actions_for_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">simulation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/biosimulators/Biosimulators_BioNetGen/blob/dev/biosimulators_bionetgen/utils.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#biosimulators_bionetgen.utils.create_actions_for_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create BioNetGen actions for a SED simulation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>simulation</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">UniformTimeCourseSimulation</span></code>) – SED simulation</p></li>
+<li><p><strong>config</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Config</span></code>, optional) – configuration</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – if BioNetGen doesn’t support the request algorithm or
+    algorithm parameters</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>: actions for SED simulation</p></li>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>: KiSAO id of the algorithm that will be executed</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">tuple</span></code></p>
 </dd>
 </dl>
 </dd></dl>
