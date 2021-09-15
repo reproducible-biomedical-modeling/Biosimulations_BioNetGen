@@ -178,12 +178,47 @@
         "version": null,
         "supportedFeatures": []
       }],
+      "modelChangePatterns": [
+        {
+          "name": "Change compartments sizes",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "compartments.{ name }.size",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change parameter values",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "parameters.{ name }.value",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change species initial counts",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "species.{ pattern (e.g.,) `A()` }.initialCount",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change function arguments and/or expressions",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "functions.{ name e.g., `h` or name and arguments e.g., `h(...)` }.expression",
+            "grammar": "BNGL"
+          }
+        }
+      ],
       "simulationFormats": [{
         "namespace": "EDAM",
         "id": "format_3685",
         "version": "L1V3",
         "supportedFeatures": []
       }],
+      "simulationTypes": ["SedUniformTimeCourseSimulation"],
       "archiveFormats": [{
         "namespace": "EDAM",
         "id": "format_3686",
@@ -241,17 +276,25 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
-      "dependentDimensions": [{
+      "outputDimensions": [{
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "dependentVariableTargetPatterns": [{
-          "variables": "species concentrations",
-          "targetPattern": "species.<species_id>.count"
+      "outputVariablePatterns": [
+        {
+          "name": "time",
+          "symbol": {
+                    "value": "time",
+                    "namespace": "urn:sedml:symbol"
+                  }
         },
         {
-          "variables": "molecule concentrations",
-          "targetPattern": "molecules.<molecule_pattern>.count"
+          "name": "species concentrations",
+          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+        },
+        {
+          "name": "molecule concentrations",
+          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -282,12 +325,47 @@
         "version": null,
         "supportedFeatures": []
       }],
+      "modelChangePatterns": [
+        {
+          "name": "Change compartments sizes",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "compartments.{ name }.size",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change parameter values",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "parameters.{ name }.value",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change species initial counts",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "species.{ pattern (e.g.,) `A()` }.initialCount",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change function arguments and/or expressions",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "functions.{ name e.g., `h` or name and arguments e.g., `h(...)` }.expression",
+            "grammar": "BNGL"
+          }
+        }
+      ],
       "simulationFormats": [{
         "namespace": "EDAM",
         "id": "format_3685",
         "version": "L1V3",
         "supportedFeatures": []
       }],
+      "simulationTypes": ["SedUniformTimeCourseSimulation"],
       "archiveFormats": [{
         "namespace": "EDAM",
         "id": "format_3686",
@@ -333,17 +411,25 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
-      "dependentDimensions": [{
+      "outputDimensions": [{
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "dependentVariableTargetPatterns": [{
-          "variables": "species counts",
-          "targetPattern": "species.<species_id>.count"
+      "outputVariablePatterns": [
+        {
+          "name": "time",
+          "symbol": {
+                    "value": "time",
+                    "namespace": "urn:sedml:symbol"
+                  }
         },
         {
-          "variables": "molecule counts",
-          "targetPattern": "molecules.<molecule_pattern>.count"
+          "name": "species counts",
+          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+        },
+        {
+          "name": "molecule counts",
+          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -368,12 +454,47 @@
         "version": null,
         "supportedFeatures": []
       }],
+      "modelChangePatterns": [
+        {
+          "name": "Change compartments sizes",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "compartments.{ name }.size",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change parameter values",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "parameters.{ name }.value",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change species initial counts",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "species.{ pattern (e.g.,) `A()` }.initialCount",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change function arguments and/or expressions",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "functions.{ name e.g., `h` or name and arguments e.g., `h(...)` }.expression",
+            "grammar": "BNGL"
+          }
+        } 
+      ],
       "simulationFormats": [{
         "namespace": "EDAM",
         "id": "format_3685",
         "version": "L1V3",
         "supportedFeatures": []
       }],
+      "simulationTypes": ["SedUniformTimeCourseSimulation"],
       "archiveFormats": [{
         "namespace": "EDAM",
         "id": "format_3686",
@@ -419,17 +540,25 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
-      "dependentDimensions": [{
+      "outputDimensions": [{
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "dependentVariableTargetPatterns": [{
-          "variables": "species counts",
-          "targetPattern": "species.<species_id>.count"
+      "outputVariablePatterns": [
+        {
+          "name": "time",
+          "symbol": {
+                    "value": "time",
+                    "namespace": "urn:sedml:symbol"
+                  }
         },
         {
-          "variables": "molecule counts",
-          "targetPattern": "molecules.<molecule_pattern>.count"
+          "name": "species counts",
+          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+        },
+        {
+          "name": "molecule counts",
+          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -453,12 +582,47 @@
         "version": null,
         "supportedFeatures": []
       }],
+      "modelChangePatterns": [
+        {
+          "name": "Change compartments sizes",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "compartments.{ name }.size",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change parameter values",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "parameters.{ name }.value",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change species initial counts",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "species.{ pattern (e.g.,) `A()` }.initialCount",
+            "grammar": "BNGL"
+          }
+        },
+        {
+          "name": "Change function arguments and/or expressions",
+          "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
+          "target": {
+            "value": "functions.{ name e.g., `h` or name and arguments e.g., `h(...)` }.expression",
+            "grammar": "BNGL"
+          }
+        }
+      ],
       "simulationFormats": [{
         "namespace": "EDAM",
         "id": "format_3685",
         "version": "L1V3",
         "supportedFeatures": []
       }],
+      "simulationTypes": ["SedUniformTimeCourseSimulation"],
       "archiveFormats": [{
         "namespace": "EDAM",
         "id": "format_3686",
@@ -504,17 +668,25 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         }
       ],
-      "dependentDimensions": [{
+      "outputDimensions": [{
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "dependentVariableTargetPatterns": [{
-          "variables": "species counts",
-          "targetPattern": "species.<species_id>.count"
+      "outputVariablePatterns": [
+        {
+          "name": "time",
+          "symbol": {
+                    "value": "time",
+                    "namespace": "urn:sedml:symbol"
+                  }
         },
         {
-          "variables": "molecule counts",
-          "targetPattern": "molecules.<molecule_pattern>.count"
+          "name": "species counts",
+          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+        },
+        {
+          "name": "molecule counts",
+          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
