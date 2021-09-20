@@ -73,10 +73,29 @@ class CliTestCase(unittest.TestCase):
         numpy.testing.assert_allclose(variable_results_3['var_A'][0], 6, rtol=1e-1)
         self.assertGreater(variable_results_3['var_A'][0], variable_results_2['var_A'][0])
 
-    def test_exec_sed_task_non_zero_initial_time(self):
+    def test_exec_sed_task_positive_initial_time(self):
         doc = self._build_sed_doc()
         doc.models[0].source = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
         doc.simulations[0].initial_time = 0.1
+
+        variables = [data_gen.variables[0] for data_gen in doc.data_generators]
+        variable_results, _ = exec_sed_task(doc.tasks[0], variables)
+
+        self.assertEqual(set(variable_results.keys()), set([var.id for var in variables]))
+        for var in variables:
+            self.assertFalse(numpy.any(numpy.isnan(variable_results[var.id])))
+        sim = doc.tasks[0].simulation
+        self.assertEqual(variable_results['var_time'].size, sim.number_of_points + 1)
+        numpy.testing.assert_allclose(variable_results['var_time'],
+                                      numpy.linspace(sim.output_start_time, sim.output_end_time, sim.number_of_points + 1))
+
+    def test_exec_sed_task_negative_initial_time(self):
+        doc = self._build_sed_doc()
+        doc.models[0].source = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
+        doc.simulations[0].initial_time = -0.1
+        doc.simulations[0].output_start_time = -0.1
+        doc.simulations[0].output_end_time = 19.9
+        doc.simulations[0].number_of_points = 20
 
         variables = [data_gen.variables[0] for data_gen in doc.data_generators]
         variable_results, _ = exec_sed_task(doc.tasks[0], variables)
