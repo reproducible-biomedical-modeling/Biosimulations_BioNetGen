@@ -123,9 +123,14 @@ class DataModelTestCase(unittest.TestCase):
         for alg_specs in specs['algorithms']:
             alg_props = KISAO_SIMULATION_METHOD_ARGUMENTS_MAP[alg_specs['kisaoId']['id']]
 
-            self.assertEqual(set(alg_props['parameters'].keys()), set(param_specs['kisaoId']['id'] for param_specs in alg_specs['parameters']))
+            self.assertEqual(set(alg_props['parameters'].keys()),
+                             set(param_specs['kisaoId']['id']
+                                 for param_specs in alg_specs['parameters']
+                                 if "BioSimulators Docker image" in param_specs['availableSoftwareInterfaceTypes']
+                                 ))
 
             for param_specs in alg_specs['parameters']:
-                param_props = alg_props['parameters'][param_specs['kisaoId']['id']]
+                if "BioSimulators Docker image" in param_specs['availableSoftwareInterfaceTypes']:
+                    param_props = alg_props['parameters'][param_specs['kisaoId']['id']]
 
-                self.assertEqual(param_props['type'], param_specs['type'])
+                    self.assertEqual(param_props['type'], param_specs['type'])

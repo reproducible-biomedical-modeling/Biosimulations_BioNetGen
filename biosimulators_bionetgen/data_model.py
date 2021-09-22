@@ -135,6 +135,11 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = OrderedDict([
                 'name': 'relative tolerance',
                 'type': ValueType.float,
             },
+            'KISAO_0000415': {
+                'id': 'max_sim_steps',
+                'name': 'Maximum simulation steps',
+                'type': ValueType.integer,
+            },
             'KISAO_0000525': {
                 'id': 'stop_if',
                 'name': 'stop condition',
@@ -150,6 +155,11 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = OrderedDict([
             'KISAO_0000488': {
                 'id': 'seed',
                 'name': 'random number generator seed',
+                'type': ValueType.integer,
+            },
+            'KISAO_0000415': {
+                'id': 'max_sim_steps',
+                'name': 'Maximum simulation steps',
                 'type': ValueType.integer,
             },
             'KISAO_0000525': {
@@ -169,6 +179,11 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = OrderedDict([
                 'name': 'random number generator seed',
                 'type': ValueType.integer,
             },
+            'KISAO_0000415': {
+                'id': 'max_sim_steps',
+                'name': 'Maximum simulation steps',
+                'type': ValueType.integer,
+            },
             'KISAO_0000525': {
                 'id': 'stop_if',
                 'name': 'stop condition',
@@ -184,6 +199,11 @@ KISAO_SIMULATION_METHOD_ARGUMENTS_MAP = OrderedDict([
             'KISAO_0000488': {
                 'id': 'seed',
                 'name': 'random number generator seed',
+                'type': ValueType.integer,
+            },
+            'KISAO_0000415': {
+                'id': 'max_sim_steps',
+                'name': 'Maximum simulation steps',
                 'type': ValueType.integer,
             },
             'KISAO_0000525': {

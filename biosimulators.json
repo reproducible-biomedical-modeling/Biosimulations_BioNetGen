@@ -96,12 +96,11 @@
     }
   ],
   "references": {
-    "identifiers": [
-      {
-            "namespace": "pypi",
-            "id": "bionetgen",
-            "url": "https://pypi.org/project/bionetgen/"
-          },
+    "identifiers": [{
+        "namespace": "pypi",
+        "id": "bionetgen",
+        "url": "https://pypi.org/project/bionetgen/"
+      },
       {
         "namespace": "pypi",
         "id": "biosimulators-bionetgen",
@@ -178,8 +177,7 @@
         "version": null,
         "supportedFeatures": []
       }],
-      "modelChangePatterns": [
-        {
+      "modelChangePatterns": [{
           "name": "Change compartments sizes",
           "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
           "target": {
@@ -264,6 +262,30 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         },
         {
+          "id": "output_step_interval",
+          "name": "Output step interval",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000684"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application"]
+        },
+        {
+          "id": "max_sim_steps",
+          "name": "Maximum simulation steps",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000415"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
+        },
+        {
           "id": "stop_if",
           "name": "Stop condition",
           "type": "string",
@@ -280,21 +302,26 @@
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "outputVariablePatterns": [
-        {
+      "outputVariablePatterns": [{
           "name": "time",
           "symbol": {
-                    "value": "time",
-                    "namespace": "urn:sedml:symbol"
-                  }
+            "value": "time",
+            "namespace": "urn:sedml:symbol"
+          }
         },
         {
           "name": "species concentrations",
-          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "species.<species_id>.count",
+            "grammar": "BNGL"
+          }
         },
         {
           "name": "molecule concentrations",
-          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "molecules.<molecule_pattern>.count",
+            "grammar": "BNGL"
+          }
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -325,8 +352,7 @@
         "version": null,
         "supportedFeatures": []
       }],
-      "modelChangePatterns": [
-        {
+      "modelChangePatterns": [{
           "name": "Change compartments sizes",
           "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
           "target": {
@@ -399,6 +425,30 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         },
         {
+          "id": "output_step_interval",
+          "name": "Output step interval",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000684"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application"]
+        },
+        {
+          "id": "max_sim_steps",
+          "name": "Maximum simulation steps",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000415"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
+        },
+        {
           "id": "stop_if",
           "name": "Stop condition",
           "type": "string",
@@ -415,21 +465,26 @@
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "outputVariablePatterns": [
-        {
+      "outputVariablePatterns": [{
           "name": "time",
           "symbol": {
-                    "value": "time",
-                    "namespace": "urn:sedml:symbol"
-                  }
+            "value": "time",
+            "namespace": "urn:sedml:symbol"
+          }
         },
         {
           "name": "species counts",
-          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "species.<species_id>.count",
+            "grammar": "BNGL"
+          }
         },
         {
           "name": "molecule counts",
-          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "molecules.<molecule_pattern>.count",
+            "grammar": "BNGL"
+          }
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -454,8 +509,7 @@
         "version": null,
         "supportedFeatures": []
       }],
-      "modelChangePatterns": [
-        {
+      "modelChangePatterns": [{
           "name": "Change compartments sizes",
           "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
           "target": {
@@ -486,7 +540,7 @@
             "value": "functions.{ name e.g., `h` or name and arguments e.g., `h(...)` }.expression",
             "grammar": "BNGL"
           }
-        } 
+        }
       ],
       "simulationFormats": [{
         "namespace": "EDAM",
@@ -528,6 +582,30 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         },
         {
+          "id": "output_step_interval",
+          "name": "Output step interval",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000684"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application"]
+        },
+        {
+          "id": "max_sim_steps",
+          "name": "Maximum simulation steps",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000415"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
+        },
+        {
           "id": "stop_if",
           "name": "Stop condition",
           "type": "string",
@@ -544,21 +622,26 @@
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "outputVariablePatterns": [
-        {
+      "outputVariablePatterns": [{
           "name": "time",
           "symbol": {
-                    "value": "time",
-                    "namespace": "urn:sedml:symbol"
-                  }
+            "value": "time",
+            "namespace": "urn:sedml:symbol"
+          }
         },
         {
           "name": "species counts",
-          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "species.<species_id>.count",
+            "grammar": "BNGL"
+          }
         },
         {
           "name": "molecule counts",
-          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "molecules.<molecule_pattern>.count",
+            "grammar": "BNGL"
+          }
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],
@@ -582,8 +665,7 @@
         "version": null,
         "supportedFeatures": []
       }],
-      "modelChangePatterns": [
-        {
+      "modelChangePatterns": [{
           "name": "Change compartments sizes",
           "types": ["SedAttributeModelChange", "SedComputeAttributeChangeModelChange", "SedSetValueAttributeModelChange"],
           "target": {
@@ -656,6 +738,30 @@
           "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
         },
         {
+          "id": "output_step_interval",
+          "name": "Output step interval",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000684"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application"]
+        },
+        {
+          "id": "max_sim_steps",
+          "name": "Maximum simulation steps",
+          "type": "integer",
+          "value": null,
+          "recommendedRange": null,
+          "kisaoId": {
+            "namespace": "KISAO",
+            "id": "KISAO_0000415"
+          },
+          "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"]
+        },
+        {
           "id": "stop_if",
           "name": "Stop condition",
           "type": "string",
@@ -672,21 +778,26 @@
         "namespace": "SIO",
         "id": "SIO_000418"
       }],
-      "outputVariablePatterns": [
-        {
+      "outputVariablePatterns": [{
           "name": "time",
           "symbol": {
-                    "value": "time",
-                    "namespace": "urn:sedml:symbol"
-                  }
+            "value": "time",
+            "namespace": "urn:sedml:symbol"
+          }
         },
         {
           "name": "species counts",
-          "target": {"value": "species.<species_id>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "species.<species_id>.count",
+            "grammar": "BNGL"
+          }
         },
         {
           "name": "molecule counts",
-          "target": {"value": "molecules.<molecule_pattern>.count", "grammar": "BNGL"}
+          "target": {
+            "value": "molecules.<molecule_pattern>.count",
+            "grammar": "BNGL"
+          }
         }
       ],
       "availableSoftwareInterfaceTypes": ["desktop application", "command-line application", "BioSimulators Docker image"],

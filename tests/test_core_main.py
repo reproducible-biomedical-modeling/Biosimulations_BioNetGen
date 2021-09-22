@@ -108,6 +108,32 @@ class CliTestCase(unittest.TestCase):
         numpy.testing.assert_allclose(variable_results['var_time'],
                                       numpy.linspace(sim.output_start_time, sim.output_end_time, sim.number_of_points + 1))
 
+    def test_exec_sed_task_output_step_interval(self):
+        doc = self._build_sed_doc()
+        doc.models[0].source = os.path.join(os.path.dirname(__file__), 'fixtures', 'test.bngl')
+        sim = doc.simulations[0]
+        sim.initial_time = 0.
+        sim.output_start_time = 0.
+        sim.output_end_time = 0.1
+        sim.number_of_points = 10
+        sim.algorithm.changes.append(
+            sedml_data_model.AlgorithmParameterChange(kisao_id='KISAO_0000684', new_value='2'),
+        )
+        sim.algorithm.changes.append(
+            sedml_data_model.AlgorithmParameterChange(kisao_id='KISAO_0000415', new_value='1000000'),
+        )
+
+        variables = [data_gen.variables[0] for data_gen in doc.data_generators]
+        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'NONE'}):
+            with self.assertRaises(NotImplementedError):
+                exec_sed_task(doc.tasks[0], variables)
+
+        with mock.patch.dict('os.environ', {'ALGORITHM_SUBSTITUTION_POLICY': 'SIMILAR_VARIABLES'}):
+            results, _ = exec_sed_task(doc.tasks[0], variables)
+
+        numpy.testing.assert_allclose(results['var_time'],
+                                      numpy.linspace(sim.output_start_time, sim.output_end_time, sim.number_of_points + 1))
+
     def test_exec_sedml_docs_in_combine_archive(self):
         doc, archive_filename = self._build_combine_archive()
 
