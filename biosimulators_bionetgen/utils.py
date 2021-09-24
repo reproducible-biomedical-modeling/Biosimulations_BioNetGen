@@ -176,6 +176,11 @@ def add_model_attribute_change_to_task(task, change, preprocessed_change=None):
     if preprocessed_change['type'] == 'replace_line_in_block':
         preprocessed_change['block'][preprocessed_change['i_line']] = preprocessed_change['new_line'](new_value)
     else:
+        try:
+            float(new_value)
+        except ValueError:
+            new_value = '"' + str(new_value) + '"'
+
         task.actions.append(preprocessed_change['action'](new_value))
 
 
