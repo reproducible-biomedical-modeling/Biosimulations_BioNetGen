@@ -17,6 +17,12 @@
     },
     "operatingSystemType": "Linux"
   },
+  "cli": {
+    "packageRepository": "PyPI",
+    "package": "biosimulators-bionetgen",
+    "command": "biosimulators-bionetgen",
+    "installationInstructions": "https://docs.biosimulators.org/Biosimulators_BioNetGen/installation.html"
+  },
   "pythonApi": {
     "package": "biosimulators-bionetgen",
     "module": "biosimulators_bionetgen",
