@@ -160,7 +160,7 @@ def exec_sed_task(task, variables, preprocessed_task=None, log=None, config=None
     # execute the task
     bionetgen_task.actions.extend(preprocessed_task['simulation_actions'])
 
-    observable_results = exec_bionetgen_task(bionetgen_task)
+    observable_results = exec_bionetgen_task(bionetgen_task, verbose=config.VERBOSE)
 
     # get predicted values of the variables
     variable_results = get_variables_results_from_observable_results(observable_results, variables)

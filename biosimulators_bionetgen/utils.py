@@ -332,11 +332,12 @@ def create_actions_for_simulation(simulation, config=None):
     return actions, exec_kisao_id
 
 
-def exec_bionetgen_task(task):
+def exec_bionetgen_task(task, verbose=True):
     """ Execute a task and return the predicted values of the observables
 
     Args:
         task (:obj:`Task`): task
+        verbose (:obj:`bool`, optional): whether to display diagnostic information
 
     Returns:
         :obj:`pandas.DataFrame`: predicted values of the observables
@@ -355,7 +356,8 @@ def exec_bionetgen_task(task):
     # execute the task
     bionetgen_path = SimulatorConfig().bionetgen_path
     try:
-        subprocess.check_call([bionetgen_path, task_filename, '--outdir', temp_dirname])
+        subprocess.check_call([bionetgen_path, task_filename, '--outdir', temp_dirname],
+                              stdout=None if verbose else subprocess.DEVNULL)
     except Exception:
         # cleanup temporary files
         shutil.rmtree(temp_dirname)
