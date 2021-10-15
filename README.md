@@ -2,6 +2,7 @@
 [![PyPI](https://img.shields.io/pypi/v/biosimulators_bionetgen)](https://pypi.org/project/biosimulators_bionetgen/)
 [![CI status](https://github.com/biosimulators/Biosimulators_BioNetGen/workflows/Continuous%20integration/badge.svg)](https://github.com/biosimulators/Biosimulators_BioNetGen/actions?query=workflow%3A%22Continuous+integration%22)
 [![Test coverage](https://codecov.io/gh/biosimulators/Biosimulators_BioNetGen/branch/dev/graph/badge.svg)](https://codecov.io/gh/biosimulators/Biosimulators_BioNetGen)
+[![All Contributors](https://img.shields.io/github/all-contributors/biosimulators/Biosimulators_BioNetGen/HEAD)](#contributors-)
 
 # BioSimulators-BioNetGen
 BioSimulators-compliant command-line interface and Docker image for the [BioNetGen](https://bionetgen.org/) simulation program.
@@ -69,7 +70,7 @@ Documentation is available at https://docs.biosimulators.org/Biosimulators_BioNe
 This package is released under the [MIT license](LICENSE).
 
 ## Development team
-This package was developed by the [Karr Lab](https://www.karrlab.org) at the Icahn School of Medicine at Mount Sinai, [Ali Sinan Saglam](https://scholar.google.com/citations?user=7TM0eekAAAAJ&hl=en) in the Faeder Lab at the University of Pittsburgh, and the [Center for Reproducible Biomedical Modeling](http://reproduciblebiomodels.org).
+This package was developed by the [Karr Lab](https://www.karrlab.org) at the Icahn School of Medicine at Mount Sinai, [Ali Sinan Saglam](https://scholar.google.com/citations?user=7TM0eekAAAAJ&hl=en) in the Faeder Lab at the University of Pittsburgh, and the [Center for Reproducible Biomedical Modeling](http://reproduciblebiomodels.org) with assistance from the contributors listed [here](CONTRIBUTORS.md).
 
 ## Questions and comments
 Please contact the [BioSimulators Team](mailto:info@biosimulators.org) with any questions or comments about the command-line program or Docker image. Please contact [Ali Sinan Saglam](mailto:als251@pitt.edu) with any questions or comments about BioNetGen.
