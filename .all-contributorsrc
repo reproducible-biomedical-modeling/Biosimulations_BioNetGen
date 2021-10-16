@@ -13,12 +13,32 @@
       "contributions": [
         "code"
       ]
-    }    
+    },
+    {
+      "login": "jrfaeder",
+      "name": "Jim Faeder",
+      "avatar_url": "https://avatars.githubusercontent.com/u/8277248?v=4",
+      "profile": "http://bionetgen.org/",
+      "contributions": [
+        "tool"
+      ]
+    },
+    {
+      "login": "ASinanSaglam",
+      "name": "Ali Sinan Saglam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11724447?v=4",
+      "profile": "https://github.com/ASinanSaglam",
+      "contributions": [
+        "tool",
+        "code"
+      ]
+    }
   ],
   "contributorsPerLine": 7,
   "projectName": "Biosimulators_BioNetGen",
   "projectOwner": "biosimulators",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }
